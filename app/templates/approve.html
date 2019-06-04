@@ -10,7 +10,6 @@
 </div>
 <div class="row mt-4">
     {% for post in posts %}
-    {% if post.is_approved == valid_num %}
         <div class="col-sm-4">
             <div class="card mb-5 box-shadow">
                 <a href="{{ url_for('event.post', id=post.id) }}">
@@ -33,7 +32,6 @@
             </div>
 
         </div>
-    {% endif %}
     {% endfor %}
 </div>
 <div class="pagination justify-content-center">
