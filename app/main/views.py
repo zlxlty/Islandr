@@ -44,6 +44,7 @@ def editor():
     _post = Post(title='', location='', post_html='')
     return render_template('editor.html', old_post=_post, old_time_from='', old_time_to='')
 
+
 @main.route('/approve', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -52,33 +53,42 @@ def approve():
     return render_template('approve.html', posts=posts)
 
 
-@main.route('/account', methods=['GET', 'POST'])
+@main.route('/account/<int:user_id>', methods=['GET', 'POST'])
 @login_required
-def account():
+def account(user_id):
+
+    user = User.query.get(user_id)
+    profile_pic = url_for('static', filename='profile_pic/' + user.profile_pic)
+
+    return render_template('account.html', user=user, profile_pic=profile_pic)
+
+
+@main.route('/account/<int:user_id>/edit', methods=['GET', 'POST'])
+@login_required
+def account_edit(user_id):
+
+    user = User.query.get(user_id)
     form = UpdateAccountForm()
 
     if form.validate_on_submit():
 
         if form.profile_pic.data:
             file_name = save_profile_pic(form.profile_pic.data)
-            current_user.profile_pic = file_name
+            user.profile_pic = file_name
 
-        current_user.name = form.name.data
-        current_user.username = form.username.data
-        current_user.location = form.location.data
+        user.name = form.name.data
+        user.username = form.username.data
+        user.location = form.location.data
 
         db.session.commit()
         flash('Your account has been updated!', 'success')
-        return redirect(url_for('main.account'))
+        return redirect(url_for('main.account', user_id=user.id))
 
-    form.name.data = current_user.name
-    form.username.data = current_user.username
-    form.location.data = current_user.location
+    form.name.data = user.name
+    form.username.data = user.username
+    form.location.data = user.location
 
-    profile_pic = url_for('static', filename='profile_pic/' + current_user.profile_pic)
-    print("pic=", profile_pic)
-
-    return render_template('account.html', form=form, profile_pic=profile_pic)
+    return render_template('edit_account.html', form=form)
 
 
 def save_profile_pic(form_picture):
