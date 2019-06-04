@@ -1,0 +1,39 @@
+{% macro init_wtf_tinymce(default_content_css) -%}
+    <script src="{{ url_for('wtf_tinymce.static', filename='vendor/tinymce/js/tinymce/jquery.tinymce.min.js') }}"></script>
+    <script src="{{ url_for('wtf_tinymce.static', filename='vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
+
+    {% for field in form -%}
+        {%- if field.widget.input_type == 'tinymce' -%}
+            {{ append_tinymce_editor(field, default_content_css) }}
+        {%- endif %}
+    {%- endfor %}
+{% endmacro %}
+
+{% macro append_tinymce_editor(field, default_content_css) -%}
+  <script type="text/javascript">
+    $(function() {
+      $('textarea#{{ field.id }}').removeClass('richtext').tinymce({
+        {%- for k, v in field.tinymce_options.items() %}
+            {%- if v is string and 'function' in v %}
+                {{ k|tojson }}: {{ v|safe }},
+            {%- else %}
+                {{ k|tojson }}: {{ v|tojson }},
+            {%- endif %}
+        {%- endfor %}
+        // Content CSS
+        {%- if field.content_css or default_content_css %}
+        content_css: {{ (field.content_css or url_for('static', filename=default_content_css))|tojson }},
+        {%- endif %}
+        // Focus/blur indicators
+        setup: function(ed) {
+          ed.on('focus', function(e) {
+            $(ed.editorContainer).addClass('active');
+          });
+          ed.on('blur', function(e) {
+            $(ed.editorContainer).removeClass('active');
+          });
+        }
+      });
+    });
+  </script>
+{% endmacro %}

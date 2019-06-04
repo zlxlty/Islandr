@@ -1,0 +1,83 @@
+{% extends "found.html" %}
+
+{% block title %}Islander{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='islander.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='islander.ico') }}" type="image/x-icon">
+{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark px-6 fixed-top" style="background-color: #0065A1;">
+    <img class="logo-pic" src="{{ url_for('static', filename='pic/logo.jpg') }}" alt="logo">
+    <a class="navbar-brand" href="{{url_for('main.index')}}">CSC | Islander</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('main.index')}}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Events
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{url_for('main.editor')}}">Post Events</a>
+                    {% if current_user.is_admin %}<a class="dropdown-item" href="{{url_for('main.approve')}}">Approve Events</a>{% endif %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">My Events</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav justify-content-end">
+            {% if current_user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('main.account') }}">{{ current_user.username }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('auth.login') }}">Log In</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<div class="mb-5"></div>
+{% endblock %}
+
+{% block content %}
+<div class="page">
+    {% block page_header %}{% endblock %}
+    <div class="container my-6">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+
+        {% block page_content %}{% endblock %}
+    </div>
+</div>
+<footer class="py-5 footer mt-6">
+    <div class="container">
+        <div class="text-center">
+            <p class="m-0 text-white">Copyright &copy; Islander 2019</p>
+            <p class="m-0 text-white">Contact: skylty01@gmail.com</p>
+        </div>
+    </div>
+    <!-- /.container -->
+</footer>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}
