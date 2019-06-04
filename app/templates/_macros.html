@@ -1,0 +1,34 @@
+{% macro pagination_widget(pagination, endpoint) %}
+<nav aria-label="page navigation">
+    <ul class="pagination pagination-lg mt-5">
+        <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+            <a href="{% if pagination.has_prev %}{{ url_for(endpoint, 
+                page = pagination.page - 1, **kwargs) }}{% else %}#{% endif %}">
+                <span class="page-link">&laquo;</span>
+            </a>
+        </li>
+        {% for p in pagination.iter_pages(left_edge=3, left_current=2, right_current=2, right_edge=3) %}
+            {% if p %}
+                {% if p == pagination.page %}
+                <li class="page-item active">
+                    <a class="page-link" href="{{ url_for(endpoint, page = p, **kwargs) }}">
+                        {{ p }}
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for(endpoint, page = p, **kwargs) }}">{{ p }}</a>
+                </li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+            <a href="{% if pagination.has_next %}{{ url_for(endpoint, 
+                page = pagination.page + 1, **kwargs) }}{% else %}#{% endif %}">
+                <span class="page-link">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endmacro %}

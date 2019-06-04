@@ -48,8 +48,12 @@ def editor():
 @login_required
 @admin_required
 def approve():
-    posts = Post.query.all()
-    return render_template('approve.html', posts=posts)
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.last_modified.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out = False)
+    posts = pagination.items
+    return render_template('approve.html', posts=posts, pagination=pagination)
 
 
 @main.route('/account', methods=['GET', 'POST'])
