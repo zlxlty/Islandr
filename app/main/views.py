@@ -54,7 +54,7 @@ def approve():
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out = False)
     posts = pagination.items
-    return render_template('approve.html', posts=posts, pagination=pagination, title='Approve')
+    return render_template('approve.html', posts=posts, pagination=pagination, title='Pending')
 
 @main.route('/<tag>')
 @login_required
