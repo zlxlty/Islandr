@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Islander - Post{% endblock %}
+
+{% block page_content %}
+<div class="mt-6"></div>
+<h1>{{ post.title }}</h1>
+<hr/>
+<div class="px-3 py-3" style="background-color:rgba(245, 245, 245, 0.637);">
+    <h6>Organizer: {{ post.author.username }}</h6>
+    <h6 class="mt-4">Location: {{ post.location }}</h6>
+    <h6 class="mt-4">From: {{ moment(post.datetime_from).format('MMMM Do YYYY') }}</h6>
+    <h6 class="mt-4">To: {{ moment(post.datetime_to).format('MMMM Do YYYY') }}</h6>
+</div>
+<hr/>
+<div class="container">
+    {{ body_html }}
+</div>
+<hr/>
+<div class="mt-3">
+    {% if current_user == post.author %}
+        <a href="{{ url_for('event.post_edit', id=id) }}"><button type="button" class="btn btn-outline-secondary">Edit</button></a>
+    {% endif %}
+</div>
+<div class="mt-3">
+    {% if current_user.is_admin %}
+        {% if post.is_approved == 0 %}
+            <a href="{{ url_for('event.post_approved', id=id) }}"><button type="button" class="btn btn-success">Approve</button></a>
+            <a href="{{ url_for('event.post_rejected', id=id) }}"><button type="button" class="btn btn-danger float-right">Reject</button></a>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
