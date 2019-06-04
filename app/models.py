@@ -21,6 +21,7 @@ class User(UserMixin, db.Model):
     # organization
     # hobby
 
+
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')

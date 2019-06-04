@@ -11,12 +11,12 @@ import secrets
 import os
 from PIL import Image
 
+
 time_format = '%Y-%m-%d-%H:%M'
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
     posts = Post.query.all()
-
     return render_template('index.html', posts=posts)
 
 @main.route('/editor', methods=['GET', 'POST'])
