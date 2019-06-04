@@ -14,6 +14,13 @@ class User(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     is_admin = db.Column(db.Boolean, default=False)
+    profile_pic = db.Column(db.String(64), nullable=False, default='default.jpg')
+    name = db.Column(db.String(128), default='<First Name, Last Name>')
+    location = db.Column(db.String(128), default='<Your City, Your Country>')
+    # about_me =
+    # organization
+    # hobby
+
 
     @property
     def password(self):
@@ -22,7 +29,7 @@ class User(UserMixin, db.Model):
     @password.setter
     def password(self, password):
         self.password_hash = generate_password_hash(password)
-    
+
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
@@ -67,5 +74,3 @@ class Post(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-

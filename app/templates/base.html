@@ -15,7 +15,7 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-  
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -36,7 +36,9 @@
         <ul class="navbar-nav justify-content-end">
             {% if current_user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link active" href="#">{{ current_user.username }}</a>
+
+                <a class="nav-link active" href="{{ url_for('main.account') }}">{{ current_user.username }}</a>
+
             </li>
             <li class="nav-item">
                 <a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a>
@@ -81,4 +83,3 @@
 {{ super() }}
 {{ moment.include_moment() }}
 {% endblock %}
-
