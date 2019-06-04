@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Account{% endblock %}
+
+{% block page_content %}
+
+<div class="content-section">
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ profile_pic }}" />
+            <div class="media-body">
+                <h1 class="account-heading">{{ current_user.username }}</h1>
+                <P class="text-seconary">
+                    {{ current_user.email }}
+                    <br />
+                    {{ current_user.name }}
+                </P>
+            </div>
+        </div>
+
+        <div class="content-section">
+                {{ wtf.quick_form(form, button_map={"submit": "outline-secondary"}) }}
+        </div>
+
+{% endblock %}
