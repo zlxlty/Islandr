@@ -3,14 +3,7 @@ from sqlalchemy.exc import IntegrityError
 from faker import Faker
 from . import db
 from .models import User, Post
-
-tags = {'Arts': 0,
-        'Culture': 1,
-        'Environment': 2,
-        'Music': 3,
-        'Academic': 4,
-        'Sports': 5,
-        }
+from flask import current_app
 
 def _get_key (dict , value):
     return str([k for k, v in dict.items() if v == value][0])
@@ -39,7 +32,7 @@ def posts(count=100):
         u = User.query.offset(randint(0, user_count - 1)).first()
         p = Post(title='Activity %d' % i, 
                  location=fake.city(),
-                 tag=_get_key(tags, randint(0, 5)),
+                 tag=_get_key(current_app.config['TAGS'], randint(0, 5)),
                  post_html=fake.text(),
                  author=u)
         db.session.add(p)

@@ -17,10 +17,6 @@ class User(UserMixin, db.Model):
     profile_pic = db.Column(db.String(64), nullable=False, default='default.jpg')
     name = db.Column(db.String(128), default='<First Name, Last Name>')
     location = db.Column(db.String(128), default='<Your City, Your Country>')
-    # about_me =
-    # organization
-    # hobby
-
 
     @property
     def password(self):

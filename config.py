@@ -10,6 +10,12 @@ class Config:
         ['true', 'on', '1']
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    TAGS = {'Arts': 0,
+            'Culture': 1,
+            'Environment': 2,
+            'Music': 3,
+            'Academic': 4,
+            'Sports': 5}
     FLASKY_POSTS_PER_PAGE = 15
     FLASKY_MAIL_SUBJECT_PREFIX = '[ISLANDR]'
     FLASKY_MAIL_SENDER = 'ISLANDR TEAM <flasky@example.com>'

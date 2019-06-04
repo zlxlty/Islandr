@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 {% import "_macros.html" as macros %}
 
-{% block title %}Islander - Approve{% endblock %}
+{% block title %}Islander - {{ title }}{% endblock %}
 
 {% block page_content %}
 <div class="mt-6">
-    <h1>Pending</h1>
+    <h1>{{ title }}</h1>
     <hr/>
 </div>
 <div class="row mt-4">
     {% for post in posts %}
-    {% if post.is_approved == 0 %}
+    {% if post.is_approved == valid_num %}
         <div class="col-sm-4">
             <div class="card mb-5 box-shadow">
                 <a href="{{ url_for('event.post', id=post.id) }}">
