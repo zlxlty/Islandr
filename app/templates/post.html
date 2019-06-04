@@ -7,11 +7,15 @@
 <h1>{{ post.title }}</h1>
 <hr/>
 <div class="px-3 py-3" style="background-color:rgba(245, 245, 245, 0.637);">
-    <h6>Organizer: {{ post.author.username }}</h6>
-    <h6 class="mt-4">Location: {{ post.location }}</h6>
-    <h6 class="mt-4">From: {{ moment(post.datetime_from).format('MMMM Do YYYY') }}</h6>
-    <h6 class="mt-4">To: {{ moment(post.datetime_to).format('MMMM Do YYYY') }}</h6>
-    <h6 class="mt-4">Tag: {{ post.tag }}</h6>
+    <h6><b>Organizer</b>: {{ post.author.username }}</h6>
+    <hr>
+    <h6><b>Location:</b> {{ post.location }}</h6>
+    <hr>
+    <h6><b>From:</b> {{ moment(post.datetime_from).format('MMMM Do YYYY') }}</h6>
+    <hr>
+    <h6><b>To:</b> {{ moment(post.datetime_to).format('MMMM Do YYYY') }}</h6>
+    <hr>
+    <h6><b>Tag:</b> {{ post.tag }}</h6>
 
 </div>
 <hr/>
