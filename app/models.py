@@ -4,6 +4,7 @@ from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from datetime import datetime
+import secrets
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -15,8 +16,13 @@ class User(UserMixin, db.Model):
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     is_admin = db.Column(db.Boolean, default=False)
     profile_pic = db.Column(db.String(64), nullable=False, default='default.jpg')
-    name = db.Column(db.String(128), default='<First Name, Last Name>')
-    location = db.Column(db.String(128), default='<Your City, Your Country>')
+    name = db.Column(db.String(128), default='What is your REAL name?')
+    location = db.Column(db.String(128), default='Where are your from?')
+    user_hex = db.Column(db.String(16), default=secrets.token_hex(8))
+    about_me = db.Column(db.Text(), default='Nothing here yet...')
+    # organization
+    # hobby
+
 
     @property
     def password(self):
