@@ -4,29 +4,29 @@
 
 {% block page_content %}
 
-<div class="content-section">
+
+<div class="content-section px-3 py-3" style="background-color:rgba(245, 245, 245, 0.637);">
         <div class="media">
-            <img class="rounded-circle account-img" src="{{ profile_pic }}" />
+            <img class="rounded-circle account-img mr-5" src="{{ profile_pic }}" />
+
             <div class="media-body">
                 <h1 class="account-heading">{{ user.username }}</h1>
-                <P class="text-seconary">
-                    Email address:  {{ user.email }}
-                    <br />
-                    Name:  {{ user.name }}
-                    <br />
-                    Hometown:  {{ user.location }}
-                    <br />
-                    About Me:  {{ user.about_me }}
-                </P>
+                <br />
+                <h6>Email address:  {{ user.email }}</h6>
+                <h6>Name:  {{ user.name }}</h6>
+                <h6>Hometown:  {{ user.location }}</h6>
+                <h6>About Me:  {{ user.about_me }}</h6>
+                {% if current_user.id == user.id %}
+                <div class="content-section mt-3">
+                    <a href="{{ url_for('main.account_edit', user_id=user.id) }}">
+                        <button class="btn btn-outline-secondary">Edit Account Info</button>
+                    </a>
+                </div>
+                {% endif %}
+
             </div>
         </div>
-        {% if current_user.id == user.id %}
-        <div class="content-section">
-            <a href="{{ url_for('main.account_edit', user_id=user.id) }}">
-                <button class="btn btn-outline-secondary">Edit Account Info</button>
-            </a>
-        </div>
-        {% endif %}
+
 
 </div>
 {% endblock %}
