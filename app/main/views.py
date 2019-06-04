@@ -15,7 +15,8 @@ time_format = '%Y-%m-%d-%H:%M'
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    posts = Post.query.all()
+    posts = Post.query.filter_by(is_approved=1).order_by(Post.last_modified).all()
+    posts = posts[0:6]
     return render_template('index.html', posts=posts)
 
 @main.route('/editor', methods=['GET', 'POST'])
@@ -48,8 +49,27 @@ def editor():
 @login_required
 @admin_required
 def approve():
-    posts = Post.query.all()
-    return render_template('approve.html', posts=posts)
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.last_modified.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out = False)
+    posts = pagination.items
+    return render_template('approve.html', posts=posts, pagination=pagination, title='Approve', valid_num = 0)
+
+@main.route('/<tag>')
+@login_required
+def tag_events(tag):
+
+    tag = str(tag).capitalize()
+    if not tag in current_app.config['TAGS'].keys():
+        abort(404)
+
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.filter_by(tag=tag).order_by(Post.last_modified.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out = False)
+    posts = pagination.items
+    return render_template('approve.html', posts=posts, pagination=pagination, title=tag, valid_num = 1)
 
 
 @main.route('/account/<int:user_id>', methods=['GET', 'POST'])
