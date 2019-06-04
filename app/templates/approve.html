@@ -8,34 +8,7 @@
     <h1>{{ title }}</h1>
     <hr/>
 </div>
-<div class="row mt-4">
-    {% for post in posts %}
-    {% if post.is_approved == valid_num %}
-        <div class="col-sm-4">
-            <div class="card mb-5 box-shadow">
-                <a href="{{ url_for('event.post', id=post.id) }}">
-                    <img class="card-img-top" src="{{ url_for('static', filename='pic/default.jpg') }}" alt="Card image cap">
-                </a>
-                <div class="card-body">
-                    <h4>{{ post.title }}</h4>
-                    <div class="row no-gutters">
-                        <div class="col-sm-3">
-                            <a href="{{ url_for('main.account', user_id=post.author.id) }}">
-                                <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % post.author.profile_pic) }}" height=50 width=50/>
-                            </a>
-                        </div>
-                        <div class="col-sm">
-                            <p class="mb-1">Organizer: {{ post.author.username }}</p>
-                            <p class="mb-1">Date: {{ moment(post.datetime_from).format('MMMM Do YYYY') }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    {% endif %}
-    {% endfor %}
-</div>
+{{ macros.post_generator(posts) }}
 <div class="pagination justify-content-center">
     {{ macros.pagination_widget(pagination, 'main.approve') }}
 </div>

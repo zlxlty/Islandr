@@ -50,11 +50,11 @@ def editor():
 @admin_required
 def approve():
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.order_by(Post.last_modified.desc()).paginate(
+    pagination = Post.query.filter_by(is_approved=0).order_by(Post.last_modified.desc()).paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out = False)
     posts = pagination.items
-    return render_template('approve.html', posts=posts, pagination=pagination, title='Approve', valid_num = 0)
+    return render_template('approve.html', posts=posts, pagination=pagination, title='Pending')
 
 @main.route('/<tag>')
 @login_required
@@ -65,11 +65,23 @@ def tag_events(tag):
         abort(404)
 
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.filter_by(tag=tag).order_by(Post.last_modified.desc()).paginate(
+    pagination = Post.query.filter_by(tag=tag, is_approved=1).order_by(Post.last_modified.desc()).paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out = False)
     posts = pagination.items
-    return render_template('approve.html', posts=posts, pagination=pagination, title=tag, valid_num = 1)
+    return render_template('approve.html', posts=posts, pagination=pagination, title=tag)
+
+@main.route('/my_post/<int:id>')
+@login_required
+def my_post(id):
+    page = request.args.get('page', 1, type=int)
+    user = User.query.get_or_404(id)
+
+    pagination = user.posts.order_by(Post.last_modified.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out = False)
+    posts = pagination.items
+    return render_template('approve.html', posts=posts, pagination=pagination, title='My Events')
 
 
 @main.route('/account/<int:user_id>', methods=['GET', 'POST'])
