@@ -53,7 +53,7 @@
             <h5 class="catagory-title">Arts</h5>
         </div>
         <div class="col text-center">
-            <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/culture.png') }}" alt="art">    
+            <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/culture.png') }}" alt="art">
             <h5 class="catagory-title">Culture</h5>
         </div>
         <div class="col text-center">
@@ -67,7 +67,7 @@
             <h5 class="catagory-title">Music</h5>
         </div>
         <div class="col text-center">
-            <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/academic.png') }}" alt="art">    
+            <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/academic.png') }}" alt="art">
             <h5 class="catagory-title">Academic</h5>
         </div>
         <div class="col text-center">
@@ -89,7 +89,9 @@
                     <h4>{{ post.title }}</h4>
                     <div class="row no-gutters">
                         <div class="col-sm-3">
-                            <img class="rounded-circle" src="{{ url_for('static', filename='pic/images.jpeg') }}" height=50 width=50/>
+                            <a href="{{ url_for('main.account', user_id=post.author.id) }}">
+                                <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % post.author.profile_pic) }}" height=50 width=50/>
+                            </a>
                         </div>
                         <div class="col-sm">
                             <p class="mb-1">Organizer: {{ post.author.username }}</p>
@@ -98,11 +100,9 @@
                     </div>
                 </div>
             </div>
-        </div>   
+        </div>
     {% endif %}
 
     {% endfor %}
 </div>
 {% endblock %}
-
-

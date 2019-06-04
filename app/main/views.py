@@ -7,7 +7,6 @@ from . import main
 from .forms import EditorForm, UpdateAccountForm
 from ..decorators import admin_required
 from datetime import datetime
-import secrets
 import os
 from PIL import Image
 
@@ -73,12 +72,13 @@ def account_edit(user_id):
     if form.validate_on_submit():
 
         if form.profile_pic.data:
-            file_name = save_profile_pic(form.profile_pic.data)
+            file_name = save_profile_pic(form.profile_pic.data, user)
             user.profile_pic = file_name
 
         user.name = form.name.data
         user.username = form.username.data
         user.location = form.location.data
+        user.about_me = form.about_me.data
 
         db.session.commit()
         flash('Your account has been updated!', 'success')
@@ -87,14 +87,14 @@ def account_edit(user_id):
     form.name.data = user.name
     form.username.data = user.username
     form.location.data = user.location
+    form.about_me.data = user.about_me
 
     return render_template('edit_account.html', form=form)
 
 
-def save_profile_pic(form_picture):
+def save_profile_pic(form_picture, user):
 
-    # generate a random file name at standard length
-    random_hex = secrets.token_hex(8)
+    random_hex = user.user_hex
     _, file_extension = os.path.splitext(form_picture.filename)
     picture_file_name = random_hex + file_extension
 
