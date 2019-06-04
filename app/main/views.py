@@ -16,7 +16,7 @@ time_format = '%Y-%m-%d-%H:%M'
 @main.route('/', methods=['GET', 'POST'])
 def index():
     posts = Post.query.filter_by(is_approved=1).order_by(Post.last_modified).all()
-    posts = posts[0:6]
+    posts = posts[0:9]
     return render_template('index.html', posts=posts)
 
 @main.route('/editor', methods=['GET', 'POST'])
