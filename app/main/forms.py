@@ -23,7 +23,7 @@ def username_check(form, username):  # 'form' parameter here serves the same pur
 
 class UpdateAccountForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired(), Length(1, 64)])
-    username = StringField("Username", validators=[DataRequired(), Length(6, 20), username_check])
+    username = StringField("Username", validators=[DataRequired(), Length(1, 64), username_check])
     # email = StringField("Email", validators=[DataRequired(), Email()])
     location = StringField("Hometown", validators=[DataRequired(), Length(1, 128)])
     about_me = TextAreaField("About Me", validators=[DataRequired()])
