@@ -2,7 +2,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 
-{% block title %}Islander{% endblock %}
+{% block title %}Islandr{% endblock %}
 
 {% block page_header %}
 <div class="bd-example">
@@ -16,7 +16,7 @@
         <div class="carousel-item active">
             <img src="{{ url_for('static', filename='pic/default2.jpg') }}" class="d-block w-100" alt="...">
             <div class="carousel-caption d-md-block">
-                <h1>First slide label</h1>
+                <h1>Getting Started</h1>
             </div>
         </div>
         <div class="carousel-item">
@@ -45,7 +45,7 @@
 {% endblock %}
 
 {% block page_content %}
-<div class="container mt-6">
+<div class="container my-6">
     <div class="row">
         <div class="col text-center">
             <a href="{{ url_for('main.tag_events', tag='arts') }}">

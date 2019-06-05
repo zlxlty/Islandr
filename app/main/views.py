@@ -16,7 +16,7 @@ time_format = '%Y-%m-%d-%H:%M'
 @main.route('/', methods=['GET', 'POST'])
 def index():
     posts = Post.query.filter_by(is_approved=1).order_by(Post.last_modified).all()
-    posts = posts[0:6]
+    posts = posts[0:9]
     return render_template('index.html', posts=posts)
 
 @main.route('/editor', methods=['GET', 'POST'])
@@ -54,7 +54,7 @@ def approve():
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out = False)
     posts = pagination.items
-    return render_template('approve.html', posts=posts, pagination=pagination, title='Pending')
+    return render_template('approve.html', posts=posts, pagination=pagination)
 
 @main.route('/<tag>')
 @login_required
@@ -69,29 +69,39 @@ def tag_events(tag):
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out = False)
     posts = pagination.items
-    return render_template('approve.html', posts=posts, pagination=pagination, title=tag)
+    tag = tag.lower()
+    return render_template('tag.html', posts=posts, pagination=pagination, title=tag)
 
-@main.route('/my_post/<int:id>')
-@login_required
-def my_post(id):
-    page = request.args.get('page', 1, type=int)
-    user = User.query.get_or_404(id)
-
-    pagination = user.posts.order_by(Post.last_modified.desc()).paginate(
-        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
-        error_out = False)
-    posts = pagination.items
-    return render_template('approve.html', posts=posts, pagination=pagination, title='My Events')
+# @main.route('/my_post/<int:id>')
+# @login_required
+# def my_post(id):
+#     page = request.args.get('page', 1, type=int)
+#     user = User.query.get_or_404(id)
+#     pagination = user.posts.order_by(Post.last_modified.desc()).paginate(
+#         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+#         error_out = False)
+#     posts = pagination.items
+#     return render_template('approve.html', posts=posts, pagination=pagination, title='My Events')
 
 
 @main.route('/account/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 def account(user_id):
+    
+    page = request.args.get('page', 1, type=int)
+    user = User.query.get_or_404(user_id)
+    if not user_id == current_user.id:
+        user.posts = user.posts.filter_by(is_approved=1)
 
-    user = User.query.get(user_id)
+    pagination = user.posts.order_by(Post.last_modified.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out = False)
+    posts = pagination.items
+
     profile_pic = url_for('static', filename='profile_pic/' + user.profile_pic)
 
-    return render_template('account.html', user=user, profile_pic=profile_pic)
+    return render_template('account.html', user=user, profile_pic=profile_pic, 
+                            posts=posts, pagination=pagination, user_id=user_id)
 
 
 @main.route('/account/<int:user_id>/edit', methods=['GET', 'POST'])
