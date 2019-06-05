@@ -1,13 +1,14 @@
 {% extends "base.html" %}
+{% import "_macros.html" as macros %}
 
 {% block title %}Islandr - {{ user.username }}{% endblock %}
 
 {% block page_content %}
 
 
-<div class="content-section px-3 py-3" style="background-color:rgba(245, 245, 245, 0.637);">
+<div class="content-section px-3 py-3" style="background-color:rgba(226, 226, 226, 0.315);">
         <div class="media">
-            <img class="rounded-circle account-img mr-5" src="{{ profile_pic }}" />
+            <img class="rounded-circle account-img ml-4 mr-5" src="{{ profile_pic }}" />
 
             <div class="media-body">
                 <h1 class="account-heading">{{ user.username }}</h1>
@@ -30,7 +31,10 @@
 
             </div>
         </div>
-
-
 </div>
+{{ macros.post_generator(posts) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'main.account', user_id=user_id) }}
+</div>
+
 {% endblock %}

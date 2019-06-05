@@ -28,8 +28,6 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{url_for('main.editor')}}">Post Events</a>
                     {% if current_user.is_admin %}<a class="dropdown-item" href="{{url_for('main.approve')}}">Approve Events</a>{% endif %}
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ url_for('main.my_post', id=current_user.id) }}">My Events</a>
                 </div>
             </li>
         </ul>
@@ -60,7 +58,7 @@
 {% block content %}
 <div class="page">
     {% block page_header %}{% endblock %}
-    <div class="container my-6">
+    <div class="container mt-7 mb-3">
         {% for message in get_flashed_messages() %}
         <div class="alert alert-danger">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
