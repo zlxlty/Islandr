@@ -66,6 +66,7 @@ def post_edit(id):
             return redirect(url_for('event.post_edit', id=id))
         old_post.title = request.form['title']
         old_post.post_html = request.form['content']
+        old_post.last_modified = datetime.utcnow()
         old_post.is_approved = 0
         db.session.add(old_post)
         db.session.commit()
