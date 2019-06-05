@@ -3,7 +3,23 @@
 {% block title %}Islandr - Post{% endblock %}
 
 {% block page_content %}
-<div class="mt-6"></div>
+{% if current_user.id == post.author.id %}
+    {% if post.is_approved == 0 %}
+    <div class="alert alert-warning text-center" role="alert">
+        Pending
+    </div>
+    {% elif post.is_approved == 1 %}
+    <div class="alert alert-success text-center" role="alert">
+        Approved
+    </div>
+    {% elif post.is_approved == -1 %}
+    <div class="alert alert-danger text-center" role="alert">
+        Rejected
+    </div>
+    <h5 style="color:red;">{{ post.reject_msg }}</h5>
+    {% endif %}
+{% endif %}
+<div class="mt-4"></div>
 <h1>{{ post.title }}</h1>
 <hr/>
 <div class="px-3 py-3" style="background-color:rgba(245, 245, 245, 0.637);">

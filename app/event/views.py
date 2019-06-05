@@ -28,7 +28,7 @@ def post_approved(id):
     db.session.commit()
     return render_template('post_approved.html')
 
-@event.route('/<int:id>/rejected')
+@event.route('/<int:id>/rejected', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def post_rejected(id):
@@ -37,6 +37,14 @@ def post_rejected(id):
         post.is_approved = -1
     elif post.is_approved == 1:
         return redirect(url_for('event.post_approved', id=id))
+
+    if request.method == 'POST':
+        post.reject_msg = request.form['comment']
+        # print(post.reject_msg)
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('main.approve'))
+
     db.session.add(post)
     db.session.commit()
     return render_template('post_rejected.html')

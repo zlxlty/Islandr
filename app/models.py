@@ -64,6 +64,7 @@ class Post(db.Model):
     datetime_to = db.Column(db.DateTime(), default=datetime.utcnow)
     last_modified = db.Column(db.DateTime(), default=datetime.utcnow)
     post_html = db.Column(db.Text)
+    reject_msg = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     is_approved = db.Column(db.Integer, default=0)
 

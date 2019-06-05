@@ -33,13 +33,26 @@
 </nav>
 {% endmacro %}
 
-{% macro post_generator(posts) %}
+{% macro post_generator(posts, show_dot=False) %}
 <div class="row mt-4">
     {% for post in posts %}
         <div class="col-sm-4">
             <div class="card mb-5 box-shadow">
                 <a href="{{ url_for('event.post', id=post.id) }}">
-                    <img class="card-img-top" src="{{ url_for('static', filename='pic/default.jpg') }}" alt="Card image cap">
+                    <div style="position:relative;">
+                        <img class="card-img-top" src="{{ url_for('static', filename='pic/default.jpg') }}" alt="Card image cap">
+                        {% if show_dot %}
+                        <div style="position:absolute; z-index:2; left:10px; top:10px">
+                            {% if post.is_approved == -1 %}
+                                <div id="reject-circle"></div>
+                            {% elif post.is_approved == 0 %}
+                                <div id="pending-circle"></div>
+                            {% elif post.is_approved == 1 %}
+                                <div id="approved-circle"></div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                     </div>     
                 </a>
                 <div class="card-body">
                     <h4>{{ post.title }}</h4>

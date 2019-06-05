@@ -32,7 +32,7 @@
             </div>
         </div>
 </div>
-{{ macros.post_generator(posts) }}
+{{ macros.post_generator(posts, show_dot=True) }}
 <div class="pagination justify-content-center">
     {{ macros.pagination_widget(pagination, 'main.account', user_id=user_id) }}
 </div>
