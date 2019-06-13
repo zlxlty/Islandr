@@ -1,7 +1,8 @@
 ### Islandr is a website for UWCCSCer to organize, publicize and find interesting activities
+***
+
 <div align=center><img src="app/static/pic/cover.png"/></div>
 
-***
 ## Content
 - [Content](#content)
 - [Getting_Started](#gettingstarted)
