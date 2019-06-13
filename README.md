@@ -45,9 +45,10 @@ export FLASK_APP=flasky.py
 ```
 <p style="text-indent:2em;">Save and exit the file by pressing `Contrl+C` and `:wq`</p>  
 
-5. Activate Virtualevn
+5. Activate Virtualevn and install dependencies
 ```
 (venv)$ source venv/bin/activate
+(venv)$ pip install -r requirements.txt
 ```
 6. Generate your database
 ```
