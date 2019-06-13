@@ -3,11 +3,11 @@ Islandr
 ![Language](https://img.shields.io/badge/language-python-green.svg)  ![Version](https://img.shields.io/badge/version-0.1.0-yellow.svg)    ![Dependencies](https://img.shields.io/badge/dependencies-up_to_date-green.svg)
 <div align=center><img src="app/static/pic/cover.png"/></div>
 
-## Islandr is a website for UWCCSCer to organize, publicize and find interesting activities
+### Islandr is a website for UWCCSCer to organize, publicize and find interesting activities
 
 ## Content
 - [Islandr](#islandr)
-  - [Islandr is a website for UWCCSCer to organize, publicize and find interesting activities](#islandr-is-a-website-for-uwccscer-to-organize-publicize-and-find-interesting-activities)
+    - [Islandr is a website for UWCCSCer to organize, publicize and find interesting activities](#islandr-is-a-website-for-uwccscer-to-organize-publicize-and-find-interesting-activities)
   - [Content](#content)
   - [Getting_Started](#gettingstarted)
     - [Prerequisites](#prerequisites)
