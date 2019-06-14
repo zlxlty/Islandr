@@ -12,8 +12,8 @@ Islandr
   - [Getting_Started](#gettingstarted)
     - [Prerequisites](#prerequisites)
     - [Installing](#installing)
-  - [Unit Test](#unit-test)
-  - [Fake Users and Posts](#fake-users-and-posts)
+  - [Unittesting](#unittesting)
+  - [Faking Users and Posts](#faking-users-and-posts)
   - [Contributing](#contributing)
     - [Pull Request Process](#pull-request-process)
 
@@ -67,7 +67,7 @@ export FLASK_APP=flasky.py
 8. Go to http://127.0.0.1:5000/ and see the app running
 
 ***
-## Unit Test
+## Unittesting
 ```
 (venv)$ flask test
 ```
@@ -88,7 +88,7 @@ OK
 ```
 
 ***
-## Fake Users and Posts
+## Faking Users and Posts
 ```
 (venv)$ flask shell
 ```
@@ -103,6 +103,7 @@ faker.posts()
 ## Contributing
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
 ### Pull Request Process
+Starting from Step 4
 <div align=center><img width="800px" src="app/static/pic/contribute.jpg"/></div>
 
 ****
