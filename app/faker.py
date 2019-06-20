@@ -8,6 +8,14 @@ from flask import current_app
 def _get_key (dict , value):
     return str([k for k, v in dict.items() if v == value][0])
 
+def test_user():
+    u = User(email='skylty01@gmail.com',
+             username='Sky',
+             password='123',
+             confirmed=True,)
+    db.session.add(u)
+    db.session.commit()
+
 def users(count=100):
     fake = Faker('en_US')
     i = 0

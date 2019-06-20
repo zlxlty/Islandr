@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Islandr - Creator{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='tinymce/js/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tinymce_setup.js') }}"></script>
+{% endblock %}
+
+
+
+{% block page_content %}
+<form method="POST" action="">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Group Name</span>
+        </div>
+        <input maxlength="50" type="text" class="form-control" name="groupname" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ old_group.groupname|safe }}">
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-4 mb-3">
+            <label for="tag">Tag</label>
+            <select class="form-control" name="tag" id="tag" value="{{ old_group.tag|safe }}">
+                <option>Arts</option>
+                <option>Culture</option>
+                <option>Environment</option>
+                <option>Music</option>
+                <option>Academic</option>
+                <option>Sports</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="aboutus">About Us</label>
+        <textarea class="form-control" name="aboutus" id="aboutus" rows="3" value="{{ old_group.about_us|safe }}"></textarea>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-outline-dark mt-3" data-toggle="modal" data-target="#confirmModal">
+        Submit
+    </button>
+
+          <!-- Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if not old_group.id %}
+                    <p>Each person can only create <b>ONE</b> group. Are you sure?</p>
+                {% else %}
+                    <p>Are you sure you want to change?</p>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit"class="btn btn-primary">Submit</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    {% if old_group.id %}
+        <button type="button" class="btn btn-danger float-right mt-3" data-toggle="modal" data-target="#deleteModal">
+            Delete
+        </button>
+
+                <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to <b style="color:red;">DELETE</b> this group?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a href="{{ url_for('group.group_delete', id=old_group.id) }}">
+                        <button type="button"class="btn btn-danger">Delete</button>
+                    </a>
+                </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</form>
+
+{% endblock %}

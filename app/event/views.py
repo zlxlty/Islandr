@@ -54,7 +54,7 @@ def post_rejected(id):
 def post_edit(id):
 
     old_post = Post.query.get_or_404(id)
-    if old_post.author.id != current_user.id:
+    if old_post.author.id != current_user.group_id:
         abort(403)
 
     strtime_from = old_post.datetime_from.strftime(time_format)

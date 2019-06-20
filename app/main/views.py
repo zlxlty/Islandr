@@ -1,7 +1,7 @@
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
 from flask_login import login_required, current_user
 from .. import db
-from ..models import User, Post
+from ..models import User, Post, Group
 from ..email import send_email
 from . import main
 from .forms import EditorForm, UpdateAccountForm
@@ -13,7 +13,7 @@ from PIL import Image
 
 time_format = '%Y-%m-%d-%H:%M'
 
-@main.route('/', methods=['GET', 'POST'])
+@main.route('/')
 def index():
     posts = Post.query.filter_by(is_approved=1).order_by(Post.last_modified.desc()).all()
     posts = posts[0:9]
@@ -21,29 +21,50 @@ def index():
 
 @main.route('/editor', methods=['GET', 'POST'])
 @login_required
-def editor():
+def post_editor():
 
     if request.method == 'POST':
         if not request.form['content'] or not request.form['title'] or not request.form['datetime_from'] or not request.form['datetime_to']:
             flash('Please fill in all forms!')
-            return redirect(url_for('.editor'))
+            return redirect(url_for('.post_editor'))
 
-        post = Post(title=request.form['title'],
+        post = Post(author=current_user.my_group,
+                    title=request.form['title'],
                     location=request.form['location'],
                     tag=request.form['tag'],
                     datetime_from = datetime.strptime(request.form['datetime_from'], time_format),
                     datetime_to = datetime.strptime(request.form['datetime_to'], time_format),
-                    author=current_user,
                     post_html=request.form['content'].replace('\r\n', '')
         )
-        print(request.form['tag'])
-        print(type(request.form['tag']))
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('event.post', id=post.id))
     _post = Post(title='', location='', post_html='')
     return render_template('editor.html', old_post=_post, old_time_from='', old_time_to='')
 
+@main.route('/creater', methods=['GET', 'POST'])
+@login_required
+def group_creater():
+
+    if current_user.my_group:
+        flash('You already have a group!')
+        return redirect(url_for('main.index')) 
+
+    if request.method == 'POST':
+        if not request.form['groupname']:
+            flash('Please fill in the name!')
+            return redirect(url_for('.group_creater'))
+
+        group = Group(groupname=request.form['groupname'],
+                      tag=request.form['tag'],
+                      about_us=request.form['aboutus'])
+
+        current_user.my_group = group
+        db.session.add(group)
+        db.session.commit()
+        return redirect(url_for('group.group_profile',id=group.id))
+    _group = Group()
+    return render_template('creater.html', old_group=_group)
 
 @main.route('/approve', methods=['GET', 'POST'])
 @login_required
@@ -90,18 +111,10 @@ def account(user_id):
     
     page = request.args.get('page', 1, type=int)
     user = User.query.get_or_404(user_id)
-    if not user_id == current_user.id:
-        user.posts = user.posts.filter_by(is_approved=1)
-
-    pagination = user.posts.order_by(Post.last_modified.desc()).paginate(
-        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
-        error_out = False)
-    posts = pagination.items
 
     profile_pic = url_for('static', filename='profile_pic/' + user.profile_pic)
 
-    return render_template('account.html', user=user, profile_pic=profile_pic, 
-                            posts=posts, pagination=pagination, user_id=user_id)
+    return render_template('account.html', user=user, profile_pic=profile_pic, user_id=user_id)
 
 
 @main.route('/account/<int:user_id>/edit', methods=['GET', 'POST'])

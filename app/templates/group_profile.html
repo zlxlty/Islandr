@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Islandr - Group Profile{% endblock %}
+
+{% block page_content %}
+<div class="content-section px-4 py-4" style="background-color:rgba(226, 226, 226, 0.315);">
+        <div class="media">
+            <div class="media-body">
+                <h1 class="account-heading">{{ group.groupname }}</h1>
+                <br />             
+                <h6><b>Tag:</b>  {{ group.tag }}</h6>
+                <hr/>
+                <h6><b>About Us:</b>  {{ group.about_us }}</h6>
+                <hr/>
+                <div class="content-section mt-3">
+                    <a href="{{ url_for('group.group_profile_edit', id=group.id) }}">
+                        <button class="btn btn-outline-secondary">Edit Profile</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+</div>
+<a href="{{ url_for('main.post_editor') }}">
+    <button type="button" class="btn btn-primary btn-lg btn-block mt-4">New Event</button>
+</a>
+
+{{ macros.post_generator(posts, show_dot=True) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'group.group_profile', id=group.id) }}
+</div>
+{% endblock %}

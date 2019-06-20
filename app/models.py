@@ -13,16 +13,17 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
     is_admin = db.Column(db.Boolean, default=False)
+
+    # 
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+
+    # user profile page info
     profile_pic = db.Column(db.String(64), nullable=False, default='default.jpg')
     name = db.Column(db.String(128), default='What is your REAL name?')
     location = db.Column(db.String(128), default='Where are your from?')
     user_hex = db.Column(db.String(16), default=secrets.token_hex(8))
     about_me = db.Column(db.Text(), default='Nothing here yet...')
-    # organization
-    # hobby
-
 
     @property
     def password(self):
@@ -54,6 +55,25 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+class Group(db.Model):
+    __tablename__ = 'groups'
+    id = db.Column(db.Integer, primary_key=True)
+
+    # relationship
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    owner = db.relationship('User', backref=db.backref("my_group", uselist=False))
+
+    #basic info
+    create_date = db.Column(db.DateTime(), default=datetime.utcnow)
+    groupname = db.Column(db.String(64), index=True)
+    tag = db.Column(db.String(20), index=True)
+    about_us = db.Column(db.Text, default='Nothing here yet...')
+    is_approved = db.Column(db.Integer, default=0)
+
+    def __repr__(self):
+        return '<Group %r>' % self.groupname
+    
+
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
@@ -65,7 +85,7 @@ class Post(db.Model):
     last_modified = db.Column(db.DateTime(), default=datetime.utcnow)
     post_html = db.Column(db.Text)
     reject_msg = db.Column(db.Text)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
     is_approved = db.Column(db.Integer, default=0)
 
     def duration(self):

@@ -3,7 +3,7 @@
 {% block title %}Islandr - Post{% endblock %}
 
 {% block page_content %}
-{% if current_user.id == post.author.id %}
+{% if current_user.group_id == post.author.id %}
     {% if post.is_approved == 0 %}
     <div class="alert alert-warning text-center" role="alert">
         Pending
@@ -23,7 +23,7 @@
 <h1>{{ post.title }}</h1>
 <hr/>
 <div class="px-3 py-3" style="background-color:rgba(245, 245, 245, 0.637);">
-    <h6><img class="mr-2" src="{{ url_for('static', filename='icon/user.png') }}" alt="" height="18px" width="18px"><b>Organizer</b>: {{ post.author.username }}</h6>
+    <h6><img class="mr-2" src="{{ url_for('static', filename='icon/user.png') }}" alt="" height="18px" width="18px"><b>Organizer</b>: {{ post.author.groupname }}</h6>
     <hr>
     <h6><img class="mr-2" src="{{ url_for('static', filename='icon/location.png') }}" alt="" height="18px" width="18px"><b>Location:</b> {{ post.location }}</h6>
     <hr>
@@ -40,7 +40,7 @@
 </div>
 <hr/>
 <div class="mt-3">
-    {% if current_user == post.author %}
+    {% if current_user.group_id == post.author.id %}
         <a href="{{ url_for('event.post_edit', id=id) }}"><button type="button" class="btn btn-outline-secondary">Edit</button></a>
     {% endif %}
 </div>

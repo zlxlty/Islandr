@@ -33,5 +33,8 @@ def create_app(config_name):
     from .event import event as event_blueprint
     app.register_blueprint(event_blueprint, url_prefix='/event')
 
+    from .group import group as group_blueprint
+    app.register_blueprint(group_blueprint, url_prefix='/group')
+
     return app
 
