@@ -4,8 +4,15 @@
 {% block title %}Islandr - Group Profile{% endblock %}
 
 {% block page_content %}
-<div class="content-section px-4 py-4" style="background-color:rgba(226, 226, 226, 0.315);">
+<hr>
+<div>
+    <img class="img-fluid mb-3" src="{{ url_for('static', filename='pic/group_default.jpg') }}" alt="group_default">
+</div>
+
+<div class="content-section px-4 py-4 mb-4" style="background-color:rgba(226, 226, 226, 0.315);">
         <div class="media">
+            <img class="rounded-circle account-img ml-4 mr-5" src="{{ avatars.default() }}" height="100px" width="100px"/>
+
             <div class="media-body">
                 <h1 class="account-heading">{{ group.groupname }}</h1>
                 <br />             
@@ -22,9 +29,9 @@
         </div>
 </div>
 <a href="{{ url_for('main.post_editor') }}">
-    <button type="button" class="btn btn-primary btn-lg btn-block mt-4">New Event</button>
+    <button type="button" class="btn btn-primary btn-lg btn-block my-4">New Event</button>
 </a>
-
+<hr>
 {{ macros.post_generator(posts, show_dot=True) }}
 <div class="pagination justify-content-center">
     {{ macros.pagination_widget(pagination, 'group.group_profile', id=group.id) }}

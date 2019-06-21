@@ -15,6 +15,11 @@ def group_profile(id):
     posts = pagination.items
     return render_template('group_profile.html', group=group, posts=posts, pagination=pagination)
 
+@group.route('/approve')
+@login_required
+def group_approve():
+    return render_template('group_approve.html')
+
 @group.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
 def group_profile_edit(id):
