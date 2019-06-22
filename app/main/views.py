@@ -5,7 +5,7 @@ from ..models import User, Post, Group
 from ..email import send_email
 from . import main
 from .forms import EditorForm, UpdateAccountForm
-from ..decorators import admin_required
+from ..decorators import admin_required, owner_required
 from datetime import datetime
 import os
 from PIL import Image
@@ -21,6 +21,7 @@ def index():
 
 @main.route('/editor', methods=['GET', 'POST'])
 @login_required
+@owner_required
 def post_editor():
 
     if request.method == 'POST':

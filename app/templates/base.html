@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block navbar %}
-<nav class="navbar navbar-expand-lg navbar-dark px-6 fixed-top" style="background-color: #0065A1;">
+<nav class="shadow-sm navbar navbar-expand-lg navbar-dark px-6 fixed-top" style="background-color: #0065A1;">
     <img class="logo-pic" src="{{ url_for('static', filename='pic/logo.jpg') }}" alt="logo">
     <a class="navbar-brand" href="{{url_for('main.index')}}">CSC | Islandr</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
                         Approve
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{url_for('main.approve')}}">Approve Group</a>
+                        <a class="dropdown-item" href="{{url_for('group.group_approve')}}">Approve Group</a>
                         <a class="dropdown-item" href="{{url_for('main.approve')}}">Approve Post</a>
                     </div>
                 </li>

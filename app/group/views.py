@@ -9,7 +9,9 @@ from ..models import Group, Post
 def group_profile(id):
     group = Group.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.filter_by(author=group).order_by(Post.last_modified.desc()).paginate(
+    if not current_user.id == group.owner[0].id:
+        group.posts = group.posts.filter_by(is_approved=1)
+    pagination = group.posts.order_by(Post.last_modified.desc()).paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out = False)
     posts = pagination.items
@@ -18,7 +20,9 @@ def group_profile(id):
 @group.route('/approve')
 @login_required
 def group_approve():
-    return render_template('group_approve.html')
+    groups = Group.query.filter_by(is_approved=0).order_by(Group.create_date.desc()).all()
+    print(groups)
+    return render_template('group_approve.html', groups=groups)
 
 @group.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required

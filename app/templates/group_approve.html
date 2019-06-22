@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 
 {% block title %}Islandr - Group Approve{% endblock %}
+{% import "_macros.html" as macros %}
 
 {% block page_content %}
-
+<div class="mt-6">
+    <h1>Pending Group</h1>
+    <hr/>
+</div>
+{{ macros.group_generator(groups) }}
 
 {% endblock %}
