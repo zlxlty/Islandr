@@ -30,6 +30,9 @@
                     {% if current_user.is_admin %}<a class="dropdown-item" href="{{url_for('main.approve')}}">Approve Events</a>{% endif %}
                 </div>
             </li>
+            <li class="navbar-item active">
+                <a class="nav-link" href="{{url_for('main.about_us')}}">About us <span class="sr-only">(current)</span></a>
+            </li>
         </ul>
         <ul class="navbar-nav justify-content-end">
             {% if current_user.is_authenticated %}

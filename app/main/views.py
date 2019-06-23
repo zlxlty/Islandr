@@ -19,6 +19,10 @@ def index():
     posts = posts[0:9]
     return render_template('index.html', posts=posts)
 
+@main.route('/about_us')
+def about_us():
+    return render_template('about_us.html')
+
 @main.route('/editor', methods=['GET', 'POST'])
 @login_required
 def editor():
