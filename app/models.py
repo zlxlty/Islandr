@@ -69,6 +69,7 @@ class Group(db.Model):
     tag = db.Column(db.String(20), index=True)
     about_us = db.Column(db.Text, default='Nothing here yet...')
     is_approved = db.Column(db.Integer, default=0)
+    reject_msg = db.Column(db.Text)
 
     def __repr__(self):
         return '<Group %r>' % self.groupname

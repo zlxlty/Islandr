@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from . import group
 from .. import db
 from ..models import Group, Post
+from ..decorators import admin_required
 
 @group.route('/<int:id>')
 @login_required
@@ -21,7 +22,6 @@ def group_profile(id):
 @login_required
 def group_approve():
     groups = Group.query.filter_by(is_approved=0).order_by(Group.create_date.desc()).all()
-    print(groups)
     return render_template('group_approve.html', groups=groups)
 
 @group.route('/<int:id>/edit', methods=['GET', 'POST'])
@@ -46,6 +46,41 @@ def group_profile_edit(id):
 
         return redirect(url_for('.group_profile', id=old_group.id))
     return render_template('creater.html', old_group=old_group)
+
+@group.route('/<int:id>/approved')
+@login_required
+@admin_required
+def group_approved(id):
+    group = Group.query.get_or_404(id)
+    if group.is_approved == 0:
+        group.is_approved = 1
+    elif group.is_approved == -1:
+        return redirect(url_for('group.group_rejected', id=id))
+    db.session.add(group)
+    db.session.commit()
+    return render_template('group_approved.html')
+
+@group.route('/<int:id>/rejected', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def group_rejected(id):
+    group = Group.query.get_or_404(id)
+    if group.is_approved == 0:
+        group.is_approved = -1
+    elif group.is_approved == 1:
+        return redirect(url_for('group.group_approved', id=id))
+
+    if request.method == 'POST':
+        group.reject_msg = request.form['comment']
+        # print(post.reject_msg)
+        db.session.add(group)
+        db.session.commit()
+        return redirect(url_for('group.group_approve'))
+
+    db.session.add(group)
+    db.session.commit()
+    return render_template('group_rejected.html')
+
 
 @group.route('/<int:id>/delete')
 @login_required

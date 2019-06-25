@@ -47,6 +47,15 @@
     </div>
 </div>
 
+<div class="mt-3">
+    {% if current_user.is_admin %}
+        {% if group.is_approved == 0 %}
+            <a href="{{ url_for('group.group_approved', id=group.id) }}"><button type="button" class="btn btn-success">Approve</button></a>
+            <a href="{{ url_for('group.group_rejected', id=group.id) }}"><button type="button" class="btn btn-danger float-right">Reject</button></a>
+        {% endif %}
+    {% endif %}
+</div>
+
 {% if group.is_approved == 1 and current_user.id == group.owner[0].id %}
     <a href="{{ url_for('main.post_editor') }}">
         <button type="button" class="btn btn-primary btn-lg btn-block my-4">New Event</button>
