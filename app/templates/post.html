@@ -20,7 +20,7 @@
     {% endif %}
 {% endif %}
 <div class="mt-4"></div>
-<h1>{{ post.title }}</h1>
+<h1 class="col-sm-7">{{ post.title }}</h1>
 <hr/>
 <div class="px-3 py-3" style="background-color:rgba(245, 245, 245, 0.637);">
     <h6><img class="mr-2" src="{{ url_for('static', filename='icon/user.png') }}" alt="" height="18px" width="18px"><b>Organizer</b>: {{ post.author.groupname }}</h6>
@@ -39,6 +39,19 @@
     {{ body_html }}
 </div>
 <hr/>
+<div class="float-right">
+    <button type="button" class="btn btn-light">
+        {% if post.followers.all() %}
+            <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % post.followers.all()[-1].profile_pic) }}" alt="" height="23px" width="23px">
+        {% endif %}
+        ···
+    </button>
+</div>
+{% if current_user.is_following(post) %}
+    <a href="{{ url_for('event.post_unfollow', id=post.id) }}"><button type="button" class="btn btn-info float-right">Unfollow</button></a>
+{% else %}
+    <a href="{{ url_for('event.post_follow', id=post.id) }}"><button type="button" class="btn btn-outline-info float-right">Follow</button></a>
+{% endif %}
 <div class="mt-3">
     {% if current_user.group_id == post.author.id %}
         <a href="{{ url_for('event.post_edit', id=id) }}"><button type="button" class="btn btn-outline-secondary">Edit</button></a>

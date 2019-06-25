@@ -81,11 +81,10 @@
         {% for group in groups %}
             <div class="col-sm-4">
                 <div class="card mb-5 box-shadow">
-                    <a href="{{ url_for('group.group_profile', id=group.id) }}">
-                        <img class="card-img-top" src="{{ url_for('static', filename='pic/group_default.jpg') }}" alt="Card image cap">
-                    </a>
                     <div class="card-body">
-                        <h4>{{ group.groupname }}</h4>
+                        <a style="text-decoration: None; color: black;" href="{{ url_for('group.group_profile', id=group.id) }}">
+                            <h4>{{ group.groupname }}</h4>
+                        </a>
                         <div class="row no-gutters">
                             <div class="col-sm-3">
                                 <a href="{{ url_for('main.account', user_id=group.owner[0].id) }}">
@@ -93,7 +92,7 @@
                                 </a>
                             </div>
                             <div class="col-sm">
-                                <p class="mb-1">Tag: {{ group.tag }}</p>
+                                <p>Tag: {{ group.tag }}</p>
                             </div>
                         </div>
                     </div>

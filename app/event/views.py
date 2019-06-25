@@ -49,6 +49,24 @@ def post_rejected(id):
     db.session.commit()
     return render_template('post_rejected.html')
 
+@event.route('/<int:id>/follow')
+@login_required
+def post_follow(id):
+    post = Post.query.get_or_404(id)
+    post.followers.append(current_user)
+    db.session.commit()
+    return redirect(url_for('.post', id=id))
+
+@event.route('/<int:id>/unfollow')
+@login_required
+def post_unfollow(id):
+    post = Post.query.get_or_404(id)
+    if not current_user in post.followers.all():
+        return redirect(url_for('.post', id=id))
+    post.followers.remove(current_user)
+    db.session.commit()
+    return redirect(url_for('.post', id=id))
+
 @event.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
 def post_edit(id):

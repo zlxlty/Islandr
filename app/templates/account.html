@@ -21,6 +21,11 @@
                 <hr/>
                 <h6><b>About Me:</b>  {{ user.about_me }}</h6>
                 <hr/>
+                {% if user.my_group %}
+                <a style="color:black;" href="{{ url_for('group.group_profile', id=user.group_id) }}">
+                    <h6><b>My Group:</b>  {{ user.my_group.groupname }}</h6>
+                </a>
+                {% endif %}
                 {% if current_user.id == user.id %}
                 <div class="content-section mt-3">
                     <a href="{{ url_for('main.account_edit', user_id=user.id) }}">
@@ -32,6 +37,9 @@
             </div>
         </div>
 </div>
-
 <hr>
+{{ macros.post_generator(posts) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'main.account', user_id=user.id) }}
+</div>
 {% endblock %}

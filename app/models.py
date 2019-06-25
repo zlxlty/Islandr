@@ -6,6 +6,11 @@ from flask import current_app
 from datetime import datetime
 import secrets
 
+registrations = db.Table('registrations',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'))
+)
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -24,6 +29,16 @@ class User(UserMixin, db.Model):
     location = db.Column(db.String(128), default='Where are your from?')
     user_hex = db.Column(db.String(16), default=secrets.token_hex(8))
     about_me = db.Column(db.Text(), default='Nothing here yet...')
+
+    #follow events
+    followings = db.relationship('Post',
+                                   secondary=registrations,
+                                   backref=db.backref('followers', lazy='dynamic'),
+                                   lazy='dynamic')
+    def is_following(self, post):
+        if post.id == None:
+            return False
+        return post in self.followings.all()
 
     @property
     def password(self):

@@ -29,7 +29,11 @@
                 
                 <div class="media-body">
                     <h1 class="account-heading">{{ group.groupname }}</h1>
-                    <br />             
+                    <br />
+                    <a style="color:black;" href="{{ url_for('main.account', user_id=group.owner[0].id) }}">
+                        <h6><b>Owner:</b>  {{ group.owner[0].username }}</h6>
+                    </a>
+                    <hr>
                     <h6><b>Tag:</b>  {{ group.tag }}</h6>
                     <hr/>
                     <h6><b>About Us:</b>  {{ group.about_us }}</h6>
@@ -62,9 +66,9 @@
     </a>
     <hr>
 {% endif %}
-    {{ macros.post_generator(posts, show_dot=(current_user.id==group.owner[0].id)) }}
-    <div class="pagination justify-content-center">
-        {{ macros.pagination_widget(pagination, 'group.group_profile', id=group.id) }}
-    </div>
+{{ macros.post_generator(posts, show_dot=(current_user.id==group.owner[0].id)) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'group.group_profile', id=group.id) }}
+</div>
 <hr>
 {% endblock %}

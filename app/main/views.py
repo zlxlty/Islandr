@@ -112,10 +112,14 @@ def account(user_id):
     
     page = request.args.get('page', 1, type=int)
     user = User.query.get_or_404(user_id)
+    pagination = user.followings.order_by(Post.datetime_from).paginate(
+        page, per_page=9,
+        error_out = False)
+    posts = pagination.items
 
     profile_pic = url_for('static', filename='profile_pic/' + user.profile_pic)
 
-    return render_template('account.html', user=user, profile_pic=profile_pic, user_id=user_id)
+    return render_template('account.html', user=user, profile_pic=profile_pic, user_id=user_id, posts=posts, pagination=pagination)
 
 
 @main.route('/account/<int:user_id>/edit', methods=['GET', 'POST'])
