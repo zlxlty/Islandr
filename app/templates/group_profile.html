@@ -9,10 +9,6 @@
     <div class="alert alert-warning text-center" role="alert">
         Pending
     </div>
-    {% elif group.is_approved == 1 %}
-    <div class="alert alert-success text-center" role="alert">
-        Approved
-    </div>
     {% elif group.is_approved == -1 %}
     <div class="alert alert-danger text-center" role="alert">
         Rejected
@@ -36,8 +32,16 @@
                     <hr>
                     <h6><b>Tag:</b>  {{ group.tag }}</h6>
                     <hr/>
+                    <h6><b>Members:</b>  {{ macros.profile_pic_generator(users=group.members.all()) }}</h6>
+                    <hr/>
                     <h6><b>About Us:</b>  {{ group.about_us }}</h6>
                     <hr/>
+
+                    {% if current_user.has_joined(group) %}
+                        <a href=""><button type="button" class="btn btn-info float-right">Leave</button></a>
+                    {% else %}
+                        <a href=""><button type="button" class="btn btn-outline-info float-right">Join</button></a>
+                    {% endif %}
 
                     {% if current_user.id == group.owner[0].id %}
                         <div class="content-section mt-3">

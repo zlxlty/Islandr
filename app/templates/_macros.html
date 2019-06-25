@@ -129,3 +129,12 @@
     {% endif %}
 </div>
 {% endmacro %}
+
+{% macro profile_pic_generator(users, amount=3) %}
+<button type="button" class="btn btn-light">
+    {% for i in range(amount) if users[i] %}
+        <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % users[i].profile_pic) }}" alt="" height="23px" width="23px">
+    {% endfor %}        
+    ···
+</button>
+{% endmacro %}

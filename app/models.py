@@ -11,6 +11,11 @@ registrations = db.Table('registrations',
     db.Column('post_id', db.Integer, db.ForeignKey('posts.id'))
 )
 
+joins = db.Table('joins',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('group_id', db.Integer, db.ForeignKey('groups.id'))
+)
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -35,6 +40,11 @@ class User(UserMixin, db.Model):
                                    secondary=registrations,
                                    backref=db.backref('followers', lazy='dynamic'),
                                    lazy='dynamic')
+    def has_joined(self, group):
+        if group.id == None:
+            return False
+        return group in self.joined_groups.all()
+                                
     def is_following(self, post):
         if post.id == None:
             return False
@@ -79,6 +89,10 @@ class Group(db.Model):
 
     # relationship with User
     owner = db.relationship('User', backref=db.backref("my_group", uselist=False))
+    members = db.relationship('User',
+                                   secondary=joins,
+                                   backref=db.backref('joined_groups', lazy='dynamic'),
+                                   lazy='dynamic')
     #basic info
     create_date = db.Column(db.DateTime(), default=datetime.utcnow)
     groupname = db.Column(db.String(64), index=True)

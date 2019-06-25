@@ -47,6 +47,18 @@ def groups():
         db.session.add(g)
     db.session.commit()
 
+def followers(post, count=10):
+    fake = Faker('en_US')
+    i=0
+    for user in User.query.all():
+        if i >= count:
+            break
+        if user.is_following(post):
+            continue
+        post.followers.append(user)
+        i += 1
+    db.session.commit()
+
 def posts(count=100):
     fake = Faker('en_US')
     group = Group.query.filter_by(is_approved=1)

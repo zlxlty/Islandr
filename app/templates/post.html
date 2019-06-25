@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as macros %}
 
 {% block title %}Islandr - Post{% endblock %}
 
@@ -41,12 +42,7 @@
 <hr/>
 <div class="float-right">
     <a href="{{url_for('event.post_followers', id=post.id)}}">
-        <button type="button" class="btn btn-light">
-            {% if post.followers.all() %}
-                <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % post.followers.all()[-1].profile_pic) }}" alt="" height="23px" width="23px">
-            {% endif %}
-            ···
-        </button>
+        {{ macros.profile_pic_generator(post.followers.all(), amount=3) }}
     </a>
 </div>
 {% if current_user.is_following(post) %}
