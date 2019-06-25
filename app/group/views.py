@@ -21,8 +21,11 @@ def group_profile(id):
 @group.route('/approve')
 @login_required
 def group_approve():
-    groups = Group.query.filter_by(is_approved=0).order_by(Group.create_date.desc()).all()
-    return render_template('group_approve.html', groups=groups)
+    group = Group.query.filter_by(is_approved=0).order_by(Group.create_date.desc())
+    page = request.args.get('page', 1, type=int)
+    pagination = group.paginate(page, per_page=12, error_out=False)
+    groups = pagination.items
+    return render_template('group_approve.html', groups=groups, pagination=pagination)
 
 @group.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required

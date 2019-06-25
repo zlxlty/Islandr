@@ -74,10 +74,11 @@ class Group(db.Model):
     __tablename__ = 'groups'
     id = db.Column(db.Integer, primary_key=True)
 
-    # relationship
+    # relationship with Post
     posts = db.relationship('Post', backref='author', lazy='dynamic')
-    owner = db.relationship('User', backref=db.backref("my_group", uselist=False))
 
+    # relationship with User
+    owner = db.relationship('User', backref=db.backref("my_group", uselist=False))
     #basic info
     create_date = db.Column(db.DateTime(), default=datetime.utcnow)
     groupname = db.Column(db.String(64), index=True)

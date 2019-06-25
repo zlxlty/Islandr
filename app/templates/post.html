@@ -40,12 +40,14 @@
 </div>
 <hr/>
 <div class="float-right">
-    <button type="button" class="btn btn-light">
-        {% if post.followers.all() %}
-            <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % post.followers.all()[-1].profile_pic) }}" alt="" height="23px" width="23px">
-        {% endif %}
-        ···
-    </button>
+    <a href="{{url_for('event.post_followers', id=post.id)}}">
+        <button type="button" class="btn btn-light">
+            {% if post.followers.all() %}
+                <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % post.followers.all()[-1].profile_pic) }}" alt="" height="23px" width="23px">
+            {% endif %}
+            ···
+        </button>
+    </a>
 </div>
 {% if current_user.is_following(post) %}
     <a href="{{ url_for('event.post_unfollow', id=post.id) }}"><button type="button" class="btn btn-info float-right">Unfollow</button></a>

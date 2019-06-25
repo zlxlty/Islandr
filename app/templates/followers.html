@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Islandr - Event Followers{% endblock %}
+{% import "_macros.html" as macros %}
+
+{% block page_content %}
+<div class="mt-6">
+    <h1>Followers</h1>
+    <hr/>
+</div>
+{{ macros.follower_generator(followers) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'event.post_followers', id=post.id) }}
+</div>
+
+{% endblock %}

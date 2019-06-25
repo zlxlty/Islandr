@@ -9,5 +9,8 @@
     <hr/>
 </div>
 {{ macros.group_generator(groups) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'group.group_approve') }}
+</div>
 
 {% endblock %}

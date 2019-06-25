@@ -49,6 +49,15 @@ def post_rejected(id):
     db.session.commit()
     return render_template('post_rejected.html')
 
+@event.route('<int:id>/followers')
+@login_required
+def post_followers(id):
+    post = Post.query.get_or_404(id)
+    page = request.args.get('page', 1, type=int)
+    pagination = post.followers.paginate(page, per_page=12, error_out=False)
+    followers = pagination.items
+    return render_template('followers.html', post=post, pagination=pagination, followers=followers)
+
 @event.route('/<int:id>/follow')
 @login_required
 def post_follow(id):
