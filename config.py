@@ -10,6 +10,15 @@ class Config:
         ['true', 'on', '1']
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+
+    MSEARCH_INDEX_NAME = 'msearch'
+    # simple,whoosh,elaticsearch, default is simple
+    MSEARCH_BACKEND = 'whoosh'
+    # table's primary key if you don't like to use id, or set __msearch_primary_key__ for special model
+    MSEARCH_PRIMARY_KEY = 'id'
+    # auto create or update index
+    MSEARCH_ENABLE = True
+
     TAGS = {'Arts': 0,
             'Culture': 1,
             'Environment': 2,

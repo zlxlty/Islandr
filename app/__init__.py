@@ -5,7 +5,7 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_avatars import Avatars
-from flask_msearch import Search
+from .flask_msearch import Search
 from config import config
 
 bootstrap = Bootstrap()
@@ -14,7 +14,7 @@ moment = Moment()
 db = SQLAlchemy()
 login_manager = LoginManager()
 avatars = Avatars()
-search = Search()
+search = Search(db=db)
 login_manager.login_view = 'auth.login'
 
 def create_app(config_name):

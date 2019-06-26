@@ -1,4 +1,5 @@
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
+from threading import Thread
 from flask_login import login_required, current_user
 from .. import db
 from ..models import User, Post, Group
@@ -7,17 +8,40 @@ from . import main
 from .forms import EditorForm, UpdateAccountForm
 from ..decorators import admin_required, owner_required
 from datetime import datetime
+from app import search
 import os
 from PIL import Image
 
 
 time_format = '%Y-%m-%d-%H:%M'
 
-@main.route('/')
+def async_update_index(app):
+    with app.app_context():
+        print('started')
+        search.update_index()
+
+@main.route('/', methods=['GET', 'POST'])
 def index():
+    if request.method == 'POST':
+        keyword = str(request.form['search'])
+        return redirect(url_for('main.m_search', keyword=keyword))
+
     posts = Post.query.filter_by(is_approved=1).order_by(Post.last_modified.desc()).all()
     posts = posts[0:9]
+
     return render_template('index.html', posts=posts)
+
+@main.route('/search', methods=['GET', 'POST'])
+def m_search():
+    if request.method == 'POST':
+        keyword = str(request.form['search'])
+        return redirect(url_for('main.m_search', keyword=keyword))
+
+    keyword = request.args.get('keyword')
+    if not keyword:
+        return redirect(url_for('main.m_search', keyword='default'))
+    results = Post.query.msearch(keyword, fields=['title'], limit=12).filter_by(is_approved=1).order_by(Post.last_modified.desc()).all()
+    return render_template('search.html', posts=results)
 
 @main.route('/editor', methods=['GET', 'POST'])
 @login_required
@@ -39,6 +63,12 @@ def post_editor():
         )
         db.session.add(post)
         db.session.commit()
+        
+        #update search index
+        app = current_app._get_current_object()
+        thr = Thread(target=async_update_index, args=[app])
+        thr.start()
+
         return redirect(url_for('event.post', id=post.id))
     _post = Post(title='', location='', post_html='')
     return render_template('editor.html', old_post=_post, old_time_from='', old_time_to='')

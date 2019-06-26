@@ -4,6 +4,13 @@
 
 {% block title %}Islandr{% endblock %}
 
+{% block searchbar %}
+<form method='POST' class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" name="search" placeholder="Search">
+    <button class="btn btn-outline-light my-sm-0 mr-4" type="submit">Search</button>
+</form>
+{% endblock %}
+
 {% block page_header %}
 <div class="bd-example">
     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">

@@ -52,6 +52,7 @@
         </ul>
         <ul class="navbar-nav justify-content-end">
             {% if current_user.is_authenticated %}
+            {% block searchbar %}{% endblock %}
             <li class="nav-item">
                 <a class="align-middle" href="{{ url_for('main.account', user_id=current_user.id) }}">
                     <img class="rounded-circle mt-1" src="{{ url_for('static', filename='profile_pic/%s' % current_user.profile_pic) }}" height=30 width=30/>
