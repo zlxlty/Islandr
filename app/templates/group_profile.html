@@ -32,15 +32,15 @@
                     <hr>
                     <h6><b>Tag:</b>  {{ group.tag }}</h6>
                     <hr/>
-                    <h6><b>Members:</b>  {{ macros.profile_pic_generator(users=group.members.all()) }}</h6>
+                    <h6><b>Members:</b>  {{ macros.profile_pic_generator(users=group.members.all(), amount=3) }}</h6>
                     <hr/>
                     <h6><b>About Us:</b>  {{ group.about_us }}</h6>
                     <hr/>
 
                     {% if current_user.has_joined(group) %}
-                        <a href=""><button type="button" class="btn btn-info float-right">Leave</button></a>
+                        <a href="{{ url_for('group.group_leave', id=group.id) }}"><button type="button" class="btn btn-info float-right">Leave</button></a>
                     {% else %}
-                        <a href=""><button type="button" class="btn btn-outline-info float-right">Join</button></a>
+                        <a href="{{ url_for('group.group_join', id=group.id) }}"><button type="button" class="btn btn-outline-info float-right">Join</button></a>
                     {% endif %}
 
                     {% if current_user.id == group.owner[0].id %}

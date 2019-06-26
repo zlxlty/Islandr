@@ -50,6 +50,22 @@ def group_profile_edit(id):
         return redirect(url_for('.group_profile', id=old_group.id))
     return render_template('creater.html', old_group=old_group)
 
+@group.route('/<int:id>/join')
+@login_required
+def group_join(id):
+    group = Group.query.get_or_404(id)
+    group.members.append(current_user)
+    db.session.commit()
+    return redirect(url_for('group.group_profile', id=id))
+
+@group.route('/<int:id>/leave')
+@login_required
+def group_leave(id):
+    group = Group.query.get_or_404(id)
+    group.members.remove(current_user)
+    db.session.commit()
+    return redirect(url_for('group.group_profile', id=id))
+
 @group.route('/<int:id>/approved')
 @login_required
 @admin_required

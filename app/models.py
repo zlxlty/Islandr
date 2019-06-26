@@ -107,6 +107,8 @@ class Group(db.Model):
 
 class Post(db.Model):
     __tablename__ = 'posts'
+    __searchable__ = ['title']
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), index=True)
     location = db.Column(db.String(64), index=True)

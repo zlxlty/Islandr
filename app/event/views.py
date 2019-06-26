@@ -10,6 +10,7 @@ from datetime import datetime
 time_format = '%Y-%m-%d-%H:%M'
 
 @event.route('/<int:id>')
+@login_required
 def post(id):
     post = Post.query.get_or_404(id)
     body_html = Markup(post.post_html)
@@ -55,8 +56,8 @@ def post_followers(id):
     post = Post.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
     pagination = post.followers.paginate(page, per_page=12, error_out=False)
-    followers = pagination.items
-    return render_template('followers.html', post=post, pagination=pagination, followers=followers)
+    users = pagination.items
+    return render_template('followers.html', post=post, pagination=pagination, users=users)
 
 @event.route('/<int:id>/follow')
 @login_required

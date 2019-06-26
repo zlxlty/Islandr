@@ -5,6 +5,7 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_avatars import Avatars
+from flask_msearch import Search
 from config import config
 
 bootstrap = Bootstrap()
@@ -13,6 +14,7 @@ moment = Moment()
 db = SQLAlchemy()
 login_manager = LoginManager()
 avatars = Avatars()
+search = Search()
 login_manager.login_view = 'auth.login'
 
 def create_app(config_name):
@@ -26,6 +28,7 @@ def create_app(config_name):
     db.init_app(app)
     login_manager.init_app(app)
     avatars.init_app(app)
+    search.init_app(app)
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)

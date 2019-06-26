@@ -8,9 +8,8 @@
     <h1>Followers</h1>
     <hr/>
 </div>
-{{ macros.follower_generator(followers) }}
+{{ macros.user_generator(users) }}
 <div class="pagination justify-content-center">
     {{ macros.pagination_widget(pagination, 'event.post_followers', id=post.id) }}
 </div>
-
 {% endblock %}

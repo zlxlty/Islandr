@@ -67,6 +67,12 @@ def group_creater():
     _group = Group()
     return render_template('creater.html', old_group=_group)
 
+@main.route('/moments')
+@login_required
+def moments():
+    #TODO
+    return render_template('moments.html')
+
 @main.route('/approve', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -125,6 +131,9 @@ def account(user_id):
 @main.route('/account/<int:user_id>/edit', methods=['GET', 'POST'])
 @login_required
 def account_edit(user_id):
+
+    if user_id != current_user.id:
+        abort(403)
 
     user = User.query.get(user_id)
     form = UpdateAccountForm()

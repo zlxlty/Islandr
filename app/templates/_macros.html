@@ -34,7 +34,7 @@
 {% endmacro %}
 
 {% macro post_generator(posts, show_dot=False) %}
-<div class="row mt-4">
+<div class="row mt-3">
     {% for post in posts %}
         <div class="col-sm-4">
             <div class="card mb-5 box-shadow">
@@ -104,26 +104,25 @@
 </div>
 {% endmacro %}
 
-{% macro follower_generator(followers) %}
-<div class="row mt-4">
-    {% if followers %}
-        {% for follower in followers %}
-            <div class="col-sm-6">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-body">
-                        <div class="row no-gutters">
-                            <div class="col-sm-2">
-                                <a href="{{ url_for('main.account', user_id=follower.id) }}">
-                                    <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % follower.profile_pic) }}" height=50 width=50/>
-                                </a>
-                            </div>
-                            <div class="col-sm-10">
-                                <h4>{{ follower.username }}</h4>
-                            </div>
+{% macro user_generator(users) %}
+<div class="row mt-3">
+    {% if users %}
+        {% for user in users %}
+            <div class="container mx-6">
+                <hr>
+                    <div class="row">
+                        <div class="col-sm-1 mx-3" align="center">
+                            <a href="{{ url_for('main.account', user_id=user.id) }}">
+                                <img src="{{ url_for('static', filename='profile_pic/%s' % user.profile_pic) }}" alt="user_pic" height="80px" width="80px">
+                            </a>
+                        </div>
+                        <div class="col-sm-10">
+                            <h5 class="mb-2">{{ user.username|safe }}</h5>
+                            <p style="font-size: 80%;" class="text-muted mb-1">Location:  {{ user.location }}</p>
+                            <p style="font-size: 80%;" class="text-muted mb-1">Email:  {{ user.email }}</p>
+                            <p style="font-size: 80%;" class="text-muted mb-1">Groups:  {{ user.joined_groups.count() }}</p>
                         </div>
                     </div>
-                </div>
-
             </div>
         {% endfor %}
     {% endif %}
