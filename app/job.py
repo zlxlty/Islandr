@@ -1,6 +1,6 @@
 from flask import current_app, render_template
 from . import scheduler
-from .email import send_simple_email, bulletin_email, reminder_email
+from .email import send_simple_email, reminder_email, bulletin_email
 
 #testing function 
 def add_job():
@@ -14,7 +14,7 @@ def job_1():
 
 #official working function 
 def add_reminder(id, app, to, info, time):
-    scheduler.add_job(id='%s'.format(id), func=reminder_email, args=[app,to], kwargs=[info], trigger='cron', ) 
+    scheduler.add_job(id=id, func=reminder_email, args=[app,to], kwargs=[info], trigger='cron', ) 
 
 def send_bulletin(app, info):
-    scheduler.add_job(id='send_bullentin', func=reminder_email, args=[app], kwargs=[info], trigger='cron', ) 
+    scheduler.add_job(id='send_bullentin', func=bulletin_email, args=[app], kwargs=[info], trigger='cron', ) 

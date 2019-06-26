@@ -28,18 +28,19 @@ def send_simple_email(app):
 
 
 #official email function for scheduler (modify needed)
-def dulletin_email(app, to, **kwargs):
+
+def bulletin_email(app, to, **kwargs):
         msg = Message(subject="Islander weekly Bulletin", sender=app.config['FLASKY_MAIL_SENDER'],recipients=[to])
-        msg.body = render_template('bulletin.txt', **kwargs)
-        msg.body = render_template('bulletin.html', **kwargs)
+        msg.body = render_template('mail/bulletin.txt', **kwargs)
+        msg.body = render_template('mail/bulletin.html', **kwargs)
         thr = Thread(target=send_async_email, args=[app, msg])
         thr.start()
         return thr
 
 def reminder_email(app, to, **kwargs):
         msg = Message(subject="Islander weekly Bulletin", sender=app.config['FLASKY_MAIL_SENDER'],recipients=[to])
-        msg.body = render_template('reminder.txt', **kwargs)
-        msg.body = render_template('reminder.html', **kwargs)
+        msg.body = render_template('mail/reminder.txt', **kwargs)
+        msg.body = render_template('mail/reminder.html', **kwargs)
         thr = Thread(target=send_async_email, args=[app, msg])
         thr.start()
         return thr
