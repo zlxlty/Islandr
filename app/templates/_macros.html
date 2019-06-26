@@ -113,7 +113,7 @@
                     <div class="row">
                         <div class="col-sm-1 mx-3" align="center">
                             <a href="{{ url_for('main.account', user_id=user.id) }}">
-                                <img src="{{ url_for('static', filename='profile_pic/%s' % user.profile_pic) }}" alt="user_pic" height="80px" width="80px">
+                                <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % user.profile_pic) }}" alt="user_pic" height="80px" width="80px">
                             </a>
                         </div>
                         <div class="col-sm-10">

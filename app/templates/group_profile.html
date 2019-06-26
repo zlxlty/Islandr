@@ -32,7 +32,9 @@
                     <hr>
                     <h6><b>Tag:</b>  {{ group.tag }}</h6>
                     <hr/>
-                    <h6><b>Members:</b>  {{ macros.profile_pic_generator(users=group.members.all(), amount=3) }}</h6>
+                    <a style="color:black;" href="{{ url_for('group.group_members', id=group.id) }}">
+                        <h6><b>Members:</b>  {{ macros.profile_pic_generator(users=group.members.all(), amount=3) }}</h6>
+                    </a>
                     <hr/>
                     <h6><b>About Us:</b>  {{ group.about_us }}</h6>
                     <hr/>

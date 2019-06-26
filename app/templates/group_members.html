@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 
 {% block title %}Islandr - Group Members{% endblock %}
+{% import "_macros.html" as macros %}
 
 {% block page_content %}
-
+<div class="mt-6">
+    <h1>Members</h1>
+    <hr/>
+</div>
+{{ macros.user_generator(users) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'group.group_members', id=group.id) }}
+</div>
 {% endblock %}

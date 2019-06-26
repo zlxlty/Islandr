@@ -24,7 +24,9 @@
 <h1 class="col-sm-7">{{ post.title }}</h1>
 <hr/>
 <div class="px-3 py-3" style="background-color:rgba(245, 245, 245, 0.637);">
-    <h6><img class="mr-2" src="{{ url_for('static', filename='icon/user.png') }}" alt="" height="18px" width="18px"><b>Organizer</b>: {{ post.author.groupname }}</h6>
+    <a style="color: black;" href="{{url_for('group.group_profile', id=post.author.id)}}">
+        <h6><img class="mr-2" src="{{ url_for('static', filename='icon/user.png') }}" alt="" height="18px" width="18px"><b>Organizer</b>: {{ post.author.groupname }}</h6>
+    </a>
     <hr>
     <h6><img class="mr-2" src="{{ url_for('static', filename='icon/location.png') }}" alt="" height="18px" width="18px"><b>Location:</b> {{ post.location }}</h6>
     <hr>

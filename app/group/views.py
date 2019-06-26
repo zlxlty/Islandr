@@ -117,3 +117,12 @@ def group_delete(id):
 
     flash('Your group %s has been deleted!' % str(old_group.groupname))
     return redirect(url_for('main.index'))
+
+@group.route('<int:id>/members')
+@login_required
+def group_members(id):
+    group = Group.query.get_or_404(id)
+    page = request.args.get('page', 1, type=int)
+    pagination = group.members.paginate(page, per_page=12, error_out=False)
+    users = pagination.items
+    return render_template('group_members.html', group=group, pagination=pagination, users=users)
