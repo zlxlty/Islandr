@@ -35,3 +35,5 @@ venv
 migrations
 #msearch
 msearch
+#vscode
+.vscode
