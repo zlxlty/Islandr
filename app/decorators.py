@@ -10,4 +10,11 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def owner_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.my_group is None or not current_user.my_group.is_approved == 1:
+            abort(403)
+        return f(*args, **kwargs)
+    return decorated_function
     

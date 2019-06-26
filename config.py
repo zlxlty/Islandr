@@ -11,6 +11,15 @@ class Config:
     MAIL_USERNAME = 'islandr-csc@outlook.com' 
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') #uwccscislandr2019
     FLASKY_MAIL_SENDER = 'islandr-csc@outlook.com'
+
+    MSEARCH_INDEX_NAME = 'msearch'
+    # simple,whoosh,elaticsearch, default is simple
+    MSEARCH_BACKEND = 'whoosh'
+    # table's primary key if you don't like to use id, or set __msearch_primary_key__ for special model
+    MSEARCH_PRIMARY_KEY = 'id'
+    # auto create or update index
+    MSEARCH_ENABLE = True
+
     TAGS = {'Arts': 0,
             'Culture': 1,
             'Environment': 2,

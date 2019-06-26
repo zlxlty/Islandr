@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block navbar %}
-<nav class="navbar navbar-expand-lg navbar-dark px-6 fixed-top" style="background-color: #0065A1;">
+<nav class="shadow-sm navbar navbar-expand-lg navbar-dark px-6 fixed-top" style="background-color: #0065A1;">
     <img class="logo-pic" src="{{ url_for('static', filename='pic/logo.jpg') }}" alt="logo">
     <a class="navbar-brand" href="{{url_for('main.index')}}">CSC | Islandr</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,23 +19,43 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('main.index')}}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{url_for('main.index')}}">Home<span class="sr-only">(current)</span></a>
             </li>
+            <!-- TODO -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('main.moments')}}">Moments<span class="sr-only">(current)</span></a>
+            </li>
+            <!-- TODO -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Events
+                    Group
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{url_for('main.editor')}}">Post Events</a>
-                    {% if current_user.is_admin %}<a class="dropdown-item" href="{{url_for('main.approve')}}">Approve Events</a>{% endif %}
+                    {% if not current_user.my_group %}
+                        <a class="dropdown-item" href="{{url_for('main.group_creater')}}">Create Group</a>
+                    {% else %}
+                        <a class="dropdown-item" href="{{url_for('group.group_profile', id=current_user.group_id)}}">My Group</a>
+                    {% endif %}
                 </div>
             </li>
             <li class="navbar-item active">
                 <a class="nav-link" href="{{url_for('main.about_us')}}">About us <span class="sr-only">(current)</span></a>
             </li>
+            {% if current_user.is_admin %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Approve
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{url_for('group.group_approve')}}">Approve Group</a>
+                        <a class="dropdown-item" href="{{url_for('main.approve')}}">Approve Post</a>
+                    </div>
+                </li>
+            {% endif %}
         </ul>
         <ul class="navbar-nav justify-content-end">
             {% if current_user.is_authenticated %}
+            {% block searchbar %}{% endblock %}
             <li class="nav-item">
                 <a class="align-middle" href="{{ url_for('main.account', user_id=current_user.id) }}">
                     <img class="rounded-circle mt-1" src="{{ url_for('static', filename='profile_pic/%s' % current_user.profile_pic) }}" height=30 width=30/>

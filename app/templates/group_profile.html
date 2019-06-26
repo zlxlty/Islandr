@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Islandr - Group Profile{% endblock %}
+
+{% block page_content %}
+{% if current_user.group_id == group.id or current_user.is_admin%}
+    {% if group.is_approved == 0 %}
+    <div class="alert alert-warning text-center" role="alert">
+        Pending
+    </div>
+    {% elif group.is_approved == -1 %}
+    <div class="alert alert-danger text-center" role="alert">
+        Rejected
+    </div>
+    {% endif %}
+{% endif %}
+<hr class="mb-4">
+
+<div class="content-section mb-4" style="background-color:rgba(226, 226, 226, 0.315);">
+    <div style="position:relative;">
+        <img class="img-fluid mb-3" src="{{ url_for('static', filename='pic/group_default.jpg') }}" alt="group_default">
+        <div class="media px-4 py-4 ">
+                <img class="rounded-circle account-img ml-4 mr-5" src="{{ avatars.default() }}" height="100px" width="100px"/>
+                
+                <div class="media-body">
+                    <h1 class="account-heading">{{ group.groupname }}</h1>
+                    <br />
+                    <a style="color:black;" href="{{ url_for('main.account', user_id=group.owner[0].id) }}">
+                        <h6><b>Owner:</b>  {{ group.owner[0].username }}</h6>
+                    </a>
+                    <hr>
+                    <h6><b>Tag:</b>  {{ group.tag }}</h6>
+                    <hr/>
+                    <a style="color:black;" href="{{ url_for('group.group_members', id=group.id) }}">
+                        <h6><b>Members:</b>  {{ macros.profile_pic_generator(users=group.members.all(), amount=3) }}</h6>
+                    </a>
+                    <hr/>
+                    <h6><b>About Us:</b>  {{ group.about_us }}</h6>
+                    <hr/>
+
+                    {% if current_user.has_joined(group) %}
+                        <a href="{{ url_for('group.group_leave', id=group.id) }}"><button type="button" class="btn btn-info float-right">Leave</button></a>
+                    {% else %}
+                        <a href="{{ url_for('group.group_join', id=group.id) }}"><button type="button" class="btn btn-outline-info float-right">Join</button></a>
+                    {% endif %}
+
+                    {% if current_user.id == group.owner[0].id %}
+                        <div class="content-section mt-3">
+                            <a href="{{ url_for('group.group_profile_edit', id=group.id) }}">
+                                <button class="btn btn-outline-secondary">Edit Profile</button>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+    </div>
+</div>
+
+<div class="mt-3">
+    {% if current_user.is_admin %}
+        {% if group.is_approved == 0 %}
+            <a href="{{ url_for('group.group_approved', id=group.id) }}"><button type="button" class="btn btn-success">Approve</button></a>
+            <a href="{{ url_for('group.group_rejected', id=group.id) }}"><button type="button" class="btn btn-danger float-right">Reject</button></a>
+        {% endif %}
+    {% endif %}
+</div>
+
+{% if group.is_approved == 1 and current_user.id == group.owner[0].id %}
+    <a href="{{ url_for('main.post_editor') }}">
+        <button type="button" class="btn btn-primary btn-lg btn-block my-4">New Event</button>
+    </a>
+    <hr>
+{% endif %}
+{{ macros.post_generator(posts, show_dot=(current_user.id==group.owner[0].id)) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'group.group_profile', id=group.id) }}
+</div>
+<hr>
+{% endblock %}

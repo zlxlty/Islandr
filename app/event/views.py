@@ -10,6 +10,7 @@ from datetime import datetime
 time_format = '%Y-%m-%d-%H:%M'
 
 @event.route('/<int:id>')
+@login_required
 def post(id):
     post = Post.query.get_or_404(id)
     body_html = Markup(post.post_html)
@@ -28,7 +29,7 @@ def post_approved(id):
     db.session.commit()
     return render_template('post_approved.html')
 
-@event.route('/<int:id>/rejected')
+@event.route('/<int:id>/rejected', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def post_rejected(id):
@@ -37,16 +38,51 @@ def post_rejected(id):
         post.is_approved = -1
     elif post.is_approved == 1:
         return redirect(url_for('event.post_approved', id=id))
+
+    if request.method == 'POST':
+        post.reject_msg = request.form['comment']
+        # print(post.reject_msg)
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('main.approve'))
+
     db.session.add(post)
     db.session.commit()
     return render_template('post_rejected.html')
+
+@event.route('<int:id>/followers')
+@login_required
+def post_followers(id):
+    post = Post.query.get_or_404(id)
+    page = request.args.get('page', 1, type=int)
+    pagination = post.followers.paginate(page, per_page=12, error_out=False)
+    users = pagination.items
+    return render_template('followers.html', post=post, pagination=pagination, users=users)
+
+@event.route('/<int:id>/follow')
+@login_required
+def post_follow(id):
+    post = Post.query.get_or_404(id)
+    post.followers.append(current_user)
+    db.session.commit()
+    return redirect(url_for('.post', id=id))
+
+@event.route('/<int:id>/unfollow')
+@login_required
+def post_unfollow(id):
+    post = Post.query.get_or_404(id)
+    if not current_user in post.followers.all():
+        return redirect(url_for('.post', id=id))
+    post.followers.remove(current_user)
+    db.session.commit()
+    return redirect(url_for('.post', id=id))
 
 @event.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
 def post_edit(id):
 
     old_post = Post.query.get_or_404(id)
-    if old_post.author.id != current_user.id:
+    if old_post.author.id != current_user.group_id:
         abort(403)
 
     strtime_from = old_post.datetime_from.strftime(time_format)
@@ -58,6 +94,7 @@ def post_edit(id):
             return redirect(url_for('event.post_edit', id=id))
         old_post.title = request.form['title']
         old_post.post_html = request.form['content']
+        old_post.last_modified = datetime.utcnow()
         old_post.is_approved = 0
         db.session.add(old_post)
         db.session.commit()
