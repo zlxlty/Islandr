@@ -4,6 +4,7 @@ from faker import Faker
 from . import db
 from .models import User, Post, Group
 from flask import current_app
+from app import search
 
 def _get_key (dict , value):
     return str([k for k, v in dict.items() if v == value][0])
@@ -72,3 +73,4 @@ def posts(count=100):
                  author=g)
         db.session.add(p)
     db.session.commit()
+    search.update_index()

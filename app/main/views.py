@@ -40,8 +40,13 @@ def m_search():
     keyword = request.args.get('keyword')
     if not keyword:
         return redirect(url_for('main.m_search', keyword='default'))
-    results = Post.query.msearch(keyword, fields=['title'], limit=12).filter_by(is_approved=1).order_by(Post.last_modified.desc()).all()
-    return render_template('search.html', posts=results)
+
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.msearch(keyword, fields=['title']).filter_by(is_approved=1).order_by(Post.last_modified.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out = False)
+    posts = pagination.items
+    return render_template('search.html', pagination=pagination, posts=posts, keyword=keyword)
 
 @main.route('/editor', methods=['GET', 'POST'])
 @login_required

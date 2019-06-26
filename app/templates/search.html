@@ -12,4 +12,7 @@
 
 {% block page_content %}
 {{ macros.post_generator(posts) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'main.m_search', keyword=keyword) }}
+</div>
 {% endblock %}
