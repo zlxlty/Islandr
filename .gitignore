@@ -33,3 +33,5 @@ nosetests.xml
 venv
 # Migration
 migrations
+#msearch
+msearch
