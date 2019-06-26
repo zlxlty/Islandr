@@ -4,12 +4,13 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
-    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.office365.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in \
         ['true', 'on', '1']
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_USERNAME = 'islandr-csc@outlook.com' 
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') #uwccscislandr2019
+    FLASKY_MAIL_SENDER = 'islandr-csc@outlook.com'
 
     MSEARCH_INDEX_NAME = 'msearch'
     # simple,whoosh,elaticsearch, default is simple
@@ -27,9 +28,10 @@ class Config:
             'Sports': 5}
     FLASKY_POSTS_PER_PAGE = 15
     FLASKY_MAIL_SUBJECT_PREFIX = '[ISLANDR]'
-    FLASKY_MAIL_SENDER = 'ISLANDR TEAM <flasky@example.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    JOB=[]
 
     @staticmethod
     def init_app(app):

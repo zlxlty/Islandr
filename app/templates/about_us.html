@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}About us{% endblock %}
+
+{% block page_header %}
+<div class="jumbotron">
+  <h1 class="display-4">About us</h1>
+  <p class="lead">This is a simple 3 people team, a team willing to serve for UWC community in order to improve people's life on campus.</p>
+  <hr class="my-4">
+</div>
+
+{% endblock %}
+
+{% block page_content %}
+<div class="card-deck" >
+  <div class="card-header">
+    <h4>Contributors</h4>
+    <hr class="my-4">
+    <p>A team from UWCCSC,</br> a group of students who is</br>interested in CS and services<p>
+  </div>
+  <div class="card">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Yufeng Wu</h5>
+      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    </div>
+    <div class="card-footer">
+      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </div>
+  </div>
+  <div class="card">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Tianyi Lu</h5>
+      <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+    </div>
+    <div class="card-footer">
+      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </div>
+  </div>
+  <div class="card">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Ruihan Xu</h5>
+      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+    </div>
+    <div class="card-footer">
+      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

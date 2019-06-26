@@ -12,6 +12,7 @@ from app import search
 import os
 from PIL import Image
 
+from ..job import add_job, sending_emails
 
 time_format = '%Y-%m-%d-%H:%M'
 
@@ -30,6 +31,10 @@ def index():
     posts = posts[0:9]
 
     return render_template('index.html', posts=posts)
+
+@main.route('/about_us')
+def about_us():
+    return render_template('about_us.html')
 
 @main.route('/search', methods=['GET', 'POST'])
 def m_search():
@@ -221,3 +226,20 @@ def save_profile_pic(form_picture, user):
     i.save(picture_path)
 
     return picture_file_name
+
+
+#test purpose for scheduler and email, not part of actual code
+@main.route('/addjob', methods=['GET', 'POST'])
+def add_new_job():
+    add_job()
+    return 'job added'
+
+@main.route('/send',)
+def email_sent():
+        try:
+            sending_emails()
+            test_user()
+            return '发送成功，请注意查收'
+        except Exception as e:
+            print(e)
+            return '发送失败'
