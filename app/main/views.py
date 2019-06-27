@@ -238,7 +238,6 @@ def add_new_job():
 def email_sent():
         try:
             sending_emails()
-            test_user()
             return '发送成功，请注意查收'
         except Exception as e:
             print(e)

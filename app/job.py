@@ -13,8 +13,9 @@ def job_1():
     print('123')
 
 #official working function 
-def add_reminder(id, app, to, info, time):
-    scheduler.add_job(id=id, func=reminder_email, args=[app,to], kwargs=[info], trigger='cron', ) 
+def add_reminder(id, time, app):
+    print(id)
+    scheduler.add_job(id=str(id), func=reminder_email, kwargs={'app':app, 'post_id':id})#, trigger='cron', year=time[0], month=time[1], day=time[2]-1, hour=8) 
 
 def send_bulletin(app, info):
     scheduler.add_job(id='send_bullentin', func=bulletin_email, args=[app], kwargs=[info], trigger='cron', ) 

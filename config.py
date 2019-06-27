@@ -9,7 +9,7 @@ class Config:
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in \
         ['true', 'on', '1']
     MAIL_USERNAME = 'islandr-csc@outlook.com' 
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') #uwccscislandr2019
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') 
     FLASKY_MAIL_SENDER = 'islandr-csc@outlook.com'
 
     MSEARCH_INDEX_NAME = 'msearch'

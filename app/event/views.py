@@ -7,6 +7,8 @@ from . import event
 from ..decorators import admin_required
 from datetime import datetime
 
+from ..job import add_reminder
+
 time_format = '%Y-%m-%d-%H:%M'
 
 @event.route('/<int:id>')
@@ -27,6 +29,9 @@ def post_approved(id):
         return redirect(url_for('event.post_rejected', id=id))
     db.session.add(post)
     db.session.commit()
+    post_datetime = post.datetime_from
+    time = [post_datetime.year, post_datetime.month, post_datetime.day]
+    add_reminder(id, time, current_app._get_current_object())
     return render_template('post_approved.html')
 
 @event.route('/<int:id>/rejected', methods=['GET', 'POST'])
@@ -100,3 +105,9 @@ def post_edit(id):
         db.session.commit()
         return redirect(url_for('event.post', id=id))
     return render_template('editor.html', old_post=old_post, old_time_from=strtime_from, old_time_to=strtime_to) 
+
+
+# get current post attributes, used in email.py
+def get_post(id):
+    post = Post.query.get_or_404(id)
+    return post
