@@ -6,6 +6,7 @@ from ..email import send_email
 from . import event
 from ..decorators import admin_required
 from datetime import datetime
+from ..image_saver import saver, deleter
 
 time_format = '%Y-%m-%d-%H:%M'
 
@@ -93,6 +94,14 @@ def post_edit(id):
         if not request.form['title'] or not request.form['content']:
             flash('Write Something!')
             return redirect(url_for('event.post_edit', id=id))
+
+        if request.files['cover']:
+            if old_post.cover != 'default.jpg':
+                deleter('post_cover_pic', old_post.cover)
+            cover = request.files['cover']
+            cover_filename = saver('post_cover_pic', cover)
+            old_post.cover = cover_filename
+
         old_post.title = request.form['title']
         old_post.post_html = request.form['content']
         old_post.last_modified = datetime.utcnow()
@@ -100,4 +109,4 @@ def post_edit(id):
         db.session.add(old_post)
         db.session.commit()
         return redirect(url_for('event.post', id=id))
-    return render_template('editor.html', old_post=old_post, old_time_from=strtime_from, old_time_to=strtime_to) 
+    return render_template('editor.html', old_post=old_post, old_time_from=strtime_from, old_time_to=strtime_to)

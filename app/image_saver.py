@@ -8,7 +8,7 @@ root_path = {
     'user_profile_pic': 'static/profile_pic',
     'group_background': 'static/group_background_pic',
     'group_logo': 'static/group_logo',
-    'event_cover_pic': 'static/event_cover_pic'
+    'post_cover_pic': 'static/post_cover_pic'
 }
 
 def saver(type, form_picture, user=None):
@@ -52,7 +52,6 @@ def saver(type, form_picture, user=None):
             bottom = height - crop_len
 
             i = i.crop([left, top, right, bottom])
-            height = new_height
 
         if width > 2000: # if the image has too many pixels
             i.thumbnail([2000, 2000])
@@ -60,8 +59,33 @@ def saver(type, form_picture, user=None):
         picture_path = os.path.join(current_app.root_path, root_path[type], picture_file_name)
         i.save(picture_path)
 
-    if type == 'event_cover_pic':
-        pass
+    if type == 'post_cover_pic':
+        width, height = i.size
+
+        if height > (9/16) * width:
+            new_height = int( (9/16) * width) 
+            crop_len = (height - new_height) / 2
+            left = 0
+            right = width
+            top = crop_len
+            bottom = height - crop_len
+            i = i.crop([left, top, right, bottom])
+
+        if width >= (16/9) * height:
+            new_width = int( (16/9) * height)
+            crop_len = (width - new_width) / 2
+            left = crop_len
+            right = width - crop_len
+            top = 0
+            bottom = height
+            i = i.crop([left, top, right, bottom])
+            width = new_width
+
+        if width > 500:
+            i.thumbnail([500, 500])
+
+        picture_path = os.path.join(current_app.root_path, root_path[type], picture_file_name)
+        i.save(picture_path)
 
     return picture_file_name
 

@@ -56,6 +56,21 @@ def m_search():
     posts = pagination.items
     return render_template('search.html', pagination=pagination, posts=posts, keyword=keyword)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @main.route('/editor', methods=['GET', 'POST'])
 @login_required
 @owner_required
@@ -65,6 +80,13 @@ def post_editor():
         if not request.form['content'] or not request.form['title'] or not request.form['datetime_from'] or not request.form['datetime_to']:
             flash('Please fill in all forms!')
             return redirect(url_for('.post_editor'))
+        print("IN POST")
+
+        if request.files['cover']:
+            cover = request.files['cover']
+            cover_filename = saver('post_cover_pic', cover)
+        else:
+            cover_filename = "default.jpg"
 
         post = Post(author=current_user.my_group,
                     title=request.form['title'],
@@ -72,7 +94,8 @@ def post_editor():
                     tag=request.form['tag'],
                     datetime_from = datetime.strptime(request.form['datetime_from'], time_format),
                     datetime_to = datetime.strptime(request.form['datetime_to'], time_format),
-                    post_html=request.form['content'].replace('\r\n', '')
+                    post_html=request.form['content'].replace('\r\n', ''),
+                    cover=cover_filename
         )
         db.session.add(post)
         db.session.commit()
@@ -85,6 +108,21 @@ def post_editor():
         return redirect(url_for('event.post', id=post.id))
     _post = Post(title='', location='', post_html='')
     return render_template('editor.html', old_post=_post, old_time_from='', old_time_to='')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -12,6 +12,8 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     FLASKY_MAIL_SENDER = 'islandr-csc@outlook.com'
 
+    # MAX_CONTENT_LENGTH = 4 * 1024 * 1024
+
     MSEARCH_INDEX_NAME = 'msearch'
     # simple,whoosh,elaticsearch, default is simple
     MSEARCH_BACKEND = 'whoosh'

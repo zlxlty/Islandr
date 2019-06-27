@@ -122,6 +122,7 @@ class Post(db.Model):
     reject_msg = db.Column(db.Text)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
     is_approved = db.Column(db.Integer, default=0)
+    cover = db.Column(db.String(64), default='default.jpg')
 
     def duration(self):
         return self.datetime_to - self.datetime_from
