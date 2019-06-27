@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Islandr - Group Rejected{% endblock %}
+
+{% block page_content %}
+
+<div class="text-center">
+    <img class="catagory-pic mt-6 mb-3" src="{{ url_for('static', filename='icon/rejected.png') }}" alt="art">
+    <h2 class="my-4">This Group Has Been Rejected</h2>
+    <form method="POST" action="">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Comment</span>
+            </div>
+            <input type="text" name="comment" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        </div>
+        <button type="submit" class="btn btn-outline-secondary">Return</button>
+    </form>
+    <!-- <a href="{{ url_for('main.approve') }}"><button class="btn btn-outline-secondary">Return</button></a> -->
+</div>
+
+
+{% endblock %}

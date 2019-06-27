@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Islandr - {{ user.username }}{% endblock %}
+
+{% block page_content %}
+<hr>
+
+<div class="content-section px-3 py-3" style="background-color:rgba(226, 226, 226, 0.315);">
+        <div class="media">
+            <img class="rounded-circle account-img ml-4 mr-5" src="{{ profile_pic }}" height="100px" width="100px"/>
+
+            <div class="media-body">
+                <h1 class="account-heading">{{ user.username }}</h1>
+                <br />
+                <h6><b>Email address:</b>  {{ user.email }}</h6>
+                <hr/>
+                <h6><b>Name:</b>  {{ user.name }}</h6>
+                <hr/>                
+                <h6><b>Hometown:</b>  {{ user.location }}</h6>
+                <hr/>
+                <h6><b>About Me:</b>  {{ user.about_me }}</h6>
+                <hr/>
+                {% if user.my_group %}
+                <a style="color:black;" href="{{ url_for('group.group_profile', id=user.group_id) }}">
+                    <h6><b>My Group:</b>  {{ user.my_group.groupname }}</h6>
+                </a>
+                {% endif %}
+                {% if current_user.id == user.id %}
+                <div class="content-section mt-3">
+                    <a href="{{ url_for('main.account_edit', user_id=user.id) }}">
+                        <button class="btn btn-outline-secondary">Edit Account Info</button>
+                    </a>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+</div>
+<hr>
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-outline-secondary">
+        <a style="color: gray;" href="{{url_for('main.account', user_id=user.id, ctype='event')}}">
+            Following
+        </a>
+    </button>
+    <button type="button" class="btn btn-outline-secondary">
+        <a style="color: gray;" href="{{url_for('main.account', user_id=user.id, ctype='group')}}">
+            Joined
+        </a>
+    </button>
+</div>
+{% if type == 'event' %}
+    {{ macros.post_generator(items) }}
+    <div class="pagination justify-content-center">
+        {{ macros.pagination_widget(pagination, 'main.account', user_id=user.id, ctype='event') }}
+    </div>
+{% elif type == 'group' %}
+    {{ macros.group_generator(items) }}
+    <div class="pagination justify-content-center">
+        {{ macros.pagination_widget(pagination, 'main.account', user_id=user.id, ctype='group') }}
+    </div>
+{% endif %}
+{% endblock %}

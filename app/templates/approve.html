@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Islandr - Approve{% endblock %}
+
+{% block page_content %}
+<div class="mt-6">
+    <h1>Pending Post</h1>
+    <hr/>
+</div>
+{{ macros.post_generator(posts) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'main.approve') }}
+</div>
+{% endblock %}

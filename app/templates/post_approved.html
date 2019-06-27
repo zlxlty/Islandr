@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Islandr - Post Approved{% endblock %}
+
+{% block page_content %}
+
+<div class="text-center">
+    <img class="catagory-pic mt-6 mb-3" src="{{ url_for('static', filename='icon/approved.png') }}" alt="art">
+    <h2 class="my-4">This Event Has Been Approved</h2>
+    <a href="{{ url_for('main.approve') }}"><button class="btn btn-outline-secondary">Return</button></a>
+</div>
+
+{% endblock %}

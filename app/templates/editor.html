@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Islandr - Editor{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='tinymce/js/tinymce/tinymce.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tinymce_setup.js') }}"></script>
+<script>
+function insert_contents(inst){
+    inst.setContent('{{ old_post.post_html|safe }}')}
+</script>
+<script type="text/javascript">
+    $(".form_datetime").datetimepicker({
+        format: "yyyy-mm-dd-hh:ii"
+    });
+</script>
+{% endblock %}
+
+
+
+{% block page_content %}
+<form method="POST" action="">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+        </div>
+        <input maxlength="50" type="text" class="form-control" name="title" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ old_post.title|safe }}">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Location</span>
+        </div>
+        <input maxlength="64" type="text" class="form-control" name="location" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ old_post.location|safe }}">
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-4 mb-3">
+            <label for="tag">Tag</label>
+            <select class="form-control" name="tag" id="tag">
+                <option>Arts</option>
+                <option>Culture</option>
+                <option>Environment</option>
+                <option>Music</option>
+                <option>Academic</option>
+                <option>Sports</option>
+            </select>
+        </div>
+
+        <div class="input-append date form_datetime col-md-4 mb-3">
+            <label for="datetime_from">From</label>
+            <input class="form-control" name="datetime_from" type="text" id="datetime_from" value="{{ old_time_from|safe }}">
+            <span class="add-on"><i class="icon-th"></i></span>
+        </div>
+
+        <div class="input-append date form_datetime col-md-4 mb-3">
+            <label for="datetime_to">To</label>
+            <input class="form-control" name="datetime_to" type="text" id="datetime_to" value="{{ old_time_to|safe }}">
+            <span class="add-on"><i class="icon-th"></i></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <b><label for="datetime_to">Upload Cover Picture   -   </label></b>
+        <input type="file" id="avatar" name="cover_pic" accept="image/png, image/jpeg, image/jpg">
+        <span class="add-on"><i class="icon-th"></i></span>
+    </div>
+
+    <!-- rich text editor -->
+    <input class="editor" name="content" id="content">
+
+    <div class="mt-3">
+        <a href="https://screenshot.net/free-image-uploader.html" target="_blank">Upload Local Image</a>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-outline-dark mt-3" data-toggle="modal" data-target="#confirmModal">
+        Submit
+    </button>
+
+          <!-- Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Each person can only submit and edit <b>ONCE</b> every day. Are you sure?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit"class="btn btn-primary">Submit</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

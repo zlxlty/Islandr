@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Islandr - Post{% endblock %}
+
+{% block page_content %}
+{% if current_user.group_id == post.author.id %}
+    {% if post.is_approved == 0 %}
+    <div class="alert alert-warning text-center" role="alert">
+        Pending
+    </div>
+    {% elif post.is_approved == 1 %}
+    <div class="alert alert-success text-center" role="alert">
+        Approved
+    </div>
+    {% elif post.is_approved == -1 %}
+    <div class="alert alert-danger text-center" role="alert">
+        Rejected
+    </div>
+    <h5 style="color:red;">{{ post.reject_msg }}</h5>
+    {% endif %}
+{% endif %}
+<div class="mt-4"></div>
+<h1 class="col-sm-7">{{ post.title }}</h1>
+<hr/>
+<div class="px-3 py-3" style="background-color:rgba(245, 245, 245, 0.637);">
+    <a style="color: black;" href="{{url_for('group.group_profile', id=post.author.id)}}">
+        <h6><img class="mr-2" src="{{ url_for('static', filename='icon/user.png') }}" alt="" height="18px" width="18px"><b>Organizer</b>: {{ post.author.groupname }}</h6>
+    </a>
+    <hr>
+    <h6><img class="mr-2" src="{{ url_for('static', filename='icon/location.png') }}" alt="" height="18px" width="18px"><b>Location:</b> {{ post.location }}</h6>
+    <hr>
+    <h6><img class="mr-2" src="{{ url_for('static', filename='icon/time.png') }}" alt="" height="18px" width="18px"><b>From:</b> {{ moment(post.datetime_from).format('MMMM Do YYYY') }}</h6>
+    <hr>
+    <h6><img class="mr-2" src="{{ url_for('static', filename='icon/time.png') }}" alt="" height="18px" width="18px"><b>To:</b> {{ moment(post.datetime_to).format('MMMM Do YYYY') }}</h6>
+    <hr>
+    <h6><img class="mr-2" src="{{ url_for('static', filename='icon/target.png') }}" alt="" height="18px" width="18px"><b>Tag:</b> {{ post.tag }}</h6>
+
+</div>
+<hr/>
+<div class="container">
+    {{ body_html }}
+</div>
+<hr/>
+<div class="float-right">
+    <a href="{{url_for('event.post_followers', id=post.id)}}">
+        {{ macros.profile_pic_generator(post.followers.all(), amount=3) }}
+    </a>
+</div>
+{% if current_user.is_following(post) %}
+    <a href="{{ url_for('event.post_unfollow', id=post.id) }}"><button type="button" class="btn btn-info float-right">Unfollow</button></a>
+{% else %}
+    <a href="{{ url_for('event.post_follow', id=post.id) }}"><button type="button" class="btn btn-outline-info float-right">Follow</button></a>
+{% endif %}
+<div class="mt-3">
+    {% if current_user.group_id == post.author.id %}
+        <a href="{{ url_for('event.post_edit', id=id) }}"><button type="button" class="btn btn-outline-secondary">Edit</button></a>
+    {% endif %}
+</div>
+<div class="mt-3">
+    {% if current_user.is_admin %}
+        {% if post.is_approved == 0 %}
+            <a href="{{ url_for('event.post_approved', id=id) }}"><button type="button" class="btn btn-success">Approve</button></a>
+            <a href="{{ url_for('event.post_rejected', id=id) }}"><button type="button" class="btn btn-danger float-right">Reject</button></a>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

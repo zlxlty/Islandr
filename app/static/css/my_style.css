@@ -1,0 +1,117 @@
+.carousel-caption {
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: initial;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.footer {
+    background-color:#0d9183;
+}
+
+.logo-pic {
+    height: 45px;
+    width: 45px;
+    margin-right: 5px;
+}
+
+.catagory-pic{
+    height: 80px;
+    width: 80px;
+}
+
+.catagory-title{
+    color: #848484;
+}
+
+.pt-6,
+.py-6 {
+  padding-top: 8rem !important;
+}
+
+.pr-6,
+.px-6 {
+  padding-right: 8rem !important;
+}
+
+.pb-6,
+.py-6 {
+  padding-bottom: 8rem !important;
+}
+
+.pl-6,
+.px-6 {
+  padding-left: 8rem !important;
+}
+
+.mt-7 {
+  margin-top: 6rem !important;
+}
+
+.mt-6,
+.my-6 {
+  margin-top: 5rem !important;
+}
+
+.mr-6,
+.mx-6 {
+  margin-right: 5rem !important;
+}
+
+.mb-6,
+.my-6 {
+  margin-bottom: 5rem !important;
+}
+
+.ml-6,
+.mx-6 {
+  margin-left: 5rem !important;
+}
+
+html,body{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.page{
+  box-sizing: border-box;/*为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制*/
+  min-height: 100%;
+  padding-bottom: 10px;
+}
+
+footer{
+  margin-top: -10px;
+}
+
+#reject-circle {
+  width: 15px;
+  height: 15px;
+  background: rgba(255, 0, 0, 0.4);
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  text-align: right;
+}
+
+#pending-circle {
+  width: 15px;
+  height: 15px;
+  background: rgba(255, 255, 0, 0.4);
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  text-align: right;
+}
+
+#approved-circle {
+  width: 15px;
+  height: 15px;
+  background: rgb(0, 255, 0, 0.4);
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  text-align: right;
+}
