@@ -36,6 +36,11 @@ def index():
 def about_us():
     return render_template('about_us.html')
 
+@main.route('/message/<int:id>')
+def message(id):
+    return render_template('message.html')
+
+
 @main.route('/search', methods=['GET', 'POST'])
 def m_search():
     if request.method == 'POST':
@@ -101,6 +106,7 @@ def group_creater():
                       about_us=request.form['aboutus'])
 
         current_user.my_group = group
+        group.members.append(current_user)
         db.session.add(group)
         db.session.commit()
         return redirect(url_for('group.group_profile',id=group.id))

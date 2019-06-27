@@ -110,8 +110,8 @@
 {% macro user_generator(users) %}
 <div class="row mt-3">
     {% if users %}
-        {% for user in users %}
-            <div class="container mx-6">
+        <div class="container mx-6">
+            {% for user in users %}
                 <hr>
                     <div class="row">
                         <div class="col-sm-1 mx-3" align="center">
@@ -126,8 +126,9 @@
                             <p style="font-size: 80%;" class="text-muted mb-1">Groups:  {{ user.joined_groups.count() }}</p>
                         </div>
                     </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+            <hr>
+        </div>
     {% endif %}
 </div>
 {% endmacro %}

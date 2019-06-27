@@ -125,4 +125,5 @@ def group_members(id):
     page = request.args.get('page', 1, type=int)
     pagination = group.members.paginate(page, per_page=12, error_out=False)
     users = pagination.items
-    return render_template('group_members.html', group=group, pagination=pagination, users=users)
+    member_amount = group.members.count()
+    return render_template('group_members.html', group=group, pagination=pagination, users=users, member_amount=member_amount)

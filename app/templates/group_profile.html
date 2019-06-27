@@ -13,6 +13,7 @@
     <div class="alert alert-danger text-center" role="alert">
         Rejected
     </div>
+    <p style="color: red;">{{ group.reject_msg|safe }}</p>
     {% endif %}
 {% endif %}
 <hr class="mb-4">
@@ -38,11 +39,12 @@
                     <hr/>
                     <h6><b>About Us:</b>  {{ group.about_us }}</h6>
                     <hr/>
-
-                    {% if current_user.has_joined(group) %}
-                        <a href="{{ url_for('group.group_leave', id=group.id) }}"><button type="button" class="btn btn-info float-right">Leave</button></a>
-                    {% else %}
-                        <a href="{{ url_for('group.group_join', id=group.id) }}"><button type="button" class="btn btn-outline-info float-right">Join</button></a>
+                    {% if not current_user.id == group.owner[0].id %}
+                        {% if current_user.has_joined(group) %}
+                            <a href="{{ url_for('group.group_leave', id=group.id) }}"><button type="button" class="btn btn-info float-right">Leave</button></a>
+                        {% else %}
+                            <a href="{{ url_for('group.group_join', id=group.id) }}"><button type="button" class="btn btn-outline-info float-right">Join</button></a>
+                        {% endif %}
                     {% endif %}
 
                     {% if current_user.id == group.owner[0].id %}

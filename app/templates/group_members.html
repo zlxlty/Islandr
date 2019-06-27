@@ -5,7 +5,10 @@
 
 {% block page_content %}
 <div class="mt-6">
-    <h1>Members</h1>
+    <div class="row">
+        <h1 class="ml-3">Members</h1>
+        <h4 class="ml-2 mt-2"><span class="badge badge-info">{{ member_amount }}</span></h4>
+    </div>
     <hr/>
 </div>
 {{ macros.user_generator(users) }}

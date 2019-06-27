@@ -44,6 +44,7 @@ def groups():
                   tag=_get_key(current_app.config['TAGS'], randint(0, 5)),
                   about_us=fake.text())
         u.my_group = g
+        g.members.append(u)
         db.session.add(u)
         db.session.add(g)
     db.session.commit()
