@@ -43,8 +43,8 @@ def m_search():
         return redirect(url_for('main.m_search', keyword=keyword))
 
     keyword = request.args.get('keyword')
-    if not keyword:
-        return redirect(url_for('main.m_search', keyword='default'))
+    # if not keyword:
+    #     return redirect(url_for('main.m_search', keyword='default'))
 
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.msearch(keyword, fields=['title']).filter_by(is_approved=1).order_by(Post.last_modified.desc()).paginate(
@@ -155,17 +155,29 @@ def tag_events(tag):
 @main.route('/account/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 def account(user_id):
-    
-    page = request.args.get('page', 1, type=int)
+
+    ctype = request.args.get('ctype') or 'event'
     user = User.query.get_or_404(user_id)
-    pagination = user.followings.order_by(Post.datetime_from).paginate(
-        page, per_page=9,
-        error_out = False)
-    posts = pagination.items
+    page = request.args.get('page', 1, type=int)
+    
+    if ctype == 'event':
+        print('he')
+        pagination = user.followings.order_by(Post.datetime_from).paginate(
+            page, per_page=9,
+            error_out = False)
+    elif ctype == 'group':
+        print('gr')
+        pagination = user.joined_groups.paginate(
+            page, per_page=9,
+            error_out = False)
+    else:
+        abort(404)
+
+    items = pagination.items
 
     profile_pic = url_for('static', filename='profile_pic/' + user.profile_pic)
 
-    return render_template('account.html', user=user, profile_pic=profile_pic, user_id=user_id, posts=posts, pagination=pagination)
+    return render_template('account.html', type=ctype, user=user, profile_pic=profile_pic, user_id=user_id, items=items, pagination=pagination)
 
 
 @main.route('/account/<int:user_id>/edit', methods=['GET', 'POST'])

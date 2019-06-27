@@ -38,9 +38,27 @@
         </div>
 </div>
 <hr>
-<h5 class="text-muted mx-2 mb-1">Following</h5>
-{{ macros.post_generator(posts) }}
-<div class="pagination justify-content-center">
-    {{ macros.pagination_widget(pagination, 'main.account', user_id=user.id) }}
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-outline-secondary">
+        <a style="color: gray;" href="{{url_for('main.account', user_id=user.id, ctype='event')}}">
+            Following
+        </a>
+    </button>
+    <button type="button" class="btn btn-outline-secondary">
+        <a style="color: gray;" href="{{url_for('main.account', user_id=user.id, ctype='group')}}">
+            Joined
+        </a>
+    </button>
 </div>
+{% if type == 'event' %}
+    {{ macros.post_generator(items) }}
+    <div class="pagination justify-content-center">
+        {{ macros.pagination_widget(pagination, 'main.account', user_id=user.id, ctype='event') }}
+    </div>
+{% elif type == 'group' %}
+    {{ macros.group_generator(items) }}
+    <div class="pagination justify-content-center">
+        {{ macros.pagination_widget(pagination, 'main.account', user_id=user.id, ctype='group') }}
+    </div>
+{% endif %}
 {% endblock %}
