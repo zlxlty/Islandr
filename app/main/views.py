@@ -2,7 +2,7 @@ from flask import render_template, session, redirect, url_for, current_app, flas
 from threading import Thread
 from flask_login import login_required, current_user
 from .. import db
-from ..models import User, Post, Group
+from ..models import User, Post, Group, Join
 from ..email import send_email
 from . import main
 from .forms import EditorForm, UpdateAccountForm
@@ -106,8 +106,9 @@ def group_creater():
                       about_us=request.form['aboutus'])
 
         current_user.my_group = group
-        group.members.append(current_user)
+        join = Join(group=group, member=current_user, is_approved=1)
         db.session.add(group)
+        db.session.add(join)
         db.session.commit()
         return redirect(url_for('group.group_profile',id=group.id))
     _group = Group()
@@ -167,19 +168,24 @@ def account(user_id):
     page = request.args.get('page', 1, type=int)
     
     if ctype == 'event':
-        print('he')
         pagination = user.followings.order_by(Post.datetime_from).paginate(
             page, per_page=9,
             error_out = False)
+        items = pagination.items
+        
     elif ctype == 'group':
-        print('gr')
-        pagination = user.joined_groups.paginate(
+        pagination = user.groups.paginate(
             page, per_page=9,
             error_out = False)
+        items = []
+        joins = pagination.items
+        for join in joins:
+            item = Group.query.get_or_404(join.group_id)
+            items.append(item)
     else:
         abort(404)
 
-    items = pagination.items
+    
 
     profile_pic = url_for('static', filename='profile_pic/' + user.profile_pic)
 
