@@ -2,7 +2,7 @@ from flask import render_template, abort, url_for, request, redirect, flash, cur
 from flask_login import login_required, current_user
 from . import group
 from .. import db
-from ..models import Group, Post
+from ..models import Group, Post, User, Join
 from ..decorators import admin_required
 from ..image_saver import saver, deleter
 
@@ -10,12 +10,19 @@ from ..image_saver import saver, deleter
 @login_required
 def group_profile(id):
     group = Group.query.get_or_404(id)
+    if group.is_approved != 1 and current_user.id != group.owner[0].id and current_user.is_admin == False:
+        abort(403)
     page = request.args.get('page', 1, type=int)
     if not current_user.id == group.owner[0].id:
         group.posts = group.posts.filter_by(is_approved=1)
     pagination = group.posts.order_by(Post.last_modified.desc()).paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out = False)
+    users=[]
+    joins = group.members.filter_by(is_approved=1).all()
+    for join in joins:
+        user = User.query.get_or_404(join.user_id)
+        users.append(user)
     posts = pagination.items
     logo = url_for('static', filename="group_logo/"+group.logo)
     background = url_for('static', filename="group_background_pic/"+group.background)
@@ -89,7 +96,9 @@ def group_profile_edit(id):
 @login_required
 def group_join(id):
     group = Group.query.get_or_404(id)
-    group.members.append(current_user)
+    join = Join(group=group, member=current_user)
+    group.owner[0].has_msg = True
+    db.session.add(join)
     db.session.commit()
     return redirect(url_for('group.group_profile', id=id))
 
@@ -97,7 +106,8 @@ def group_join(id):
 @login_required
 def group_leave(id):
     group = Group.query.get_or_404(id)
-    group.members.remove(current_user)
+    join = Join.query.filter_by(group_id=group.id).first()
+    db.session.delete(join)
     db.session.commit()
     return redirect(url_for('group.group_profile', id=id))
 
@@ -158,7 +168,10 @@ def group_delete(id):
 def group_members(id):
     group = Group.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
-    pagination = group.members.paginate(page, per_page=12, error_out=False)
-    users = pagination.items
-    member_amount = group.members.count()
+    pagination = group.members.filter_by(is_approved=1).paginate(page, per_page=12, error_out=False)
+    users = []
+    for item in pagination.items:
+        user = User.query.get_or_404(item.user_id)
+        users.append(user)
+    member_amount = len(users)
     return render_template('group_members.html', group=group, pagination=pagination, users=users, member_amount=member_amount)

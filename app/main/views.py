@@ -2,7 +2,7 @@ from flask import render_template, session, redirect, url_for, current_app, flas
 from threading import Thread
 from flask_login import login_required, current_user
 from .. import db
-from ..models import User, Post, Group
+from ..models import User, Post, Group, Join
 from ..email import send_email
 from . import main
 from .forms import EditorForm, UpdateAccountForm
@@ -34,12 +34,21 @@ def index():
 def about_us():
     return render_template('about_us.html')
 
-@main.route('/message/<int:id>')
-def message(id):
-    return render_template('message.html')
+@main.route('/message')
+@login_required
+def message():
+    current_user.has_msg = False
+    pending_joins = current_user.my_group.members.filter_by(is_approved=0).all()
+    applicants = []
+    for join in pending_joins:
+        applicant = User.query.get(join.user_id)
+        applicants.append(applicant)
+    db.session.commit()
+    return render_template('message.html', applicants=applicants)
 
 
 @main.route('/search', methods=['GET', 'POST'])
+@login_required
 def m_search():
     if request.method == 'POST':
         keyword = str(request.form['search'])
@@ -75,6 +84,9 @@ def m_search():
 @login_required
 @owner_required
 def post_editor():
+
+    if not current_user.my_group:
+        abort(403)
 
     if request.method == 'POST':
         if not request.form['content'] or not request.form['title'] or not request.form['datetime_from'] or not request.form['datetime_to']:
@@ -162,8 +174,9 @@ def group_creater():
                       background=background_filename)
 
         current_user.my_group = group
-        group.members.append(current_user)
+        join = Join(group=group, member=current_user, is_approved=1)
         db.session.add(group)
+        db.session.add(join)
         db.session.commit()
         return redirect(url_for('group.group_profile',id=group.id))
     _group = Group()
@@ -228,19 +241,24 @@ def account(user_id):
     page = request.args.get('page', 1, type=int)
 
     if ctype == 'event':
-        print('he')
         pagination = user.followings.order_by(Post.datetime_from).paginate(
             page, per_page=9,
             error_out = False)
+        items = pagination.items
+        
     elif ctype == 'group':
-        print('gr')
-        pagination = user.joined_groups.paginate(
+        pagination = user.groups.paginate(
             page, per_page=9,
             error_out = False)
+        items = []
+        joins = pagination.items
+        for join in joins:
+            item = Group.query.get_or_404(join.group_id)
+            items.append(item)
     else:
         abort(404)
 
-    items = pagination.items
+    
 
     profile_pic = url_for('static', filename='profile_pic/' + user.profile_pic)
 

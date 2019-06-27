@@ -64,7 +64,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ url_for('main.account', user_id=current_user.id) }}">My Account</a>
-                    <a class="dropdown-item" href="{{ url_for('main.message', id=current_user.id) }}">Message</a>
+                    <a {% if current_user.has_msg %}style="color: #0065A1; text-decoration: underline;"{% endif %} class="dropdown-item" href="{{ url_for('main.message') }}">Message</a>
                 </div>
             </li>
             <li class="nav-item">

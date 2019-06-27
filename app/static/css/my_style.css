@@ -115,3 +115,13 @@ footer{
   border-radius: 50px;
   text-align: right;
 }
+
+#message-circle {
+  width: 8px;
+  height: 8px;
+  background: rgb(255, 0, 0, 0.7);
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  text-align: right;
+}
