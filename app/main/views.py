@@ -72,6 +72,9 @@ def m_search():
 @owner_required
 def post_editor():
 
+    if not current_user.my_group:
+        abort(403)
+
     if request.method == 'POST':
         if not request.form['content'] or not request.form['title'] or not request.form['datetime_from'] or not request.form['datetime_to']:
             flash('Please fill in all forms!')
