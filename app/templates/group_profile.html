@@ -41,7 +41,11 @@
                     <hr/>
                     {% if not current_user.id == group.owner[0].id %}
                         {% if current_user.has_joined(group) %}
-                            <a href="{{ url_for('group.group_leave', id=group.id) }}"><button type="button" class="btn btn-info float-right">Leave</button></a>
+                            {% if current_user.been_approved(group) %}
+                                <a href="{{ url_for('group.group_leave', id=group.id) }}"><button type="button" class="btn btn-info float-right">Leave</button></a>
+                            {% else %}
+                                <button type="button" class="btn btn-secondary float-right">Pending</button>
+                            {% endif %}
                         {% else %}
                             <a href="{{ url_for('group.group_join', id=group.id) }}"><button type="button" class="btn btn-outline-info float-right">Join</button></a>
                         {% endif %}

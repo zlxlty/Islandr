@@ -9,6 +9,8 @@ from ..decorators import admin_required
 @login_required
 def group_profile(id):
     group = Group.query.get_or_404(id)
+    if group.is_approved != 1:
+        abort(403)
     page = request.args.get('page', 1, type=int)
     if not current_user.id == group.owner[0].id:
         group.posts = group.posts.filter_by(is_approved=1)
@@ -16,7 +18,7 @@ def group_profile(id):
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out = False)
     users=[]
-    joins = group.members.all()
+    joins = group.members.filter_by(is_approved=1).all()
     for join in joins:
         user = User.query.get_or_404(join.user_id)
         users.append(user)
@@ -130,10 +132,10 @@ def group_delete(id):
 def group_members(id):
     group = Group.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
-    pagination = group.members.paginate(page, per_page=12, error_out=False)
+    pagination = group.members.filter_by(is_approved=1).paginate(page, per_page=12, error_out=False)
     users = []
     for item in pagination.items:
         user = User.query.get_or_404(item.user_id)
         users.append(user)
-    member_amount = group.members.count()
+    member_amount = len(users)
     return render_template('group_members.html', group=group, pagination=pagination, users=users, member_amount=member_amount)

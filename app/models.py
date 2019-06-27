@@ -50,6 +50,11 @@ class User(UserMixin, db.Model):
                                    secondary=registrations,
                                    backref=db.backref('followers', lazy='dynamic'),
                                    lazy='dynamic')
+    def been_approved(self, group):
+        if group.id == None:
+            return False
+        return self.groups.filter_by(group_id=group.id).first().is_approved == 1
+    
     def has_joined(self, group):
         if group.id == None:
             return False

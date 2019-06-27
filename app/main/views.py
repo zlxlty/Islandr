@@ -37,11 +37,13 @@ def about_us():
     return render_template('about_us.html')
 
 @main.route('/message/<int:id>')
+@login_required
 def message(id):
     return render_template('message.html')
 
 
 @main.route('/search', methods=['GET', 'POST'])
+@login_required
 def m_search():
     if request.method == 'POST':
         keyword = str(request.form['search'])
