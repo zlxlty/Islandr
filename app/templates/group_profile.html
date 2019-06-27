@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% import "_macros.html" as macros %}
 
-{% block title %}Islandr - Group Profile{% endblock %}
+{% block title %}Island Profile{% endblock %}
 
 {% block page_content %}
 {% if current_user.group_id == group.id or current_user.is_admin%}
@@ -20,10 +20,9 @@
 
 <div class="content-section mb-4" style="background-color:rgba(226, 226, 226, 0.315);">
     <div style="position:relative;">
-        <img class="img-fluid mb-3" src="{{ url_for('static', filename='pic/group_default.jpg') }}" alt="group_default">
+        <img class="img-fluid mb-3" src="{{ background }}">
         <div class="media px-4 py-4 ">
-                <img class="rounded-circle account-img ml-4 mr-5" src="{{ avatars.default() }}" height="100px" width="100px"/>
-                
+                <img class="rounded-circle account-img ml-4 mr-5" src="{{ logo }}" height="100px" width="100px"/>
                 <div class="media-body">
                     <h1 class="account-heading">{{ group.groupname }}</h1>
                     <br />
