@@ -9,7 +9,7 @@ from ..decorators import admin_required
 @login_required
 def group_profile(id):
     group = Group.query.get_or_404(id)
-    if group.is_approved != 1:
+    if group.is_approved != 1 and current_user.id != group.owner[0].id and current_user.is_admin == False:
         abort(403)
     page = request.args.get('page', 1, type=int)
     if not current_user.id == group.owner[0].id:
@@ -62,6 +62,7 @@ def group_profile_edit(id):
 def group_join(id):
     group = Group.query.get_or_404(id)
     join = Join(group=group, member=current_user)
+    group.owner[0].has_msg = True
     db.session.add(join)
     db.session.commit()
     return redirect(url_for('group.group_profile', id=id))

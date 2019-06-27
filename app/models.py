@@ -27,6 +27,8 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
+    #
+    has_msg = db.Column(db.Boolean, default=False)
 
     # 
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))

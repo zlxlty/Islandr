@@ -36,10 +36,17 @@ def index():
 def about_us():
     return render_template('about_us.html')
 
-@main.route('/message/<int:id>')
+@main.route('/message')
 @login_required
-def message(id):
-    return render_template('message.html')
+def message():
+    current_user.has_msg = False
+    pending_joins = current_user.my_group.members.filter_by(is_approved=0).all()
+    applicants = []
+    for join in pending_joins:
+        applicant = User.query.get(join.user_id)
+        applicants.append(applicant)
+    db.session.commit()
+    return render_template('message.html', applicants=applicants)
 
 
 @main.route('/search', methods=['GET', 'POST'])
