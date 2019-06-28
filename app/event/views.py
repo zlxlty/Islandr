@@ -104,6 +104,7 @@ def post_edit(id):
 
         old_post.title = request.form['title']
         old_post.post_html = request.form['content']
+        old_post.tag = request.form['tag']
         old_post.last_modified = datetime.utcnow()
         old_post.is_approved = 0
         db.session.add(old_post)
