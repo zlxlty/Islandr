@@ -38,13 +38,21 @@ def about_us():
 @login_required
 def message():
     current_user.has_msg = False
-    pending_joins = current_user.my_group.members.filter_by(is_approved=0).all()
+    db.session.commit()
+    return render_template('message.html')
+
+@main.route('/message/group')
+@login_required
+def group_message():
+    current_user.has_msg = False
+    pending_joins = current_user.my_group.members.filter_by(is_approved=0)
+    pending_joins_list = pending_joins.all()
     applicants = []
-    for join in pending_joins:
+    for join in pending_joins_list:
         applicant = User.query.get(join.user_id)
         applicants.append(applicant)
     db.session.commit()
-    return render_template('message.html', applicants=applicants)
+    return render_template('group_message.html', applicants=applicants, joins=pending_joins)
 
 
 @main.route('/search', methods=['GET', 'POST'])
@@ -64,21 +72,6 @@ def m_search():
         error_out = False)
     posts = pagination.items
     return render_template('search.html', pagination=pagination, posts=posts, keyword=keyword)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @main.route('/editor', methods=['GET', 'POST'])
 @login_required
@@ -120,24 +113,6 @@ def post_editor():
         return redirect(url_for('event.post', id=post.id))
     _post = Post(title='', location='', post_html='')
     return render_template('editor.html', old_post=_post, old_time_from='', old_time_to='')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # TODO: upload profile picture
 # TODO: upload background picture
@@ -181,11 +156,6 @@ def group_creater():
         return redirect(url_for('group.group_profile',id=group.id))
     _group = Group()
     return render_template('creater.html', old_group=_group)
-
-
-
-
-
 
 @main.route('/moments')
 @login_required
@@ -247,7 +217,7 @@ def account(user_id):
         items = pagination.items
         
     elif ctype == 'group':
-        pagination = user.groups.paginate(
+        pagination = user.groups.filter_by(is_approved=1).paginate(
             page, per_page=9,
             error_out = False)
         items = []

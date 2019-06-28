@@ -26,7 +26,7 @@ def group_profile(id):
     posts = pagination.items
     logo = url_for('static', filename="group_logo/"+group.logo)
     background = url_for('static', filename="group_background_pic/"+group.background)
-    return render_template('group_profile.html', group=group, posts=posts,logo=logo, background=background, pagination=pagination)
+    return render_template('group_profile.html', users=users, group=group, posts=posts,logo=logo, background=background, pagination=pagination)
 
 @group.route('/approve')
 @login_required
@@ -36,13 +36,6 @@ def group_approve():
     pagination = group.paginate(page, per_page=12, error_out=False)
     groups = pagination.items
     return render_template('group_approve.html', groups=groups, pagination=pagination)
-
-
-
-
-
-
-
 
 @group.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -80,17 +73,6 @@ def group_profile_edit(id):
 
         return redirect(url_for('.group_profile', id=old_group.id))
     return render_template('creater.html', old_group=old_group)
-
-
-
-
-
-
-
-
-
-
-
 
 @group.route('/<int:id>/join')
 @login_required
@@ -145,6 +127,31 @@ def group_rejected(id):
     db.session.commit()
     return render_template('group_rejected.html')
 
+@group.route('/application/<int:group_id>/<int:user_id>/approve')
+@login_required
+def application_approve(group_id, user_id):
+    join = Join.query.filter_by(group_id=group_id, user_id=user_id).first()
+    if not join:
+        abort(404)
+    if join.group.owner[0].id != current_user.id:
+        abort(403)
+    join.is_approved = 1
+    join.member.has_msg = True
+    db.session.commit()
+    return redirect(url_for('main.message'))
+
+@group.route('/application/<int:group_id>/<int:user_id>/reject')
+@login_required
+def application_reject(group_id, user_id):
+    join = Join.query.filter_by(group_id=group_id, user_id=user_id).first()    
+    if not join:
+        abort(404)
+    if join.group.owner[0].id != current_user.id:
+        abort(403)
+    join.member.has_msg = True
+    db.session.delete(join)
+    db.session.commit()
+    return redirect(url_for('main.message'))
 
 @group.route('/<int:id>/delete')
 @login_required
