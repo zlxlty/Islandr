@@ -4,6 +4,7 @@ from . import group
 from .. import db
 from ..models import Group, Post, User, Join
 from ..decorators import admin_required
+from ..image_saver import saver, deleter
 
 @group.route('/<int:id>')
 @login_required
@@ -23,7 +24,9 @@ def group_profile(id):
         user = User.query.get_or_404(join.user_id)
         users.append(user)
     posts = pagination.items
-    return render_template('group_profile.html', users=users, group=group, posts=posts, pagination=pagination)
+    logo = url_for('static', filename="group_logo/"+group.logo)
+    background = url_for('static', filename="group_background_pic/"+group.background)
+    return render_template('group_profile.html', group=group, posts=posts,logo=logo, background=background, pagination=pagination)
 
 @group.route('/approve')
 @login_required
@@ -33,6 +36,13 @@ def group_approve():
     pagination = group.paginate(page, per_page=12, error_out=False)
     groups = pagination.items
     return render_template('group_approve.html', groups=groups, pagination=pagination)
+
+
+
+
+
+
+
 
 @group.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -46,7 +56,21 @@ def group_profile_edit(id):
         if not request.form['groupname']:
             flash("Please fill in the name!")
             return redirect(url_for('.group_profile_edit'))
-    
+
+        if request.files['logo']:
+            logo = request.files['logo']
+            if old_group.logo != 'default.jpg':
+                deleter('group_logo', old_group.logo)
+            new_logo_filename = saver('group_logo', logo)
+            old_group.logo = new_logo_filename
+
+        if request.files['background']:
+            background = request.files['background']
+            if old_group.background != 'default.jpg':
+                deleter('group_background', old_group.background)
+            new_background_filename = saver('group_background', background)
+            old_group.background = new_background_filename
+
         old_group.groupname = request.form['groupname']
         old_group.tag = request.form['tag']
         old_group.about_us = request.form['aboutus']
@@ -56,6 +80,17 @@ def group_profile_edit(id):
 
         return redirect(url_for('.group_profile', id=old_group.id))
     return render_template('creater.html', old_group=old_group)
+
+
+
+
+
+
+
+
+
+
+
 
 @group.route('/<int:id>/join')
 @login_required

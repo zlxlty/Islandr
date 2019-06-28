@@ -9,10 +9,8 @@ from .forms import EditorForm, UpdateAccountForm
 from ..decorators import admin_required, owner_required
 from datetime import datetime
 from app import search
-import os
-from PIL import Image
-
 from ..job import add_job, sending_emails
+from ..image_saver import saver, deleter
 
 time_format = '%Y-%m-%d-%H:%M'
 
@@ -67,6 +65,21 @@ def m_search():
     posts = pagination.items
     return render_template('search.html', pagination=pagination, posts=posts, keyword=keyword)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @main.route('/editor', methods=['GET', 'POST'])
 @login_required
 @owner_required
@@ -79,6 +92,13 @@ def post_editor():
         if not request.form['content'] or not request.form['title'] or not request.form['datetime_from'] or not request.form['datetime_to']:
             flash('Please fill in all forms!')
             return redirect(url_for('.post_editor'))
+        print("IN POST")
+
+        if request.files['cover']:
+            cover = request.files['cover']
+            cover_filename = saver('post_cover_pic', cover)
+        else:
+            cover_filename = "default.jpg"
 
         post = Post(author=current_user.my_group,
                     title=request.form['title'],
@@ -86,11 +106,12 @@ def post_editor():
                     tag=request.form['tag'],
                     datetime_from = datetime.strptime(request.form['datetime_from'], time_format),
                     datetime_to = datetime.strptime(request.form['datetime_to'], time_format),
-                    post_html=request.form['content'].replace('\r\n', '')
+                    post_html=request.form['content'].replace('\r\n', ''),
+                    cover=cover_filename
         )
         db.session.add(post)
         db.session.commit()
-        
+
         #update search index
         app = current_app._get_current_object()
         thr = Thread(target=async_update_index, args=[app])
@@ -100,22 +121,57 @@ def post_editor():
     _post = Post(title='', location='', post_html='')
     return render_template('editor.html', old_post=_post, old_time_from='', old_time_to='')
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# TODO: upload profile picture
+# TODO: upload background picture
+
 @main.route('/creater', methods=['GET', 'POST'])
 @login_required
 def group_creater():
 
     if current_user.my_group:
         flash('You already have a group!')
-        return redirect(url_for('main.index')) 
+        return redirect(url_for('main.index'))
 
     if request.method == 'POST':
         if not request.form['groupname']:
             flash('Please fill in the name!')
             return redirect(url_for('.group_creater'))
 
+        if request.files['logo']:
+            logo = request.files['logo']
+            logo_filename = saver('group_logo', logo)
+        else:
+            logo_filename = "default.jpg"
+
+        if request.files['background']:
+            background = request.files['background']
+            background_filename = saver('group_background', background)
+        else:
+            background_filename = "default.jpg"
+
         group = Group(groupname=request.form['groupname'],
                       tag=request.form['tag'],
-                      about_us=request.form['aboutus'])
+                      about_us=request.form['aboutus'],
+                      logo=logo_filename,
+                      background=background_filename)
 
         current_user.my_group = group
         join = Join(group=group, member=current_user, is_approved=1)
@@ -125,6 +181,11 @@ def group_creater():
         return redirect(url_for('group.group_profile',id=group.id))
     _group = Group()
     return render_template('creater.html', old_group=_group)
+
+
+
+
+
 
 @main.route('/moments')
 @login_required
@@ -178,7 +239,7 @@ def account(user_id):
     ctype = request.args.get('ctype') or 'event'
     user = User.query.get_or_404(user_id)
     page = request.args.get('page', 1, type=int)
-    
+
     if ctype == 'event':
         pagination = user.followings.order_by(Post.datetime_from).paginate(
             page, per_page=9,
@@ -217,7 +278,9 @@ def account_edit(user_id):
     if form.validate_on_submit():
 
         if form.profile_pic.data:
-            file_name = save_profile_pic(form.profile_pic.data, user)
+            if user.profile_pic != 'default.jpg':
+                deleter('user_profile_pic', user.profile_pic)
+            file_name = saver('user_profile_pic', form.profile_pic.data, user)
             user.profile_pic = file_name
 
         user.name = form.name.data
@@ -235,33 +298,6 @@ def account_edit(user_id):
     form.about_me.data = user.about_me
 
     return render_template('edit_account.html', form=form)
-
-
-def save_profile_pic(form_picture, user):
-
-    random_hex = user.user_hex
-    _, file_extension = os.path.splitext(form_picture.filename)
-    picture_file_name = random_hex + file_extension
-
-    # crop to square and resize the picutre
-    i = Image.open(form_picture)
-
-    width, height = i.size
-    new_size = min(width, height)
-
-    left = (width - new_size)/2
-    top = (height - new_size)/2
-    right = (width + new_size)/2
-    bottom = (height + new_size)/2
-
-    i = i.crop((left, top, right, bottom))
-    i.thumbnail([100, 100])
-
-    # save it to static folder
-    picture_path = os.path.join(current_app.root_path, 'static/profile_pic', picture_file_name)
-    i.save(picture_path)
-
-    return picture_file_name
 
 
 #test purpose for scheduler and email, not part of actual code
