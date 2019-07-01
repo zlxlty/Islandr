@@ -26,9 +26,11 @@ def index():
         return redirect(url_for('main.m_search', keyword=keyword))
 
     posts = Post.query.filter_by(is_approved=1).order_by(Post.last_modified.desc()).all()
-    posts = posts[0:9]
+    posts = posts[0:6]
+    groups = Group.query.filter_by(is_approved=1).order_by(Group.create_date.desc()).all()
+    groups = groups[0:4]
 
-    return render_template('index.html', posts=posts)
+    return render_template('index.html', groups=groups, posts=posts)
 
 @main.route('/about_us')
 def about_us():
