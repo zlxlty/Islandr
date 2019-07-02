@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Islandr - Message{% endblock %}
+
+{% block page_content %}
+{% for applicant in applicants %}
+    <div class="container">
+        <h4>{{ applicant.username }} wants to join your group</h4>
+    </div>
+{% endfor %}
+{% endblock %}

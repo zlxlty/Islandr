@@ -7,6 +7,7 @@ from . import db
 from .models import User, Post
 
 import jinja2
+import datetime
 
 
 def send_async_email(app, msg):
@@ -32,9 +33,15 @@ def send_simple_email(app):
 
 #official email function for scheduler (modify needed)
 def bulletin_email(app,  **kwargs):
-        msg = Message(subject="Islander weekly Bulletin", sender=app.config['FLASKY_MAIL_SENDER'],recipients=[])
-        msg.body = render_template('mail/bulletin.txt', **kwargs)
-        msg.html = render_template('mail/bulletin.html', **kwargs)
+        next_week_posts = get_bulletin_post(app)
+        with app.app_context():
+                all_emails = []
+                for i in range(len(User.query.all())):
+                        email = User.query.all()[i].email
+                        all_emails.append(email)
+        msg = Message(subject="Islander weekly Bulletin", sender=app.config['FLASKY_MAIL_SENDER'],recipients=all_emails)
+        msg.body = render_template('mail/bulletin.txt', posts = next_week_posts)
+        msg.html = render_template('mail/bulletin.html', posts = next_week_posts)
         thr = Thread(target=send_async_email, args=[app, msg])
         thr.start()
         return thr
@@ -44,12 +51,18 @@ def reminder_email(app, post_id, **kwargs):
         from .event.views import get_post
         with app.app_context():
                 post = get_post(post_id)
-        msg = Message(subject="Islander envent reminder", sender=app.config['FLASKY_MAIL_SENDER'],recipients=['multyxu@gmail.com'])
+                users = post.followers.all()
+                follower_emails =[]
+                for i in range(len(users)):
+                        email = users[i].email
+                        follower_emails.append(email)
+        msg = Message(subject="Islander envent reminder", sender=app.config['FLASKY_MAIL_SENDER'],recipients=follower_emails)
         msg.body = render_without_request('mail/reminder.txt', post=post)
         msg.html = render_without_request('mail/reminder.html', post=post)
         thr = Thread(target=send_async_email, args=[app, msg])
         thr.start()
-        print(post.title, type(post))
+        print(post.title, type(post))#test
+        scheduler.remove_job(str(post_id))
         return thr
 
 #using jinjia2 html without app context in flask
@@ -64,3 +77,12 @@ def render_without_request(template_name, **context):
     )
     template = env.get_template(template_name)
     return template.render(**context)
+
+def get_bulletin_post(app):
+        now = datetime.datetime.today()
+        delta_monday = datetime.timedelta(hours=16)
+        delta_sunday = datetime.timedelta(days=7, hours=16)
+        next_monday = now + delta_monday
+        next_sunday = now + delta_sunday
+        with app.app_context():
+                return Post.query.filter(next_monday < Post.datetime_from, Post.datetime_from < next_sunday, Post.is_approved == '1').all()

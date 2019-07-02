@@ -55,7 +55,10 @@
                      </div>     
                 </a>
                 <div class="card-body">
-                    <h4>{{ post.title }}</h4>
+                    <div class="row ml-1">
+                        <h4>{{ post.title }}</h4>
+                        <img class="ml-2" src="{{ url_for('static', filename='icon/%s.png' % post.tag.lower()) }}" alt="tag" height="25px" width="25px">
+                    </div>
                     <div class="row no-gutters">
                         <div class="col-sm-3">
                             <a href="{{ url_for('group.group_profile', id=post.author.id) }}">
@@ -107,8 +110,8 @@
 {% macro user_generator(users) %}
 <div class="row mt-3">
     {% if users %}
-        {% for user in users %}
-            <div class="container mx-6">
+        <div class="container mx-6">
+            {% for user in users %}
                 <hr>
                     <div class="row">
                         <div class="col-sm-1 mx-3" align="center">
@@ -120,11 +123,12 @@
                             <h5 class="mb-2">{{ user.username|safe }}</h5>
                             <p style="font-size: 80%;" class="text-muted mb-1">Location:  {{ user.location }}</p>
                             <p style="font-size: 80%;" class="text-muted mb-1">Email:  {{ user.email }}</p>
-                            <p style="font-size: 80%;" class="text-muted mb-1">Groups:  {{ user.joined_groups.count() }}</p>
+                            <p style="font-size: 80%;" class="text-muted mb-1">Groups:  {{ user.groups.count() }}</p>
                         </div>
                     </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+            <hr>
+        </div>
     {% endif %}
 </div>
 {% endmacro %}

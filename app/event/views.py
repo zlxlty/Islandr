@@ -62,7 +62,8 @@ def post_followers(id):
     page = request.args.get('page', 1, type=int)
     pagination = post.followers.paginate(page, per_page=12, error_out=False)
     users = pagination.items
-    return render_template('followers.html', post=post, pagination=pagination, users=users)
+    user_amount = post.followers.count()
+    return render_template('followers.html', post=post, pagination=pagination, users=users, user_amount=user_amount)
 
 @event.route('/<int:id>/follow')
 @login_required

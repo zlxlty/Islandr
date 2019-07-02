@@ -2,7 +2,7 @@ from random import randint
 from sqlalchemy.exc import IntegrityError
 from faker import Faker
 from . import db
-from .models import User, Post, Group
+from .models import User, Post, Group, Join
 from flask import current_app
 from app import search
 
@@ -44,6 +44,8 @@ def groups():
                   tag=_get_key(current_app.config['TAGS'], randint(0, 5)),
                   about_us=fake.text())
         u.my_group = g
+        j = Join(group=g, member=u, is_approved=1)
+        db.session.add(j)
         db.session.add(u)
         db.session.add(g)
     db.session.commit()

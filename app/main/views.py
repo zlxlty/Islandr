@@ -2,7 +2,7 @@ from flask import render_template, session, redirect, url_for, current_app, flas
 from threading import Thread
 from flask_login import login_required, current_user
 from .. import db
-from ..models import User, Post, Group
+from ..models import User, Post, Group, Join
 from ..email import send_email
 from . import main
 from .forms import EditorForm, UpdateAccountForm
@@ -36,15 +36,29 @@ def index():
 def about_us():
     return render_template('about_us.html')
 
+@main.route('/message')
+@login_required
+def message():
+    current_user.has_msg = False
+    pending_joins = current_user.my_group.members.filter_by(is_approved=0).all()
+    applicants = []
+    for join in pending_joins:
+        applicant = User.query.get(join.user_id)
+        applicants.append(applicant)
+    db.session.commit()
+    return render_template('message.html', applicants=applicants)
+
+
 @main.route('/search', methods=['GET', 'POST'])
+@login_required
 def m_search():
     if request.method == 'POST':
         keyword = str(request.form['search'])
         return redirect(url_for('main.m_search', keyword=keyword))
 
     keyword = request.args.get('keyword')
-    if not keyword:
-        return redirect(url_for('main.m_search', keyword='default'))
+    # if not keyword:
+    #     return redirect(url_for('main.m_search', keyword='default'))
 
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.msearch(keyword, fields=['title']).filter_by(is_approved=1).order_by(Post.last_modified.desc()).paginate(
@@ -57,6 +71,9 @@ def m_search():
 @login_required
 @owner_required
 def post_editor():
+
+    if not current_user.my_group:
+        abort(403)
 
     if request.method == 'POST':
         if not request.form['content'] or not request.form['title'] or not request.form['datetime_from'] or not request.form['datetime_to']:
@@ -101,7 +118,9 @@ def group_creater():
                       about_us=request.form['aboutus'])
 
         current_user.my_group = group
+        join = Join(group=group, member=current_user, is_approved=1)
         db.session.add(group)
+        db.session.add(join)
         db.session.commit()
         return redirect(url_for('group.group_profile',id=group.id))
     _group = Group()
@@ -155,17 +174,34 @@ def tag_events(tag):
 @main.route('/account/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 def account(user_id):
-    
-    page = request.args.get('page', 1, type=int)
+
+    ctype = request.args.get('ctype') or 'event'
     user = User.query.get_or_404(user_id)
-    pagination = user.followings.order_by(Post.datetime_from).paginate(
-        page, per_page=9,
-        error_out = False)
-    posts = pagination.items
+    page = request.args.get('page', 1, type=int)
+    
+    if ctype == 'event':
+        pagination = user.followings.order_by(Post.datetime_from).paginate(
+            page, per_page=9,
+            error_out = False)
+        items = pagination.items
+        
+    elif ctype == 'group':
+        pagination = user.groups.paginate(
+            page, per_page=9,
+            error_out = False)
+        items = []
+        joins = pagination.items
+        for join in joins:
+            item = Group.query.get_or_404(join.group_id)
+            items.append(item)
+    else:
+        abort(404)
+
+    
 
     profile_pic = url_for('static', filename='profile_pic/' + user.profile_pic)
 
-    return render_template('account.html', user=user, profile_pic=profile_pic, user_id=user_id, posts=posts, pagination=pagination)
+    return render_template('account.html', type=ctype, user=user, profile_pic=profile_pic, user_id=user_id, items=items, pagination=pagination)
 
 
 @main.route('/account/<int:user_id>/edit', methods=['GET', 'POST'])
@@ -226,19 +262,3 @@ def save_profile_pic(form_picture, user):
     i.save(picture_path)
 
     return picture_file_name
-
-
-#test purpose for scheduler and email, not part of actual code
-@main.route('/addjob', methods=['GET', 'POST'])
-def add_new_job():
-    add_job()
-    return 'job added'
-
-@main.route('/send',)
-def email_sent():
-        try:
-            sending_emails()
-            return '发送成功，请注意查收'
-        except Exception as e:
-            print(e)
-            return '发送失败'
