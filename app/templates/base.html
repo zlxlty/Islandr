@@ -65,10 +65,9 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ url_for('main.account', user_id=current_user.id) }}">My Account</a>
                     <a class="dropdown-item" href="{{ url_for('main.message') }}">Message {% if current_user.has_msg %} <span class="ml-1 badge badge-pill badge-danger">!</span> {% endif %}</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log Out</a>
                 </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="{{ url_for('auth.logout') }}">Log Out</a>
             </li>
             {% else %}
             <li class="nav-item">

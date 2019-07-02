@@ -4,18 +4,25 @@
 {% block title %}Islandr - Message{% endblock %}
 
 {% block page_content %}
-<h1>Message</h1>
+<h2>Message</h2>
 <hr>
 <div class="row">
     <div class="col-sm-3">
-        <div class="d-flex justify-content-center btn-group-vertical border-right border-left">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
+            <a class="nav-link" id="v-pills-home-tab" href="#" aria-controls="v-pills-home">Notification</a>
+            <a class="nav-link" id="v-pills-profile-tab" href="#" aria-controls="v-pills-profile">Anouncement</a>
+            {% if current_user.my_group %}
+                <a class="nav-link active" id="v-pills-messages-tab" href="{{ url_for('main.group_message') }}" aria-controls="v-pills-messages" aria-selected="false">My Group</a>
+            {% endif %}
+        </div>
+        <!-- <div class="d-flex justify-content-center btn-group-vertical border-right border-left">
             <button class="btn btn-light">Notification<hr></button>
             
             <button class="btn btn-light">Announcement<hr></button>
             {% if current_user.my_group %}
                 <button class="btn btn-light"><a style="color: black;" href="{{ url_for('main.group_message') }}">My Group<hr></a></button>
             {% endif %}
-        </div>
+        </div> -->
     </div>
     {% block message_content %}
     {% endblock %}

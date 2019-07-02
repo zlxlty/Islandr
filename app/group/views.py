@@ -138,7 +138,7 @@ def application_approve(group_id, user_id):
     join.is_approved = 1
     join.member.has_msg = True
     db.session.commit()
-    return redirect(url_for('main.message'))
+    return redirect(url_for('main.group_message'))
 
 @group.route('/application/<int:group_id>/<int:user_id>/reject')
 @login_required
@@ -151,7 +151,7 @@ def application_reject(group_id, user_id):
     join.member.has_msg = True
     db.session.delete(join)
     db.session.commit()
-    return redirect(url_for('main.message'))
+    return redirect(url_for('main.group_message'))
 
 @group.route('/<int:id>/delete')
 @login_required
