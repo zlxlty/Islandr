@@ -40,9 +40,12 @@ def groups():
     user_count = User.query.count()
     for i in range(user_count):
         u = User.query.offset(i).first()
+        if u.my_group is not None:
+            continue
         g = Group(groupname=fake.name(),
                   tag=_get_key(current_app.config['TAGS'], randint(0, 5)),
-                  about_us=fake.text())
+                  about_us=fake.text(),
+                  is_approved=1)
         u.my_group = g
         j = Join(group=g, member=u, is_approved=1)
         db.session.add(j)
