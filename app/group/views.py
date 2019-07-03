@@ -4,6 +4,7 @@ from . import group
 from .. import db
 from ..models import Group, Post, User, Join
 from ..decorators import admin_required
+from ..image_saver import saver, deleter
 
 @group.route('/<int:id>')
 @login_required
@@ -23,7 +24,9 @@ def group_profile(id):
         user = User.query.get_or_404(join.user_id)
         users.append(user)
     posts = pagination.items
-    return render_template('group_profile.html', users=users, group=group, posts=posts, pagination=pagination)
+    logo = url_for('static', filename="group_logo/"+group.logo)
+    background = url_for('static', filename="group_background_pic/"+group.background)
+    return render_template('group_profile.html', users=users, group=group, posts=posts,logo=logo, background=background, pagination=pagination)
 
 @group.route('/approve')
 @login_required
@@ -46,7 +49,21 @@ def group_profile_edit(id):
         if not request.form['groupname']:
             flash("Please fill in the name!")
             return redirect(url_for('.group_profile_edit'))
-    
+
+        if request.files['logo']:
+            logo = request.files['logo']
+            if old_group.logo != 'default.jpg':
+                deleter('group_logo', old_group.logo)
+            new_logo_filename = saver('group_logo', logo)
+            old_group.logo = new_logo_filename
+
+        if request.files['background']:
+            background = request.files['background']
+            if old_group.background != 'default.jpg':
+                deleter('group_background', old_group.background)
+            new_background_filename = saver('group_background', background)
+            old_group.background = new_background_filename
+
         old_group.groupname = request.form['groupname']
         old_group.tag = request.form['tag']
         old_group.about_us = request.form['aboutus']
@@ -110,6 +127,31 @@ def group_rejected(id):
     db.session.commit()
     return render_template('group_rejected.html')
 
+@group.route('/application/<int:group_id>/<int:user_id>/approve')
+@login_required
+def application_approve(group_id, user_id):
+    join = Join.query.filter_by(group_id=group_id, user_id=user_id).first()
+    if not join:
+        abort(404)
+    if join.group.owner[0].id != current_user.id:
+        abort(403)
+    join.is_approved = 1
+    join.member.has_msg = True
+    db.session.commit()
+    return redirect(url_for('main.group_message'))
+
+@group.route('/application/<int:group_id>/<int:user_id>/reject')
+@login_required
+def application_reject(group_id, user_id):
+    join = Join.query.filter_by(group_id=group_id, user_id=user_id).first()    
+    if not join:
+        abort(404)
+    if join.group.owner[0].id != current_user.id:
+        abort(403)
+    join.member.has_msg = True
+    db.session.delete(join)
+    db.session.commit()
+    return redirect(url_for('main.group_message'))
 
 @group.route('/<int:id>/delete')
 @login_required

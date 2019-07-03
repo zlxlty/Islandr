@@ -9,10 +9,8 @@ from .forms import EditorForm, UpdateAccountForm
 from ..decorators import admin_required, owner_required
 from datetime import datetime
 from app import search
-import os
-from PIL import Image
-
 from ..job import add_job, sending_emails
+from ..image_saver import saver, deleter
 
 time_format = '%Y-%m-%d-%H:%M'
 
@@ -28,9 +26,11 @@ def index():
         return redirect(url_for('main.m_search', keyword=keyword))
 
     posts = Post.query.filter_by(is_approved=1).order_by(Post.last_modified.desc()).all()
-    posts = posts[0:9]
+    posts = posts[0:6]
+    groups = Group.query.filter_by(is_approved=1).order_by(Group.create_date.desc()).all()
+    groups = groups[0:4]
 
-    return render_template('index.html', posts=posts)
+    return render_template('index.html', groups=groups, posts=posts)
 
 @main.route('/about_us')
 def about_us():
@@ -40,13 +40,21 @@ def about_us():
 @login_required
 def message():
     current_user.has_msg = False
-    pending_joins = current_user.my_group.members.filter_by(is_approved=0).all()
+    db.session.commit()
+    return render_template('message.html')
+
+@main.route('/message/group')
+@login_required
+def group_message():
+    current_user.has_msg = False
+    pending_joins = current_user.my_group.members.filter_by(is_approved=0)
+    pending_joins_list = pending_joins.all()
     applicants = []
-    for join in pending_joins:
+    for join in pending_joins_list:
         applicant = User.query.get(join.user_id)
         applicants.append(applicant)
     db.session.commit()
-    return render_template('message.html', applicants=applicants)
+    return render_template('group_message.html', applicants=applicants, joins=pending_joins)
 
 
 @main.route('/search', methods=['GET', 'POST'])
@@ -79,6 +87,13 @@ def post_editor():
         if not request.form['content'] or not request.form['title'] or not request.form['datetime_from'] or not request.form['datetime_to']:
             flash('Please fill in all forms!')
             return redirect(url_for('.post_editor'))
+        print("IN POST")
+
+        if request.files['cover']:
+            cover = request.files['cover']
+            cover_filename = saver('post_cover_pic', cover)
+        else:
+            cover_filename = "default.jpg"
 
         post = Post(author=current_user.my_group,
                     title=request.form['title'],
@@ -86,11 +101,12 @@ def post_editor():
                     tag=request.form['tag'],
                     datetime_from = datetime.strptime(request.form['datetime_from'], time_format),
                     datetime_to = datetime.strptime(request.form['datetime_to'], time_format),
-                    post_html=request.form['content'].replace('\r\n', '')
+                    post_html=request.form['content'].replace('\r\n', ''),
+                    cover=cover_filename
         )
         db.session.add(post)
         db.session.commit()
-        
+
         #update search index
         app = current_app._get_current_object()
         thr = Thread(target=async_update_index, args=[app])
@@ -100,22 +116,39 @@ def post_editor():
     _post = Post(title='', location='', post_html='')
     return render_template('editor.html', old_post=_post, old_time_from='', old_time_to='')
 
+# TODO: upload profile picture
+# TODO: upload background picture
+
 @main.route('/creater', methods=['GET', 'POST'])
 @login_required
 def group_creater():
 
     if current_user.my_group:
         flash('You already have a group!')
-        return redirect(url_for('main.index')) 
+        return redirect(url_for('main.index'))
 
     if request.method == 'POST':
         if not request.form['groupname']:
             flash('Please fill in the name!')
             return redirect(url_for('.group_creater'))
 
+        if request.files['logo']:
+            logo = request.files['logo']
+            logo_filename = saver('group_logo', logo)
+        else:
+            logo_filename = "default.jpg"
+
+        if request.files['background']:
+            background = request.files['background']
+            background_filename = saver('group_background', background)
+        else:
+            background_filename = "default.jpg"
+
         group = Group(groupname=request.form['groupname'],
                       tag=request.form['tag'],
-                      about_us=request.form['aboutus'])
+                      about_us=request.form['aboutus'],
+                      logo=logo_filename,
+                      background=background_filename)
 
         current_user.my_group = group
         join = Join(group=group, member=current_user, is_approved=1)
@@ -178,7 +211,7 @@ def account(user_id):
     ctype = request.args.get('ctype') or 'event'
     user = User.query.get_or_404(user_id)
     page = request.args.get('page', 1, type=int)
-    
+
     if ctype == 'event':
         pagination = user.followings.order_by(Post.datetime_from).paginate(
             page, per_page=9,
@@ -186,7 +219,7 @@ def account(user_id):
         items = pagination.items
         
     elif ctype == 'group':
-        pagination = user.groups.paginate(
+        pagination = user.groups.filter_by(is_approved=1).paginate(
             page, per_page=9,
             error_out = False)
         items = []
@@ -217,7 +250,9 @@ def account_edit(user_id):
     if form.validate_on_submit():
 
         if form.profile_pic.data:
-            file_name = save_profile_pic(form.profile_pic.data, user)
+            if user.profile_pic != 'default.jpg':
+                deleter('user_profile_pic', user.profile_pic)
+            file_name = saver('user_profile_pic', form.profile_pic.data, user)
             user.profile_pic = file_name
 
         user.name = form.name.data

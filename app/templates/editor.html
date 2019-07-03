@@ -21,7 +21,7 @@ function insert_contents(inst){
 
 
 {% block page_content %}
-<form method="POST" action="">
+<form method="POST" action="" enctype="multipart/form-data">
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
@@ -63,9 +63,11 @@ function insert_contents(inst){
     </div>
 
     <div class="form-group">
-        <b><label for="datetime_to">Upload Cover Picture   -   </label></b>
-        <input type="file" id="avatar" name="cover_pic" accept="image/png, image/jpeg, image/jpg">
-        <span class="add-on"><i class="icon-th"></i></span>
+        <label>Cover Picture</label>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" name="cover" accept="image/jpeg, image/jpg, image/png"/>
+            <label class="custom-file-label" for="cover">Select image...</label>
+        </div>
     </div>
 
     <!-- rich text editor -->

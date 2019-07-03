@@ -2,7 +2,7 @@
 <nav aria-label="page navigation">
     <ul class="pagination pagination-lg mt-5">
         <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
-            <a href="{% if pagination.has_prev %}{{ url_for(endpoint, 
+            <a href="{% if pagination.has_prev %}{{ url_for(endpoint,
                 page = pagination.page - 1, **kwargs) }}{% else %}#{% endif %}">
                 <span class="page-link">&laquo;</span>
             </a>
@@ -24,7 +24,7 @@
             {% endif %}
         {% endfor %}
         <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
-            <a href="{% if pagination.has_next %}{{ url_for(endpoint, 
+            <a href="{% if pagination.has_next %}{{ url_for(endpoint,
                 page = pagination.page + 1, **kwargs) }}{% else %}#{% endif %}">
                 <span class="page-link">&raquo;</span>
             </a>
@@ -40,7 +40,7 @@
             <div class="card mb-5 box-shadow">
                 <a href="{{ url_for('event.post', id=post.id) }}">
                     <div style="position:relative;">
-                        <img class="card-img-top" src="{{ url_for('static', filename='pic/default.jpg') }}" alt="Card image cap">
+                        <img class="card-img-top" src="{{ url_for('static', filename='post_cover_pic/%s' % post.cover) }}" alt="Card image cap">
                         {% if show_dot %}
                         <div style="position:absolute; z-index:2; left:10px; top:10px">
                             {% if post.is_approved == -1 %}
@@ -52,7 +52,7 @@
                             {% endif %}
                         </div>
                         {% endif %}
-                     </div>     
+                     </div>
                 </a>
                 <div class="card-body">
                     <div class="row ml-1">
@@ -62,7 +62,7 @@
                     <div class="row no-gutters">
                         <div class="col-sm-3">
                             <a href="{{ url_for('group.group_profile', id=post.author.id) }}">
-                                <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % post.author.owner[0].profile_pic) }}" height=50 width=50/>
+                                <img class="rounded-circle" src="{{ url_for('static', filename='group_logo/%s' % post.author.logo) }}" height=50 width=50/>
                             </a>
                         </div>
                         <div class="col-sm">
@@ -87,8 +87,8 @@
                     <div class="card-body">
                         <div class="row no-gutters">
                             <div class="col-sm-2">
-                                <a href="{{ url_for('main.account', user_id=group.owner[0].id) }}">
-                                    <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % group.owner[0].profile_pic) }}" height=50 width=50/>
+                                <a href="{{ url_for('group.group_profile', id=group.id) }}">
+                                    <img class="rounded-circle" src="{{ url_for('static', filename='group_logo/%s' % group.logo) }}" height=50 width=50/>
                                 </a>
                             </div>
                             <div class="col-sm-10">
@@ -137,7 +137,37 @@
 <button type="button" class="btn btn-light">
     {% for i in range(amount) if users[i] %}
         <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % users[i].profile_pic) }}" alt="" height="23px" width="23px">
-    {% endfor %}        
+    {% endfor %}
     ···
 </button>
+{% endmacro %}
+
+{% macro applicant_generator(applicants, joins, user) %}
+    {% if applicants %}
+        {% for applicant in applicants %}
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <div class="col-sm-1">
+                                <a href="{{ url_for('main.account', user_id=applicant.id) }}">
+                                    <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % applicant.profile_pic) }}" height=50 width=50/>
+                                </a>
+                            </div>
+                            <div class="col-sm-11">
+                                <a href="{{url_for('group.application_reject',group_id=user.my_group.id, user_id=applicant.id)}}">
+                                    <button class="btn btn-danger float-right ml-2 mt-3">Reject</button>
+                                </a> 
+                                <a href="{{url_for('group.application_approve',group_id=user.my_group.id, user_id=applicant.id)}}">
+                                    <button class="btn btn-success float-right mt-3">Approve</button>
+                                </a>
+                                <a style="text-decoration: None; color: black;" href="{{ url_for('main.account', user_id=applicant.id) }}">
+                                    <h4>{{ applicant.username }}</h4>
+                                </a>
+                                <p style="color:gray">Applying for your group</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+    {% endif %}
 {% endmacro %}

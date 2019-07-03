@@ -6,6 +6,7 @@ from ..email import send_email
 from . import event
 from ..decorators import admin_required
 from datetime import datetime
+from ..image_saver import saver, deleter
 
 from ..job import add_reminder
 
@@ -98,8 +99,19 @@ def post_edit(id):
         if not request.form['title'] or not request.form['content']:
             flash('Write Something!')
             return redirect(url_for('event.post_edit', id=id))
+
+        if request.files['cover']:
+            if old_post.cover != 'default.jpg':
+                deleter('post_cover_pic', old_post.cover)
+            cover = request.files['cover']
+            cover_filename = saver('post_cover_pic', cover)
+            old_post.cover = cover_filename
+
         old_post.title = request.form['title']
         old_post.post_html = request.form['content']
+        old_post.tag = request.form['tag']
+        old_post.datetime_from = datetime.strptime(request.form['datetime_from'], time_format)
+        old_post.datetime_to = datetime.strptime(request.form['datetime_to'], time_format)
         old_post.last_modified = datetime.utcnow()
         old_post.is_approved = 0
         db.session.add(old_post)

@@ -3,14 +3,13 @@
 
 {% block title %}Islandr - Search{% endblock %}
 
-{% block searchbar %}
-<form method='POST' class="form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" name="search" placeholder="Search">
-    <button class="btn btn-outline-light my-sm-0 mr-4" type="submit">Search</button>
-</form>
-{% endblock %}
-
 {% block page_content %}
+<form method='POST' class="form-inline my-2 my-lg-0 mb-3">
+    <div class="justify-content-end">
+        <input class="form-control mr-sm-2" name="search" placeholder="Search">
+        <button class="btn btn-outline-dark my-sm-0 mr-4" type="submit">Search</button>
+    </div>
+</form>
 {{ macros.post_generator(posts) }}
 <div class="pagination justify-content-center">
     {{ macros.pagination_widget(pagination, 'main.m_search', keyword=keyword) }}

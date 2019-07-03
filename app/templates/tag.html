@@ -5,7 +5,7 @@
 
 {% block page_content %}
 <div class="mt-6">
-    <h1><img class="mr-3" src="{{ url_for('static', filename='icon/%s.png' % title) }}" alt="" height="50px" width="50px">{{ title|capitalize }}</h1>
+    <h2><img class="mr-3" src="{{ url_for('static', filename='icon/%s.png' % title) }}" alt="" height="50px" width="50px">{{ title|capitalize }}</h2>
     <hr/>
 </div>
 {{ macros.post_generator(posts) }}

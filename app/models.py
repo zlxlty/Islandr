@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
     #
     has_msg = db.Column(db.Boolean, default=False)
 
-    # 
+    #
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
     # user profile page info
@@ -56,12 +56,12 @@ class User(UserMixin, db.Model):
         if group.id == None:
             return False
         return self.groups.filter_by(group_id=group.id).first().is_approved == 1
-    
+
     def has_joined(self, group):
         if group.id == None:
             return False
         return self.groups.filter_by(group_id=group.id).first() is not None
-                                
+
     def is_following(self, post):
         if post.id == None:
             return False
@@ -119,12 +119,14 @@ class Group(db.Model):
     groupname = db.Column(db.String(64), index=True)
     tag = db.Column(db.String(20), index=True)
     about_us = db.Column(db.Text, default='Nothing here yet...')
+    logo = db.Column(db.String(64), default='default.jpg')
+    background = db.Column(db.String(64), default='default.jpg')
     is_approved = db.Column(db.Integer, default=0)
     reject_msg = db.Column(db.Text)
 
     def __repr__(self):
         return '<Group %r>' % self.groupname
-    
+
 
 class Post(db.Model):
     __tablename__ = 'posts'
@@ -141,6 +143,7 @@ class Post(db.Model):
     reject_msg = db.Column(db.Text)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
     is_approved = db.Column(db.Integer, default=0, index=True)
+    cover = db.Column(db.String(64), default='default.jpg')
 
     def duration(self):
         return self.datetime_to - self.datetime_from
