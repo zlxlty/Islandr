@@ -1,1 +1,7 @@
-this is the first test email 
+UWC weekly Bulletin
+What's next?
+{% for i in range(len(posts))%}
+    Event: {{posts[i].title}}
+    location: {{posts[i].location}}
+    Time: from {{posts[i].datetime_from}} to {{posts[i].datetime_to}}
+{% endfor %}

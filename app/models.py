@@ -136,13 +136,13 @@ class Post(db.Model):
     title = db.Column(db.String(64), index=True)
     location = db.Column(db.String(64), index=True)
     tag = db.Column(db.String(20), index=True)
-    datetime_from = db.Column(db.DateTime(), default=datetime.utcnow)
+    datetime_from = db.Column(db.DateTime(), default=datetime.utcnow, index=True)
     datetime_to = db.Column(db.DateTime(), default=datetime.utcnow)
     last_modified = db.Column(db.DateTime(), default=datetime.utcnow)
     post_html = db.Column(db.Text)
     reject_msg = db.Column(db.Text)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
-    is_approved = db.Column(db.Integer, default=0)
+    is_approved = db.Column(db.Integer, default=0, index=True)
     cover = db.Column(db.String(64), default='default.jpg')
 
     def duration(self):

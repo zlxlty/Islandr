@@ -272,18 +272,28 @@ def account_edit(user_id):
     return render_template('edit_account.html', form=form)
 
 
-#test purpose for scheduler and email, not part of actual code
-@main.route('/addjob', methods=['GET', 'POST'])
-def add_new_job():
-    add_job()
-    return 'job added'
+def save_profile_pic(form_picture, user):
 
-@main.route('/send',)
-def email_sent():
-        try:
-            sending_emails()
-            test_user()
-            return '发送成功，请注意查收'
-        except Exception as e:
-            print(e)
-            return '发送失败'
+    random_hex = user.user_hex
+    _, file_extension = os.path.splitext(form_picture.filename)
+    picture_file_name = random_hex + file_extension
+
+    # crop to square and resize the picutre
+    i = Image.open(form_picture)
+
+    width, height = i.size
+    new_size = min(width, height)
+
+    left = (width - new_size)/2
+    top = (height - new_size)/2
+    right = (width + new_size)/2
+    bottom = (height + new_size)/2
+
+    i = i.crop((left, top, right, bottom))
+    i.thumbnail([100, 100])
+
+    # save it to static folder
+    picture_path = os.path.join(current_app.root_path, 'static/profile_pic', picture_file_name)
+    i.save(picture_path)
+
+    return picture_file_name
