@@ -104,6 +104,7 @@ def post_editor():
                     post_html=request.form['content'].replace('\r\n', ''),
                     cover=cover_filename
         )
+        post.followers.append(current_user)
         db.session.add(post)
         db.session.commit()
 

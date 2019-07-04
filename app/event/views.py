@@ -56,7 +56,7 @@ def post_rejected(id):
     db.session.commit()
     return render_template('post_rejected.html')
 
-@event.route('<int:id>/followers')
+@event.route('/<int:id>/followers')
 @login_required
 def post_followers(id):
     post = Post.query.get_or_404(id)
