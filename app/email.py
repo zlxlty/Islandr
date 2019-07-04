@@ -40,8 +40,8 @@ def bulletin_email(app,  **kwargs):
                         email = User.query.all()[i].email
                         all_emails.append(email)
         msg = Message(subject="Islander weekly Bulletin", sender=app.config['FLASKY_MAIL_SENDER'],recipients=all_emails)
-        msg.body = render_template('mail/bulletin.txt', posts = next_week_posts)
-        msg.html = render_template('mail/bulletin.html', posts = next_week_posts)
+        msg.body = render_without_request('mail/bulletin.txt', posts = next_week_posts, length=range(len(next_week_posts)))
+        msg.html = render_without_request('mail/bulletin.html', posts = next_week_posts, length=range(len(next_week_posts)))
         thr = Thread(target=send_async_email, args=[app, msg])
         thr.start()
         return thr
@@ -85,4 +85,5 @@ def get_bulletin_post(app):
         next_monday = now + delta_monday
         next_sunday = now + delta_sunday
         with app.app_context():
-                return Post.query.filter(next_monday < Post.datetime_from, Post.datetime_from < next_sunday, Post.is_approved == '1').all()
+                posts = Post.query.filter(next_monday < Post.datetime_from, Post.datetime_from < next_sunday, Post.is_approved == '1').all()
+        return posts
