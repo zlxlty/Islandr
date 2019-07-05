@@ -95,7 +95,14 @@
                                 <a style="text-decoration: None; color: black;" href="{{ url_for('group.group_profile', id=group.id) }}">
                                     <h4>{{ group.groupname }}</h4>
                                 </a>
-                                <p>Tag: {{ group.tag }}</p>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <p>Members: {{ group.members.filter_by(is_approved=1).count() }}</p>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <p>Events: {{ group.posts.filter_by(is_approved=1).count() }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

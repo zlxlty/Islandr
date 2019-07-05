@@ -23,7 +23,9 @@ def index():
 
     posts = Post.query.filter_by(is_approved=1).order_by(Post.last_modified.desc()).all()
     posts = posts[0:6]
-    groups = Group.query.filter_by(is_approved=1).order_by(Group.create_date.desc()).all()
+
+    groups = Group.query.filter_by(is_approved=1).all()
+    groups.sort(key=Group.post_count, reverse=True)
     groups = groups[0:4]
 
     return render_template('index.html', groups=groups, posts=posts)

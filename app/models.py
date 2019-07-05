@@ -19,6 +19,9 @@ class Join(db.Model):
                          primary_key=True)
     is_approved = db.Column(db.Integer, default=0)
 
+    def __repr__(self):
+        return '<Join %r %r>' % (self.group_id, self.user_id)
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     __searchable__ = ['email', 'username']
@@ -127,6 +130,9 @@ class Group(db.Model):
     background = db.Column(db.String(64), default='default.jpg')
     is_approved = db.Column(db.Integer, default=0)
     reject_msg = db.Column(db.Text)
+
+    def post_count(self):
+        return self.posts.count()
 
     def __repr__(self):
         return '<Group %r>' % self.groupname
