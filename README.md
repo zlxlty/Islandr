@@ -6,16 +6,17 @@ Islandr
 ### Islandr is a website for UWCCSCer to organize, publicize and find interesting activities
 
 ## Content
-- [Islandr](#islandr)
-    - [Islandr is a website for UWCCSCer to organize, publicize and find interesting activities](#islandr-is-a-website-for-uwccscer-to-organize-publicize-and-find-interesting-activities)
-  - [Content](#content)
-  - [Getting_Started](#gettingstarted)
-    - [Prerequisites](#prerequisites)
-    - [Installing](#installing)
-  - [Unittesting](#unittesting)
-  - [Faking Users and Posts](#faking-users-and-posts)
-  - [Contributing](#contributing)
-    - [Pull Request Process](#pull-request-process)
+- [Islandr](#Islandr)
+    - [Islandr is a website for UWCCSCer to organize, publicize and find interesting activities](#Islandr-is-a-website-for-UWCCSCer-to-organize-publicize-and-find-interesting-activities)
+  - [Content](#Content)
+  - [Getting_Started](#GettingStarted)
+    - [Prerequisites](#Prerequisites)
+    - [Installing](#Installing)
+  - [Changelog](#Changelog)
+  - [Unittesting](#Unittesting)
+  - [Faking Users and Posts](#Faking-Users-and-Posts)
+  - [Contributing](#Contributing)
+    - [Pull Request Process](#Pull-Request-Process)
 
 ***
 ## Getting_Started
@@ -65,6 +66,28 @@ export FLASK_APP=flasky.py
 (venv)$ flask run
 ```
 8. Go to http://127.0.0.1:5000/ and see the app running
+
+***
+## Changelog
+2019.07.04
+
+**TODO**
+Sky: 
+* Notification system
+* Cover post system
+* Search system
+* Footer
+* Change password/email
+* Tag system
+
+Jiang:
+* Hover system
+
+Steven:
+* Moments
+
+Multy:
+* Email template
 
 ***
 ## Unittesting

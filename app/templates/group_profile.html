@@ -27,10 +27,12 @@
                     <h1 class="account-heading">{{ group.groupname }}</h1>
                     <br />
                     <a style="color:black;" href="{{ url_for('main.account', user_id=group.owner[0].id) }}">
-                        <h6><b>Owner:</b>  {{ group.owner[0].username }}</h6>
+                        <h6><b>Leader:</b>  {{ group.owner[0].username }}</h6>
                     </a>
                     <hr>
                     <h6><b>Tag:</b>  {{ group.tag }}</h6>
+                    <hr/>
+                    <h6><b>Events:</b>  {{ group.posts.filter_by(is_approved=1).count() }}</h6>
                     <hr/>
                     <a style="color:black;" href="{{ url_for('group.group_members', id=group.id) }}">
                         <h6><b>Members:</b>  {{ macros.profile_pic_generator(users=users, amount=3) }}</h6>
