@@ -73,21 +73,20 @@ export FLASK_APP=flasky.py
 
 **TODO**  
 Sky: 
-* Cover post system
-* Search system
+* Cover post system (working)
 * Notification system
-* Footer
+* Footer content
 * Change password/email
 * Tag system
 
 Jiang:
-* Hover system
+* Hover system (working)
 
 Steven:
-* Moments
+* Moments (working)
 
 Multy:
-* Email template
+* Email template (working)
 
 ***
 ## Unittesting
