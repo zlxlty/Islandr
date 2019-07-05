@@ -21,6 +21,8 @@ class Join(db.Model):
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
+    __searchable__ = ['email', 'username']
+
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
@@ -99,6 +101,8 @@ class User(UserMixin, db.Model):
 
 class Group(db.Model):
     __tablename__ = 'groups'
+    __searchable__ = ['groupname', 'tag']
+
     id = db.Column(db.Integer, primary_key=True)
 
     # relationship with Post
@@ -130,7 +134,7 @@ class Group(db.Model):
 
 class Post(db.Model):
     __tablename__ = 'posts'
-    __searchable__ = ['title']
+    __searchable__ = ['title', 'tag']
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), index=True)

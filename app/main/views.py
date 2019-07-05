@@ -9,15 +9,11 @@ from .forms import EditorForm, UpdateAccountForm
 from ..decorators import admin_required, owner_required
 from datetime import datetime
 from app import search
+from ..search_index import update_index
 from ..job import add_job, sending_emails
 from ..image_saver import saver, deleter
 
 time_format = '%Y-%m-%d-%H:%M'
-
-def async_update_index(app):
-    with app.app_context():
-        print('started')
-        search.update_index()
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -60,20 +56,32 @@ def group_message():
 @main.route('/search', methods=['GET', 'POST'])
 @login_required
 def m_search():
+
     if request.method == 'POST':
         keyword = str(request.form['search'])
-        return redirect(url_for('main.m_search', keyword=keyword))
+        option = str(request.form['option'])
+        return redirect(url_for('main.m_search', keyword=keyword, option=option))
 
-    keyword = request.args.get('keyword')
-    # if not keyword:
-    #     return redirect(url_for('main.m_search', keyword='default'))
+    keyword = request.args.get('keyword') or ' '
+    option = request.args.get('option') or 'event'
 
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.msearch(keyword, fields=['title']).filter_by(is_approved=1).order_by(Post.last_modified.desc()).paginate(
-        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
-        error_out = False)
-    posts = pagination.items
-    return render_template('search.html', pagination=pagination, posts=posts, keyword=keyword)
+
+    if option == 'group':
+        pagination = Group.query.msearch(keyword, fields=['groupname','tag']).filter_by(is_approved=1).order_by(Group.create_date.desc()).paginate(
+            page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+            error_out = False)
+    elif option == 'user':
+        pagination = User.query.msearch(keyword, fields=['username','email']).filter_by(confirmed=True).paginate(
+            page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+            error_out = False)
+    else:
+        pagination = Post.query.msearch(keyword, fields=['title','tag']).filter_by(is_approved=1).order_by(Post.last_modified.desc()).paginate(
+            page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+            error_out = False)
+
+    items = pagination.items
+    return render_template('search.html', pagination=pagination, items=items, keyword=keyword, option=option)
 
 @main.route('/editor', methods=['GET', 'POST'])
 @login_required
@@ -109,9 +117,7 @@ def post_editor():
         db.session.commit()
 
         #update search index
-        app = current_app._get_current_object()
-        thr = Thread(target=async_update_index, args=[app])
-        thr.start()
+        update_index(Post)
 
         return redirect(url_for('event.post', id=post.id))
     _post = Post(title='', location='', post_html='')
@@ -156,6 +162,7 @@ def group_creater():
         db.session.add(group)
         db.session.add(join)
         db.session.commit()
+        update_index(Group)
         return redirect(url_for('group.group_profile',id=group.id))
     _group = Group()
     return render_template('creater.html', old_group=_group)

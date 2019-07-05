@@ -3,6 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
 from .. import db
 from ..models import User
+from ..search_index import update_index
 from ..email import send_email
 from .forms import LoginForm, RegistrationForm
 
@@ -52,6 +53,7 @@ def confirm(token):
         return redirect(url_for('main.index'))
     if current_user.confirm(token):
         db.session.commit()
+        update_index(User)
         flash('You have confirmed your account. Thanks!')
     else:
         flash('The confirmation link is invalid or has expired.')

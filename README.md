@@ -71,11 +71,11 @@ export FLASK_APP=flasky.py
 ## Changelog
 2019.07.04
 
-**TODO**
+**TODO**  
 Sky: 
-* Notification system
 * Cover post system
 * Search system
+* Notification system
 * Footer
 * Change password/email
 * Tag system

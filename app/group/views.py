@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from . import group
 from .. import db
 from ..models import Group, Post, User, Join
+from ..search_index import update_index
 from ..decorators import admin_required
 from ..image_saver import saver, deleter
 
@@ -70,6 +71,7 @@ def group_profile_edit(id):
 
         db.session.add(old_group)
         db.session.commit()
+        update_index(Group)
 
         return redirect(url_for('.group_profile', id=old_group.id))
     return render_template('creater.html', old_group=old_group)
