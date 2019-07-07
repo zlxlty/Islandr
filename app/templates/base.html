@@ -95,11 +95,14 @@
         {% block page_content %}{% endblock %}
     </div>
 </div>
-<footer class="py-5 footer mt-5">
+<footer class="py-5 footer">
     <div class="container">
         <div class="text-center">
-            <p class="m-0 text-white">Copyright &copy; Islandr 2019</p>
-            <p class="m-0 text-white">Contact: islandr-csc@outlook.com</p>
+            <div class="row">
+                <p class="col-6 m-0 text-white">United World College Changshu China | Islandr Team 2019</p>
+                <a class="col-2" style="color:white;" href="{{url_for('main.about_us')}}">About Us</a>
+                <p class="col-4 m-0 text-white">Contact: islandr-csc@outlook.com</p>
+            </div>
         </div>
     </div>
     <!-- /.container -->
