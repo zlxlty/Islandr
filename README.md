@@ -76,7 +76,6 @@ Sky:
 * Cover post system (working)
 * Notification system
 * Footer content
-* Change password/email
 * Tag system
 
 Jiang:
