@@ -1,3 +1,11 @@
+'''
+@Description: View file for group blueprint
+@Author: Tianyi Lu
+@Date: 2019-07-05 14:59:30
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-07-07 17:53:25
+'''
+
 from flask import render_template, abort, url_for, request, redirect, flash, current_app
 from flask_login import login_required, current_user
 from . import group
