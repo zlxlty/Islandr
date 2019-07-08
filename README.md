@@ -12,7 +12,7 @@ Islandr
   - [Getting_Started](#GettingStarted)
     - [Prerequisites](#Prerequisites)
     - [Installing](#Installing)
-  - [Changelog](#Changelog)
+  - [Changlog](#Changlog)
   - [Unittesting](#Unittesting)
   - [Faking Users and Posts](#Faking-Users-and-Posts)
   - [Contributing](#Contributing)
@@ -68,8 +68,8 @@ export FLASK_APP=flasky.py
 8. Go to http://127.0.0.1:5000/ and see the app running
 
 ***
-## Changelog
-2019.07.04
+## Changlog
+2019.07.08
 
 **TODO**  
 Sky: 
