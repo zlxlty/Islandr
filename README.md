@@ -84,6 +84,7 @@ Steven:
 
 Multy:
 * Email template (working)
+* About Us page
 
 Marketing Team:
 * Tag system (working)
