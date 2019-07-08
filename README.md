@@ -75,8 +75,6 @@ export FLASK_APP=flasky.py
 Sky: 
 * Cover post system (working)
 * Notification system
-* Footer content
-* Tag system
 
 Jiang:
 * Hover system (working)
@@ -86,6 +84,10 @@ Steven:
 
 Multy:
 * Email template (working)
+
+Marketing Team:
+* Tag system (working)
+* Reward and evaluate system
 
 ***
 ## Unittesting
