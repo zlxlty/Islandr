@@ -29,6 +29,11 @@ def post_approved(id):
     elif post.is_approved == -1:
         return redirect(url_for('event.post_rejected', id=id))
     db.session.add(post)
+
+    #send post approve message to post author
+    post.author.owner[0].add_msg({'role': 'notification',
+                                  'name': 'Event Approved',
+                                  'content': 'Your event \"%s\" has been approved' % post.title})
     db.session.commit()
     post_datetime = post.datetime_from
     time = [post_datetime.year, post_datetime.month, post_datetime.day]
@@ -53,6 +58,9 @@ def post_rejected(id):
         return redirect(url_for('main.approve'))
 
     db.session.add(post)
+    post.author.owner[0].add_msg({'role': 'notification',
+                                  'name': 'Event Rejected',
+                                  'content': 'Sorry, your event \"%s\" has been rejected' % post.title})
     db.session.commit()
     return render_template('post_rejected.html')
 
@@ -71,6 +79,9 @@ def post_followers(id):
 def post_follow(id):
     post = Post.query.get_or_404(id)
     post.followers.append(current_user)
+    post.author.owner[0].add_msg({'role': 'notification',
+                                  'name': 'Follower',
+                                  'content': '\"%s\" starts to follow your event \"%s\"' % (current_user.username, post.title)})
     db.session.commit()
     return redirect(url_for('.post', id=id))
 

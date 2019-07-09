@@ -28,6 +28,17 @@ class Config:
             'Music': 3,
             'Academic': 4,
             'Sports': 5}
+
+    #message
+    MSG_TYPE = ('notification', 'announcement')
+    MSG_CONTENT = {
+        'welcome_msg': {
+            'role': 'announcement',
+            'name': 'Welcome!',
+            'content': 'Welcome to use CSC|Islandr platform'
+        },
+    }
+
     FLASKY_POSTS_PER_PAGE = 15
     FLASKY_MAIL_SUBJECT_PREFIX = '[ISLANDR]'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')

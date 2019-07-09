@@ -1,7 +1,7 @@
 import os
 from flask_migrate import Migrate
 from app import create_app, db
-from app.models import User, Post, Group, Join
+from app.models import User, Post, Group, Join, Message
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
@@ -9,7 +9,7 @@ migrate = Migrate(app, db)
 
 @app.shell_context_processor
 def make_shell_context():
-    return dict(db=db, User=User, Post=Post, Group=Group, Join=Join)
+    return dict(db=db, User=User, Post=Post, Group=Group, Join=Join, Message=Message)
 
 @app.cli.command()
 def test():

@@ -178,3 +178,17 @@
         {% endfor %}
     {% endif %}
 {% endmacro %}
+
+{% macro message_generator(msgs) %}
+    {% if msgs %}
+        {% for msg in msgs %}
+                <p style="color:gray;">{{ msg.get_time() }}</p>
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <h4>{{ msg.name }}</h4>
+                        <p style="color:gray">{{ msg.content }}</p>
+                    </div>
+                </div>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}

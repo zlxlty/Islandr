@@ -73,8 +73,8 @@ export FLASK_APP=flasky.py
 
 **TODO**  
 Sky: 
-* Cover post system (working)
-* Notification system
+* Cover post system 
+* Notification system (working)
 
 Jiang:
 * Hover system (working)

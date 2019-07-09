@@ -3,14 +3,14 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-07 17:53:30
+@LastEditTime: 2019-07-09 11:44:22
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
 from threading import Thread
 from flask_login import login_required, current_user
 from .. import db
-from ..models import User, Post, Group, Join
+from ..models import User, Post, Group, Join, Message
 from ..email import send_email
 from . import main
 from .forms import EditorForm, UpdateAccountForm
@@ -45,23 +45,35 @@ def about_us():
 @main.route('/message')
 @login_required
 def message():
-    current_user.has_msg = False
-    db.session.commit()
-    return render_template('message.html')
+    ctype = request.args.get('ctype') or 'notification'
+    
+    if ctype=='my_group' and not current_user.my_group:
+        abort(403)
 
-@main.route('/message/group')
-@login_required
-def group_message():
-    current_user.has_msg = False
-    pending_joins = current_user.my_group.members.filter_by(is_approved=0)
-    pending_joins_list = pending_joins.all()
+    if current_user.my_group:
+        pending_joins = current_user.my_group.members.filter_by(is_approved=0)
+    else:
+        pending_joins = []
+
+    current_user.clear_msg()
+
     applicants = []
-    for join in pending_joins_list:
-        applicant = User.query.get(join.user_id)
-        applicants.append(applicant)
-    db.session.commit()
-    return render_template('group_message.html', applicants=applicants, joins=pending_joins)
+    msgs = []
+    msg_model = current_user.msgs
 
+    # add different ctype with different msgs
+    if ctype == 'my_group':
+        if not current_user.my_group:
+            abort(403)
+        pending_joins_list = pending_joins.all()
+        for join in pending_joins_list:
+            applicant = User.query.get(join.user_id)
+            applicants.append(applicant)
+    elif ctype in current_app.config['MSG_TYPE']:
+        msgs = msg_model.filter_by(role=ctype).order_by(Message.timestamp.desc()).all()
+    else:
+        abort(404)    
+    return render_template('message.html', ctype=ctype, msgs=msgs, msg_model=msg_model, applicants=applicants, joins=pending_joins)
 
 @main.route('/search', methods=['GET', 'POST'])
 @login_required

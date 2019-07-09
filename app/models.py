@@ -32,10 +32,12 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
-    #
-    has_msg = db.Column(db.Boolean, default=False)
 
-    #
+    #Message
+    msgs = db.relationship('Message', backref='user',
+                                    lazy='dynamic')
+
+    #Group
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
     # user profile page info
@@ -117,6 +119,21 @@ class User(UserMixin, db.Model):
         db.session.add(user)
         return True
 
+    # Message
+    def add_msg(self, msg):
+        m = Message(user=self, role=msg['role'], name=msg['name'], content=msg['content'])
+        db.session.add(m)
+        db.session.commit()
+        return m
+
+    def count_msg(self):
+        return self.msgs.filter_by(is_read=False).count()
+
+    def clear_msg(self):
+        for msg in self.msgs.filter_by(is_read=False).all():
+            msg.is_read = True
+        db.session.commit()
+
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -140,7 +157,7 @@ class Group(db.Model):
                              cascade='all, delete-orphan')
 
     #basic info
-    create_date = db.Column(db.DateTime(), default=datetime.utcnow)
+    create_date = db.Column(db.DateTime(), default=datetime.now)
     groupname = db.Column(db.String(64), index=True)
     tag = db.Column(db.String(20), index=True)
     about_us = db.Column(db.Text, default='Nothing here yet...')
@@ -164,9 +181,9 @@ class Post(db.Model):
     title = db.Column(db.String(64), index=True)
     location = db.Column(db.String(64), index=True)
     tag = db.Column(db.String(20), index=True)
-    datetime_from = db.Column(db.DateTime(), default=datetime.utcnow, index=True)
-    datetime_to = db.Column(db.DateTime(), default=datetime.utcnow)
-    last_modified = db.Column(db.DateTime(), default=datetime.utcnow)
+    datetime_from = db.Column(db.DateTime(), default=datetime.now, index=True)
+    datetime_to = db.Column(db.DateTime(), default=datetime.now)
+    last_modified = db.Column(db.DateTime(), default=datetime.now)
     post_html = db.Column(db.Text)
     reject_msg = db.Column(db.Text)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
@@ -178,6 +195,24 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post %r>' % self.title
+
+class Message(db.Model):
+    __tablename__ = 'messages'
+
+    id = db.Column(db.Integer, primary_key=True)
+    role = db.Column(db.String(64), index=True)
+    name = db.Column(db.String(128), index=True)
+    content = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime(), default=datetime.now)
+    is_read = db.Column(db.Boolean, default=False)
+    #relationship
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def get_time(self):
+        return self.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+
+    def __repr__(self):
+        return '<Message %r>' % self.name
 
 @login_manager.user_loader
 def load_user(user_id):

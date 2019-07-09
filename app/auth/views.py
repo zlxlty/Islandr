@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, flash, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
 from .. import db
@@ -54,6 +54,7 @@ def confirm(token):
     if current_user.confirm(token):
         db.session.commit()
         update_index(User)
+        current_user.add_msg(current_app.config['MSG_CONTENT']['welcome_msg'])
         flash('You have confirmed your account. Thanks!')
     else:
         flash('The confirmation link is invalid or has expired.')
