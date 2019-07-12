@@ -24,11 +24,12 @@ class Join(db.Model):
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    __searchable__ = ['email', 'username']
+    __searchable__ = ['email', 'username', 'skills']
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
+    skills = db.Column(db.String(128), index=True, default='Enter your skill set (separate with \',\')')
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
@@ -59,6 +60,10 @@ class User(UserMixin, db.Model):
                                    secondary=registrations,
                                    backref=db.backref('followers', lazy='dynamic'),
                                    lazy='dynamic')
+    def get_skills(self):
+        return [x.strip() for x in self.skills.split(',')]
+
+
     def been_approved(self, group):
         if group.id == None:
             return False

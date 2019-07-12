@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-09 11:44:22
+@LastEditTime: 2019-07-12 15:17:53
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -94,7 +94,7 @@ def m_search():
             page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
             error_out = False)
     elif option == 'user':
-        pagination = User.query.msearch(keyword, fields=['username','email']).filter_by(confirmed=True).paginate(
+        pagination = User.query.msearch(keyword, fields=['username','email','skills']).filter_by(confirmed=True).paginate(
             page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
             error_out = False)
     else:
@@ -288,8 +288,10 @@ def account_edit(user_id):
         user.name = form.name.data
         user.username = form.username.data
         user.location = form.location.data
+        user.skills = form.skills.data
         user.about_me = form.about_me.data
 
+        update_index(User)
         db.session.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('main.account', user_id=user.id))
@@ -297,6 +299,7 @@ def account_edit(user_id):
     form.name.data = user.name
     form.username.data = user.username
     form.location.data = user.location
+    form.skills.data = user.skills
     form.about_me.data = user.about_me
 
     return render_template('edit_account.html', form=form)
