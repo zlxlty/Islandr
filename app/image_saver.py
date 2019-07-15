@@ -63,7 +63,7 @@ def saver(type, form_picture, user=None):
         width, height = i.size
 
         if height > (9/16) * width:
-            new_height = int( (9/16) * width) 
+            new_height = int( (9/16) * width)
             crop_len = (height - new_height) / 2
             left = 0
             right = width

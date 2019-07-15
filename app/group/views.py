@@ -143,7 +143,7 @@ def application_approve(group_id, user_id):
 @group.route('/application/<int:group_id>/<int:user_id>/reject')
 @login_required
 def application_reject(group_id, user_id):
-    join = Join.query.filter_by(group_id=group_id, user_id=user_id).first()    
+    join = Join.query.filter_by(group_id=group_id, user_id=user_id).first()
     if not join:
         abort(404)
     if join.group.owner[0].id != current_user.id:
