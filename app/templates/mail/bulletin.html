@@ -1,1 +1,14 @@
-this is the first <b>test</b> email 
+<h2>UWC weekly Bulletin</h2>
+<h3>What's next?</h2>
+{% if posts == None %}
+    <p>not event next week</p>
+{% else %}
+    {% for i in length %}
+        <div>
+            <p>Event:</p> {{posts[i].title}}
+            <p>location:</P> {{posts[i].location}}
+            <p>Time: from</p> {{posts[i].datetime_from}} <p>to</P> {{posts[i].datetime_to}}
+            </br>
+        </div>
+    {% endfor %}
+{% endif %}

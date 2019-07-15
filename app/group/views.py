@@ -1,8 +1,17 @@
+'''
+@Description: View file for group blueprint
+@Author: Tianyi Lu
+@Date: 2019-07-05 14:59:30
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-07-09 11:19:37
+'''
+
 from flask import render_template, abort, url_for, request, redirect, flash, current_app
 from flask_login import login_required, current_user
 from . import group
 from .. import db
 from ..models import Group, Post, User, Join
+from ..search_index import update_index
 from ..decorators import admin_required
 from ..image_saver import saver, deleter
 
@@ -70,6 +79,7 @@ def group_profile_edit(id):
 
         db.session.add(old_group)
         db.session.commit()
+        update_index(Group)
 
         return redirect(url_for('.group_profile', id=old_group.id))
     return render_template('creater.html', old_group=old_group)
@@ -79,7 +89,6 @@ def group_profile_edit(id):
 def group_join(id):
     group = Group.query.get_or_404(id)
     join = Join(group=group, member=current_user)
-    group.owner[0].has_msg = True
     db.session.add(join)
     db.session.commit()
     return redirect(url_for('group.group_profile', id=id))
@@ -103,6 +112,10 @@ def group_approved(id):
     elif group.is_approved == -1:
         return redirect(url_for('group.group_rejected', id=id))
     db.session.add(group)
+    # send group approved message to group owner
+    group.owner[0].add_msg({'role': 'notification',
+                            'name': 'Group Approved',
+                            'content': 'Your group \"%s\" has been approved' % group.groupname})
     db.session.commit()
     return render_template('group_approved.html')
 
@@ -124,6 +137,9 @@ def group_rejected(id):
         return redirect(url_for('group.group_approve'))
 
     db.session.add(group)
+    group.owner[0].add_msg({'role': 'notification',
+                            'name': 'Group Rejected',
+                            'content': 'Sorry, your group \"%s\" has been rejected.' % group.groupname})
     db.session.commit()
     return render_template('group_rejected.html')
 
@@ -136,9 +152,14 @@ def application_approve(group_id, user_id):
     if join.group.owner[0].id != current_user.id:
         abort(403)
     join.is_approved = 1
-    join.member.has_msg = True
+    #send approve message
+    applicant = User.query.get(join.user_id)
+    group = Group.query.get(join.group_id)
+    applicant.add_msg({'role': 'notification',
+                       'name': 'Application Approved',
+                       'content': 'Your have successfully joined \"%s\" Team!' % group.groupname})
     db.session.commit()
-    return redirect(url_for('main.message'))
+    return redirect(url_for('main.message', ctype='my_group'))
 
 @group.route('/application/<int:group_id>/<int:user_id>/reject')
 @login_required
@@ -148,10 +169,15 @@ def application_reject(group_id, user_id):
         abort(404)
     if join.group.owner[0].id != current_user.id:
         abort(403)
-    join.member.has_msg = True
     db.session.delete(join)
+    # send rejected message
+    applicant = User.query.get(join.user_id)
+    group = Group.query.get(join.group_id)
+    applicant.add_msg({'role': 'notification',
+                       'name': 'Application Rejected',
+                       'content': 'Sorry, Your have been rejected by \"%s\" Team!' % group.groupname})
     db.session.commit()
-    return redirect(url_for('main.message'))
+    return redirect(url_for('main.message', ctype='my_group'))
 
 @group.route('/<int:id>/delete')
 @login_required

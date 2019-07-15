@@ -12,4 +12,5 @@
     New user?
     <a class="text-secondary" href="{{ url_for('auth.register') }}">Click here to register</a>
 </p>
+<p>Forgot your password? <a class="text-secondary" href="{{ url_for('auth.password_reset_request') }}">Click here to reset it</a>.</p>
 {% endblock %}}

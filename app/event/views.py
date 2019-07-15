@@ -8,6 +8,8 @@ from ..decorators import admin_required
 from datetime import datetime
 from ..image_saver import saver, deleter
 
+from ..job import add_reminder
+
 time_format = '%Y-%m-%d-%H:%M'
 
 @event.route('/<int:id>')
@@ -27,7 +29,15 @@ def post_approved(id):
     elif post.is_approved == -1:
         return redirect(url_for('event.post_rejected', id=id))
     db.session.add(post)
+
+    #send post approve message to post author
+    post.author.owner[0].add_msg({'role': 'notification',
+                                  'name': 'Event Approved',
+                                  'content': 'Your event \"%s\" has been approved' % post.title})
     db.session.commit()
+    post_datetime = post.datetime_from
+    time = [post_datetime.year, post_datetime.month, post_datetime.day]
+    add_reminder(id, time, current_app._get_current_object())
     return render_template('post_approved.html')
 
 @event.route('/<int:id>/rejected', methods=['GET', 'POST'])
@@ -48,10 +58,13 @@ def post_rejected(id):
         return redirect(url_for('main.approve'))
 
     db.session.add(post)
+    post.author.owner[0].add_msg({'role': 'notification',
+                                  'name': 'Event Rejected',
+                                  'content': 'Sorry, your event \"%s\" has been rejected' % post.title})
     db.session.commit()
     return render_template('post_rejected.html')
 
-@event.route('<int:id>/followers')
+@event.route('/<int:id>/followers')
 @login_required
 def post_followers(id):
     post = Post.query.get_or_404(id)
@@ -66,6 +79,9 @@ def post_followers(id):
 def post_follow(id):
     post = Post.query.get_or_404(id)
     post.followers.append(current_user)
+    post.author.owner[0].add_msg({'role': 'notification',
+                                  'name': 'Follower',
+                                  'content': '\"%s\" starts to follow your event \"%s\"' % (current_user.username, post.title)})
     db.session.commit()
     return redirect(url_for('.post', id=id))
 
@@ -104,9 +120,18 @@ def post_edit(id):
 
         old_post.title = request.form['title']
         old_post.post_html = request.form['content']
+        old_post.tag = request.form['tag']
+        old_post.datetime_from = datetime.strptime(request.form['datetime_from'], time_format)
+        old_post.datetime_to = datetime.strptime(request.form['datetime_to'], time_format)
         old_post.last_modified = datetime.utcnow()
         old_post.is_approved = 0
         db.session.add(old_post)
         db.session.commit()
         return redirect(url_for('event.post', id=id))
-    return render_template('editor.html', old_post=old_post, old_time_from=strtime_from, old_time_to=strtime_to)
+    return render_template('editor.html', old_post=old_post, old_time_from=strtime_from, old_time_to=strtime_to) 
+
+
+# get current post attributes, used in email.py
+def get_post(id):
+    post = Post.query.get_or_404(id)
+    return post

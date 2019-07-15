@@ -4,20 +4,24 @@
 {% block title %}Islandr - Message{% endblock %}
 
 {% block page_content %}
-<h1>Message</h1>
+<h2>Message</h2>
 <hr>
 <div class="row">
     <div class="col-sm-3">
-        <div class="d-flex justify-content-center btn-group-vertical border-right border-left">
-            <button class="btn btn-light">Notification<hr></button>
-            
-            <button class="btn btn-light">Announcement<hr></button>
+        <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">    
+            <a class="nav-link {% if ctype=='notification' %}active{% endif %}" id="v-pills-home-tab" href="{{ url_for('main.message', ctype='notification') }}" aria-controls="v-pills-home">Notification<span class="ml-1 badge badge-pill badge-primary float-right">{{ msg_model.filter_by(role='notification').count() }}</span></a>
+            <a class="nav-link {% if ctype=='announcement' %}active{% endif %}" id="v-pills-profile-tab" href="{{ url_for('main.message', ctype='announcement') }}" aria-controls="v-pills-profile">Anouncement<span class="ml-1 badge badge-pill badge-primary float-right">{{ msg_model.filter_by(role='announcement').count() }}</span></a>
             {% if current_user.my_group %}
-                <button class="btn btn-light"><a style="color: black;" href="{{ url_for('main.group_message') }}">My Group<hr></a></button>
+                <a class="nav-link {% if ctype=='my_group' %}active{% endif %}" id="v-pills-messages-tab" href="{{ url_for('main.message', ctype='my_group') }}" aria-controls="v-pills-messages" aria-selected="false">My Group<span class="ml-1 badge badge-pill badge-primary float-right">{{ joins.count() }}</span></a>
             {% endif %}
         </div>
     </div>
-    {% block message_content %}
-    {% endblock %}
+    <div class="col-sm-9">
+    {% if ctype == 'my_group' %}
+        {{ macros.applicant_generator(applicants, joins, current_user) }}
+    {% elif ctype == 'notification' or ctype == 'announcement' %}
+        {{ macros.message_generator(msgs) }}
+    {% endif %}
+    </div>
 </div>
 {% endblock %}

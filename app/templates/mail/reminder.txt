@@ -1,0 +1,5 @@
+{{ post.title }}
+event location: {{ post.location }}
+tag: {{ post.tag }}
+datetime from: {{ post.datetime_from }}
+datetime to: {{ post.datetime_to }}

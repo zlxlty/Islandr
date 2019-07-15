@@ -19,6 +19,8 @@
                 <hr/>                
                 <h6><b>Hometown:</b>  {{ user.location }}</h6>
                 <hr/>
+                <h6><b>Skills:</b>  {{ user.skills }}</h6>
+                <hr>
                 <h6><b>About Me:</b>  {{ user.about_me }}</h6>
                 <hr/>
                 {% if user.my_group %}
@@ -38,18 +40,15 @@
         </div>
 </div>
 <hr>
-<div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-outline-secondary">
-        <a style="color: gray;" href="{{url_for('main.account', user_id=user.id, ctype='event')}}">
-            Following
-        </a>
-    </button>
-    <button type="button" class="btn btn-outline-secondary">
-        <a style="color: gray;" href="{{url_for('main.account', user_id=user.id, ctype='group')}}">
-            Joined
-        </a>
-    </button>
-</div>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link {% if type=='event' %}active{% endif %}" href="{{url_for('main.account', user_id=user.id, ctype='event')}}" aria-selected="true">Following</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if type=='group' %}active{% endif %}" href="{{url_for('main.account', user_id=user.id, ctype='group')}}" aria-selected="false">Joined</a>
+    </li>
+</ul>
+
 {% if type == 'event' %}
     {{ macros.post_generator(items) }}
     <div class="pagination justify-content-center">

@@ -36,6 +36,10 @@ def create_app(config_name):
     search.init_app(app)
     
     scheduler.start()
+    from .job import send_bulletin
+    from flask import current_app
+    with app.app_context():
+        send_bulletin(current_app._get_current_object())
 
 
     from .main import main as main_blueprint

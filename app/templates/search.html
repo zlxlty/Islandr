@@ -3,16 +3,30 @@
 
 {% block title %}Islandr - Search{% endblock %}
 
-{% block searchbar %}
-<form method='POST' class="form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" name="search" placeholder="Search">
-    <button class="btn btn-outline-light my-sm-0 mr-4" type="submit">Search</button>
-</form>
-{% endblock %}
-
 {% block page_content %}
-{{ macros.post_generator(posts) }}
+<form method='POST' class="form-inline my-2 my-lg-0 mb-3">
+    <div class="input-group mr-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">Options</label>
+        </div>
+        <select class="custom-select" id="inputGroupSelect01" name="option">
+            <option value="event">Event</option>
+            <option value="user">User</option>
+            <option value="group">Group</option>
+        </select>
+    </div>
+    <input class="form-control mr-sm-2" name="search" placeholder="Search">
+    <button class="btn btn-outline-dark my-sm-0 mr-4" type="submit">Search</button>
+</form>
+<hr>
+{% if option == 'user' %}
+    {{ macros.user_generator(items) }}
+{% elif option == 'group' %}
+    {{ macros.group_generator(items) }}
+{% else %}
+    {{ macros.post_generator(items) }}
+{% endif %}
 <div class="pagination justify-content-center">
-    {{ macros.pagination_widget(pagination, 'main.m_search', keyword=keyword) }}
+    {{ macros.pagination_widget(pagination, 'main.m_search', keyword=keyword, option=option) }}
 </div>
 {% endblock %}

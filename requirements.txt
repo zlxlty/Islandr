@@ -23,6 +23,7 @@ Flask-SQLAlchemy==2.2
 Flask-SSLify==0.1.5
 Flask-WhooshAlchemy==0.56
 Flask-WTF==0.14.2
+Flask-Apscheduler==1.11.0
 gunicorn==19.7.1
 html5lib==0.999999999
 itsdangerous==0.24

@@ -1,23 +1,27 @@
+'''
+@Description: View file for main blueprint
+@Author: Tianyi Lu
+@Date: 2019-07-05 17:27:28
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-07-12 15:17:53
+'''
+
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
 from threading import Thread
 from flask_login import login_required, current_user
 from .. import db
-from ..models import User, Post, Group, Join
+from ..models import User, Post, Group, Join, Message
 from ..email import send_email
 from . import main
 from .forms import EditorForm, UpdateAccountForm
 from ..decorators import admin_required, owner_required
 from datetime import datetime
 from app import search
+from ..search_index import update_index
 from ..job import add_job, sending_emails
 from ..image_saver import saver, deleter
 
 time_format = '%Y-%m-%d-%H:%M'
-
-def async_update_index(app):
-    with app.app_context():
-        print('started')
-        search.update_index()
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -26,9 +30,13 @@ def index():
         return redirect(url_for('main.m_search', keyword=keyword))
 
     posts = Post.query.filter_by(is_approved=1).order_by(Post.last_modified.desc()).all()
-    posts = posts[0:9]
+    posts = posts[0:6]
 
-    return render_template('index.html', posts=posts)
+    groups = Group.query.filter_by(is_approved=1).all()
+    groups.sort(key=Group.post_count, reverse=True)
+    groups = groups[0:4]
+
+    return render_template('index.html', groups=groups, posts=posts)
 
 @main.route('/about_us')
 def about_us():
@@ -37,41 +45,65 @@ def about_us():
 @main.route('/message')
 @login_required
 def message():
-    current_user.has_msg = False
-    db.session.commit()
-    return render_template('message.html')
+    ctype = request.args.get('ctype') or 'notification'
+    
+    if ctype=='my_group' and not current_user.my_group:
+        abort(403)
 
-@main.route('/message/group')
-@login_required
-def group_message():
-    current_user.has_msg = False
-    pending_joins = current_user.my_group.members.filter_by(is_approved=0)
-    pending_joins_list = pending_joins.all()
+    if current_user.my_group:
+        pending_joins = current_user.my_group.members.filter_by(is_approved=0)
+    else:
+        pending_joins = []
+
+    current_user.clear_msg()
+
     applicants = []
-    for join in pending_joins_list:
-        applicant = User.query.get(join.user_id)
-        applicants.append(applicant)
-    db.session.commit()
-    return render_template('group_message.html', applicants=applicants, joins=pending_joins)
+    msgs = []
+    msg_model = current_user.msgs
 
+    # add different ctype with different msgs
+    if ctype == 'my_group':
+        if not current_user.my_group:
+            abort(403)
+        pending_joins_list = pending_joins.all()
+        for join in pending_joins_list:
+            applicant = User.query.get(join.user_id)
+            applicants.append(applicant)
+    elif ctype in current_app.config['MSG_TYPE']:
+        msgs = msg_model.filter_by(role=ctype).order_by(Message.timestamp.desc()).all()
+    else:
+        abort(404)    
+    return render_template('message.html', ctype=ctype, msgs=msgs, msg_model=msg_model, applicants=applicants, joins=pending_joins)
 
 @main.route('/search', methods=['GET', 'POST'])
 @login_required
 def m_search():
+
     if request.method == 'POST':
         keyword = str(request.form['search'])
-        return redirect(url_for('main.m_search', keyword=keyword))
+        option = str(request.form['option'])
+        return redirect(url_for('main.m_search', keyword=keyword, option=option))
 
-    keyword = request.args.get('keyword')
-    # if not keyword:
-    #     return redirect(url_for('main.m_search', keyword='default'))
+    keyword = request.args.get('keyword') or ' '
+    option = request.args.get('option') or 'event'
 
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.msearch(keyword, fields=['title']).filter_by(is_approved=1).order_by(Post.last_modified.desc()).paginate(
-        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
-        error_out = False)
-    posts = pagination.items
-    return render_template('search.html', pagination=pagination, posts=posts, keyword=keyword)
+
+    if option == 'group':
+        pagination = Group.query.msearch(keyword, fields=['groupname','tag']).filter_by(is_approved=1).order_by(Group.create_date.desc()).paginate(
+            page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+            error_out = False)
+    elif option == 'user':
+        pagination = User.query.msearch(keyword, fields=['username','email','skills']).filter_by(confirmed=True).paginate(
+            page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+            error_out = False)
+    else:
+        pagination = Post.query.msearch(keyword, fields=['title','tag']).filter_by(is_approved=1).order_by(Post.last_modified.desc()).paginate(
+            page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+            error_out = False)
+
+    items = pagination.items
+    return render_template('search.html', pagination=pagination, items=items, keyword=keyword, option=option)
 
 @main.route('/editor', methods=['GET', 'POST'])
 @login_required
@@ -102,13 +134,12 @@ def post_editor():
                     post_html=request.form['content'].replace('\r\n', ''),
                     cover=cover_filename
         )
+        post.followers.append(current_user)
         db.session.add(post)
         db.session.commit()
 
         #update search index
-        app = current_app._get_current_object()
-        thr = Thread(target=async_update_index, args=[app])
-        thr.start()
+        update_index(Post)
 
         return redirect(url_for('event.post', id=post.id))
     _post = Post(title='', location='', post_html='')
@@ -153,6 +184,7 @@ def group_creater():
         db.session.add(group)
         db.session.add(join)
         db.session.commit()
+        update_index(Group)
         return redirect(url_for('group.group_profile',id=group.id))
     _group = Group()
     return render_template('creater.html', old_group=_group)
@@ -256,8 +288,10 @@ def account_edit(user_id):
         user.name = form.name.data
         user.username = form.username.data
         user.location = form.location.data
+        user.skills = form.skills.data
         user.about_me = form.about_me.data
 
+        update_index(User)
         db.session.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('main.account', user_id=user.id))
@@ -265,23 +299,34 @@ def account_edit(user_id):
     form.name.data = user.name
     form.username.data = user.username
     form.location.data = user.location
+    form.skills.data = user.skills
     form.about_me.data = user.about_me
 
     return render_template('edit_account.html', form=form)
 
 
-#test purpose for scheduler and email, not part of actual code
-@main.route('/addjob', methods=['GET', 'POST'])
-def add_new_job():
-    add_job()
-    return 'job added'
+def save_profile_pic(form_picture, user):
 
-@main.route('/send',)
-def email_sent():
-        try:
-            sending_emails()
-            test_user()
-            return '发送成功，请注意查收'
-        except Exception as e:
-            print(e)
-            return '发送失败'
+    random_hex = user.user_hex
+    _, file_extension = os.path.splitext(form_picture.filename)
+    picture_file_name = random_hex + file_extension
+
+    # crop to square and resize the picutre
+    i = Image.open(form_picture)
+
+    width, height = i.size
+    new_size = min(width, height)
+
+    left = (width - new_size)/2
+    top = (height - new_size)/2
+    right = (width + new_size)/2
+    bottom = (height + new_size)/2
+
+    i = i.crop((left, top, right, bottom))
+    i.thumbnail([100, 100])
+
+    # save it to static folder
+    picture_path = os.path.join(current_app.root_path, 'static/profile_pic', picture_file_name)
+    i.save(picture_path)
+
+    return picture_file_name

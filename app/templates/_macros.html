@@ -1,3 +1,12 @@
+<!--
+ * @Description: jinjia2 macros
+ * @Author: Tianyi Lu
+ * @Date: 2019-07-14 18:03:15
+ * @LastEditors: Tianyi Lu
+ * @LastEditTime: 2019-07-14 18:07:46
+ -->
+
+
 {% macro pagination_widget(pagination, endpoint) %}
 <nav aria-label="page navigation">
     <ul class="pagination pagination-lg mt-5">
@@ -35,46 +44,53 @@
 
 {% macro post_generator(posts, show_dot=False) %}
 <div class="row mt-3">
-    {% for post in posts %}
-        <div class="col-sm-4">
-            <div class="card mb-5 box-shadow">
-                <a href="{{ url_for('event.post', id=post.id) }}">
-                    <div style="position:relative;">
-                        <img class="card-img-top" src="{{ url_for('static', filename='post_cover_pic/%s' % post.cover) }}" alt="Card image cap">
-                        {% if show_dot %}
-                        <div style="position:absolute; z-index:2; left:10px; top:10px">
-                            {% if post.is_approved == -1 %}
-                                <div id="reject-circle"></div>
-                            {% elif post.is_approved == 0 %}
-                                <div id="pending-circle"></div>
-                            {% elif post.is_approved == 1 %}
-                                <div id="approved-circle"></div>
+    {% if posts %}
+    
+        {% for post in posts %}
+            <div class="col-sm-4">
+                <div class="card mb-5 box-shadow">
+                    <a href="{{ url_for('event.post', id=post.id) }}">
+                        <div style="position:relative;">
+                            <img class="card-img-top" src="{{ url_for('static', filename='post_cover_pic/%s' % post.cover) }}" alt="Card image cap">
+                            {% if show_dot %}
+                            <div style="position:absolute; z-index:2; left:10px; top:10px">
+                                {% if post.is_approved == -1 %}
+                                    <div id="reject-circle"></div>
+                                {% elif post.is_approved == 0 %}
+                                    <div id="pending-circle"></div>
+                                {% elif post.is_approved == 1 %}
+                                    <div id="approved-circle"></div>
+                                {% endif %}
+                            </div>
                             {% endif %}
                         </div>
-                        {% endif %}
-                     </div>
-                </a>
-                <div class="card-body">
-                    <div class="row ml-1">
-                        <h4>{{ post.title }}</h4>
-                        <img class="ml-2" src="{{ url_for('static', filename='icon/%s.png' % post.tag.lower()) }}" alt="tag" height="25px" width="25px">
-                    </div>
-                    <div class="row no-gutters">
-                        <div class="col-sm-3">
-                            <a href="{{ url_for('group.group_profile', id=post.author.id) }}">
-                                <img class="rounded-circle" src="{{ url_for('static', filename='group_logo/%s' % post.author.logo) }}" height=50 width=50/>
-                            </a>
+                    </a>
+                    <div class="card-body">
+                        <div class="row ml-1">
+                            <h4>{{ post.title }}</h4>
+                            <img class="ml-2" src="{{ url_for('static', filename='icon/%s.png' % post.tag.lower()) }}" alt="tag" height="25px" width="25px">
                         </div>
-                        <div class="col-sm">
-                            <p class="mb-1">Organizer: {{ post.author.groupname }}</p>
-                            <p class="mb-1">Date: {{ post.datetime_from.strftime("%Y-%m-%d") }}</p>
+                        <div class="row no-gutters">
+                            <div class="col-sm-3">
+                                <a href="{{ url_for('group.group_profile', id=post.author.id) }}">
+                                    <img class="rounded-circle" src="{{ url_for('static', filename='group_logo/%s' % post.author.logo) }}" height=50 width=50/>
+                                </a>
+                            </div>
+                            <div class="col-sm">
+                                <p class="mb-1">Organizer: {{ post.author.groupname }}</p>
+                                <p class="mb-1">Date: {{ post.datetime_from.strftime("%Y-%m-%d") }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-    {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+    <div class="container text-center mt-3">
+        <h4>Nothing Is Found</h4>
+    </div>
+    {% endif %}
 </div>
 {% endmacro %}
 
@@ -95,7 +111,14 @@
                                 <a style="text-decoration: None; color: black;" href="{{ url_for('group.group_profile', id=group.id) }}">
                                     <h4>{{ group.groupname }}</h4>
                                 </a>
-                                <p>Tag: {{ group.tag }}</p>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <p>Members: {{ group.members.filter_by(is_approved=1).count() }}</p>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <p>Events: {{ group.posts.filter_by(is_approved=1).count() }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -103,6 +126,10 @@
 
             </div>
         {% endfor %}
+    {% else %}
+    <div class="container text-center mt-3">
+        <h4>Nothing Is Found</h4>
+    </div>
     {% endif %}
 </div>
 {% endmacro %}
@@ -123,12 +150,16 @@
                             <h5 class="mb-2">{{ user.username|safe }}</h5>
                             <p style="font-size: 80%;" class="text-muted mb-1">Location:  {{ user.location }}</p>
                             <p style="font-size: 80%;" class="text-muted mb-1">Email:  {{ user.email }}</p>
-                            <p style="font-size: 80%;" class="text-muted mb-1">Groups:  {{ user.groups.count() }}</p>
+                            <p style="font-size: 80%;" class="text-muted mb-1">Skills:  {{ user.skills }}</p>
                         </div>
                     </div>
             {% endfor %}
             <hr>
         </div>
+    {% else %}
+    <div class="container text-center mt-3">
+        <h4>Nothing Is Found</h4>
+    </div>
     {% endif %}
 </div>
 {% endmacro %}
@@ -166,6 +197,20 @@
                                 <p style="color:gray">Applying for your group</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+{% macro message_generator(msgs) %}
+    {% if msgs %}
+        {% for msg in msgs %}
+                <p style="color:gray;">{{ msg.get_time() }}</p>
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <h4>{{ msg.name }}</h4>
+                        <p style="color:gray">{{ msg.content }}</p>
                     </div>
                 </div>
         {% endfor %}
