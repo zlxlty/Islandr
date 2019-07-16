@@ -2,13 +2,15 @@ import os
 from PIL import Image
 import secrets
 from flask import current_app
+from datetime import datetime
 
 # type与root path对应的字典，方便今后维护
 root_path = {
     'user_profile_pic': 'static/profile_pic',
     'group_background': 'static/group_background_pic',
     'group_logo': 'static/group_logo',
-    'post_cover_pic': 'static/post_cover_pic'
+    'post_cover_pic': 'static/post_cover_pic',
+    'moment': 'static/moments'
 }
 
 def saver(type, form_picture, user=None):
@@ -22,6 +24,36 @@ def saver(type, form_picture, user=None):
     picture_file_name = random_hex + file_extension
 
     i = Image.open(form_picture)
+
+    if type == 'moment': # moments 需要存两份图片，一个缩略图，一个大图
+        print("IN SAver, IN MOMEnT")
+        group = user.my_group
+        print(group, group.id)
+        moment_dir = os.path.join(current_app.root_path, root_path[type], str(group.id))
+        print("moment_dir")
+        if not os.path.exists(moment_dir):
+            os.mkdir(moment_dir)
+
+        width, height = i.size
+
+        # save picture of full size
+        if width > 2000 or height > 2000:
+            i.thumbnail([2000, 2000])
+        full_picture_path = os.path.join(current_app.root_path, moment_dir, picture_file_name)
+        i.save(full_picture_path)
+
+        # save a thumbnail
+        new_size = min(width, height)
+        left = (width - new_size)/2
+        top = (height - new_size)/2
+        right = (width + new_size)/2
+        bottom = (height + new_size)/2
+        i = i.crop((left, top, right, bottom)) # crop to square
+        i.thumbnail([250, 250]) # resize, no return
+        hex, ext = os.path.splitext(picture_file_name)
+        thumbnail_file_name = hex + "_thumbnail" + ext
+        thumbnail_path = os.path.join(current_app.root_path, moment_dir, thumbnail_file_name)
+        i.save(thumbnail_path)
 
     if type == 'user_profile_pic' or type == 'group_logo':
 

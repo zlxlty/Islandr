@@ -42,12 +42,12 @@
 </nav>
 {% endmacro %}
 
-{% macro post_generator(posts, show_dot=False) %}
+{% macro post_generator(posts, show_dot=False, full_width=False) %}
 <div class="row mt-3">
     {% if posts %}
-    
+
         {% for post in posts %}
-            <div class="col-sm-4">
+            <div class="{% if full_width %}col-sm{% else %}col-sm-4{% endif %}">
                 <div class="card mb-5 box-shadow">
                     <a href="{{ url_for('event.post', id=post.id) }}">
                         <div style="position:relative;">
@@ -187,7 +187,7 @@
                             <div class="col-sm-11">
                                 <a href="{{url_for('group.application_reject',group_id=user.my_group.id, user_id=applicant.id)}}">
                                     <button class="btn btn-danger float-right ml-2 mt-3">Reject</button>
-                                </a> 
+                                </a>
                                 <a href="{{url_for('group.application_approve',group_id=user.my_group.id, user_id=applicant.id)}}">
                                     <button class="btn btn-success float-right mt-3">Approve</button>
                                 </a>

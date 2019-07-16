@@ -46,7 +46,7 @@ def about_us():
 @login_required
 def message():
     ctype = request.args.get('ctype') or 'notification'
-    
+
     if ctype=='my_group' and not current_user.my_group:
         abort(403)
 
@@ -72,7 +72,7 @@ def message():
     elif ctype in current_app.config['MSG_TYPE']:
         msgs = msg_model.filter_by(role=ctype).order_by(Message.timestamp.desc()).all()
     else:
-        abort(404)    
+        abort(404)
     return render_template('message.html', ctype=ctype, msgs=msgs, msg_model=msg_model, applicants=applicants, joins=pending_joins)
 
 @main.route('/search', methods=['GET', 'POST'])
@@ -247,7 +247,7 @@ def account(user_id):
             page, per_page=9,
             error_out = False)
         items = pagination.items
-        
+
     elif ctype == 'group':
         pagination = user.groups.filter_by(is_approved=1).paginate(
             page, per_page=9,
@@ -260,7 +260,7 @@ def account(user_id):
     else:
         abort(404)
 
-    
+
 
     profile_pic = url_for('static', filename='profile_pic/' + user.profile_pic)
 
