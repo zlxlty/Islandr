@@ -94,6 +94,58 @@
     <div class="row"> <!-- The row for moments and events -->
         <div class="col-8"> <!-- The column for moments -->
 
+
+            <div class="media">
+              <img class="rounded-circle account-img mr-3" src="{{ logo }}" height="80px" width="80px" alt="TEAM_LOGO">
+              <div class="media-body">
+                <!-- <h5 class="mt-0">TEAM NAME</h5> -->
+                <h4 class="mt-0">TEDx CORE TEAM</h4>
+                <h6 class="mt-0">Jul.15th, 2019</h6>
+                <div class="mb-3">
+
+
+                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+                <div class="container">
+
+                    <div class="row md-1 mt-1"> <!-- Momenet pictures -->
+                        <div class="col pr-1 pl-1">
+                            <img class="img-fluid mb-1" src="{{ logo }}" height="250px" width="250px">
+                        </div>
+                        <div class="col pr-1 pl-1">
+                            <img class="img-fluid mb-1" src="{{ logo }}" height="250px" width="250px">
+                        </div>
+                        <div class="col pr-1 pl-1">
+                            <img class="img-fluid mb-1" src="{{ logo }}" height="250px" width="250px">
+                        </div>
+                        <div class="col pr-1 pl-1">
+                            <img class="img-fluid mb-1" src="{{ logo }}" height="250px" width="250px">
+                        </div>
+                    </div>
+
+                    <div class="row md-1 mt-1"> <!-- Momenet pictures -->
+                        <div class="col pr-1 pl-1">
+                            <img class="img-fluid mb-1" src="{{ logo }}" height="250px" width="250px">
+                        </div>
+                        <div class="col pr-1 pl-1">
+                            <img class="img-fluid mb-1" src="{{ logo }}" height="250px" width="250px">
+                        </div>
+                        <div class="col pr-1 pl-1">
+                            <img class="img-fluid mb-1" src="{{ logo }}" height="250px" width="250px">
+                        </div>
+                        <div class="col pr-1 pl-1">
+                            <img class="img-fluid mb-1" src="{{ logo }}" height="250px" width="250px">
+                        </div>
+                    </div>
+
+                </div>
+
+              </div>
+            </div>
+
+
+
+
         </div>
         <div class="col-4"> <!-- the column for events -->
             {{ macros.post_generator(posts, show_dot=(current_user.id==group.owner[0].id), full_width=True) }}
