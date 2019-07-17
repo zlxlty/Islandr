@@ -154,6 +154,9 @@ class Group(db.Model):
     # relationship with User
     owner = db.relationship('User', backref=db.backref("my_group", uselist=False))
 
+    # relationship with Moment
+    moments = db.relationship('Moment', backref='from_group', lazy='dynamic')
+
     #Join
     members = db.relationship('Join',
                              foreign_keys=[Join.group_id],
@@ -222,3 +225,11 @@ class Message(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+class Moment(db.Model):
+    __tablename__ = 'moments'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    pictures = db.Column(db.String(), nullable=False)
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))

@@ -37,7 +37,7 @@ def create_app(config_name):
 
     avatars.init_app(app)
     search.init_app(app)
-    
+
     from .job import send_bulletin
     from flask import current_app
     with app.app_context():
@@ -56,5 +56,7 @@ def create_app(config_name):
     from .group import group as group_blueprint
     app.register_blueprint(group_blueprint, url_prefix='/group')
 
-    return app
+    from .moment import moment as moment_blueprint
+    app.register_blueprint(moment_blueprint, url_prefix='/moment')
 
+    return app

@@ -6,6 +6,7 @@ from app import faker
 from app import search
 from app import create_app, db, scheduler
 from app.models import User, Post, Group, Join, Message
+import json
 
 COV = None
 if os.environ.get('FLASK_COVERAGE'):
@@ -41,6 +42,7 @@ def test(coverage):
     import unittest
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
+
     if COV:
         COV.stop()
         COV.save()
@@ -63,3 +65,9 @@ def profile(length, profile_dir):
     app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[length],
         profile_dir=profile_dir)
     app.run(debug=False)
+
+@app.template_filter() # Jinja2 custom filter
+def str_to_dic(str):
+    return json.loads(str)
+
+

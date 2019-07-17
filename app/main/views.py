@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-17 09:18:13
+@LastEditTime: 2019-07-17 10:51:23
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -47,7 +47,7 @@ def about_us():
 @login_required
 def message():
     ctype = request.args.get('ctype') or 'notification'
-    
+
     if ctype=='my_group' and not current_user.my_group:
         abort(403)
 
@@ -73,7 +73,7 @@ def message():
     elif ctype in current_app.config['MSG_TYPE']:
         msgs = msg_model.filter_by(role=ctype).order_by(Message.timestamp.desc()).all()
     else:
-        abort(404)    
+        abort(404)
     return render_template('message.html', ctype=ctype, msgs=msgs, msg_model=msg_model, applicants=applicants, joins=pending_joins)
 
 @main.route('/search', methods=['GET', 'POST'])
@@ -190,12 +190,6 @@ def group_creater():
     _group = Group()
     return render_template('creater.html', old_group=_group)
 
-@main.route('/moments')
-@login_required
-def moments():
-    #TODO
-    return render_template('moments.html')
-
 @main.route('/approve', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -248,7 +242,7 @@ def account(user_id):
             page, per_page=9,
             error_out = False)
         items = pagination.items
-        
+
     elif ctype == 'group':
         pagination = user.groups.filter_by(is_approved=1).paginate(
             page, per_page=9,
@@ -261,7 +255,7 @@ def account(user_id):
     else:
         abort(404)
 
-    
+
 
     profile_pic = url_for('static', filename='profile_pic/' + user.profile_pic)
 
@@ -339,3 +333,4 @@ def save_profile_pic(form_picture, user):
     i.save(picture_path)
 
     return picture_file_name
+
