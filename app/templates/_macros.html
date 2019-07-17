@@ -88,7 +88,7 @@
         {% endfor %}
     {% else %}
     <div class="container text-center mt-3">
-        <h4>Nothing Is Found</h4>
+        <h4>Nothing here yet.</h4>
     </div>
     {% endif %}
 </div>
@@ -128,7 +128,7 @@
         {% endfor %}
     {% else %}
     <div class="container text-center mt-3">
-        <h4>Nothing Is Found</h4>
+        <h4>Nothing here yet.</h4>
     </div>
     {% endif %}
 </div>
@@ -158,7 +158,7 @@
         </div>
     {% else %}
     <div class="container text-center mt-3">
-        <h4>Nothing Is Found</h4>
+        <h4>Nothing here yet.</h4>
     </div>
     {% endif %}
 </div>
@@ -215,4 +215,35 @@
                 </div>
         {% endfor %}
     {% endif %}
+{% endmacro %}
+
+{% macro moment_generator(one_moment, pictures, without_name=False) %}
+        <div class="media mt-5 md-5">
+          <img class="rounded-circle account-img mr-3" src="{{ url_for('static', filename='group_logo/%s' % one_moment.from_group.logo) }}" height="80px" width="80px" alt="TEAM_LOGO">
+          <div class="media-body">
+
+            {% if without_name %}
+                <h4 class="md-2">{{ moment(one_moment.timestamp).fromNow() }}</h4> <!-- "moment()" here is flask-moment function -->
+            {% else %}
+                <h4 class="mt-0">{{ one_moment.from_group.groupname }}</h4>
+                <h6 class="mt-0">{{ moment(one_moment.timestamp).fromNow() }}</h6> <!-- "moment()" here is flask-moment function -->
+            {% endif %}
+
+            <div class="mb-3">{{ one_moment.body }}</div>
+            <div class="container">
+                {% for row in range(1, 2 + ((pictures|length)/4) | round(0, 'floor') | int) %}
+                    <div class="row md-1 mt-1">
+                        {% for col in range(1, 5) %} <!-- pic_index = (row * 4) - 4 + col -->
+                        <div class="col pr-1 pl-1">
+                            {% if (row*4)-4+col <= pictures|length %}
+                            <img class="img-fluid mb-1" src="{{ url_for('static', filename='moments/%d/thumbnail_%s' % (one_moment.from_group.id, pictures['%s'% ((row * 4) - 4 + col)|string ] )  ) }}" alt="MOMENT" height="250px" width="250px">
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+          </div>
+        </div>
 {% endmacro %}

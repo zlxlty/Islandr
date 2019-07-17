@@ -46,6 +46,12 @@ def create_moment():
         db.session.add(moment)
         db.session.commit()
 
-        return render_template('create_moment.html')
+        return redirect(url_for('.moments'))
 
     return render_template('create_moment.html')
+
+@moment.route('/moments')
+@login_required
+def moments():
+    moments = Moment.query.order_by(Moment.timestamp.desc())
+    return render_template('moments.html', moments=moments)

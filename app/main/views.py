@@ -189,12 +189,6 @@ def group_creater():
     _group = Group()
     return render_template('creater.html', old_group=_group)
 
-@main.route('/moments')
-@login_required
-def moments():
-    #TODO
-    return render_template('moments.html')
-
 @main.route('/approve', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -303,30 +297,3 @@ def account_edit(user_id):
     form.about_me.data = user.about_me
 
     return render_template('edit_account.html', form=form)
-
-
-def save_profile_pic(form_picture, user):
-
-    random_hex = user.user_hex
-    _, file_extension = os.path.splitext(form_picture.filename)
-    picture_file_name = random_hex + file_extension
-
-    # crop to square and resize the picutre
-    i = Image.open(form_picture)
-
-    width, height = i.size
-    new_size = min(width, height)
-
-    left = (width - new_size)/2
-    top = (height - new_size)/2
-    right = (width + new_size)/2
-    bottom = (height + new_size)/2
-
-    i = i.crop((left, top, right, bottom))
-    i.thumbnail([100, 100])
-
-    # save it to static folder
-    picture_path = os.path.join(current_app.root_path, 'static/profile_pic', picture_file_name)
-    i.save(picture_path)
-
-    return picture_file_name

@@ -50,8 +50,7 @@ def saver(type, form_picture, user=None):
         bottom = (height + new_size)/2
         i = i.crop((left, top, right, bottom)) # crop to square
         i.thumbnail([250, 250]) # resize, no return
-        hex, ext = os.path.splitext(picture_file_name)
-        thumbnail_file_name = hex + "_thumbnail" + ext
+        thumbnail_file_name = "thumbnail_" + picture_file_name
         thumbnail_path = os.path.join(current_app.root_path, moment_dir, thumbnail_file_name)
         i.save(thumbnail_path)
 
