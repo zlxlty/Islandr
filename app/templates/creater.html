@@ -91,7 +91,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="{{ url_for('group.group_delete', id=old_group.id) }}">
+                    <a href="{{ url_for('group.group_delete', id=old_group.id, user_hex=old_group.owner[0].user_hex) }}">
                         <button type="button"class="btn btn-danger">Delete</button>
                     </a>
                 </div>

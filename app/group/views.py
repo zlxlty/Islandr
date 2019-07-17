@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 14:59:30
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-17 14:03:48
+@LastEditTime: 2019-07-17 22:36:31
 '''
 
 from flask import render_template, abort, url_for, request, redirect, flash, current_app
@@ -183,12 +183,12 @@ def application_reject(group_id, user_id):
     db.session.commit()
     return redirect(url_for('main.message', ctype='my_group'))
 
-@group.route('/<int:id>/delete')
+@group.route('/<int:id>/delete/<user_hex>')
 @login_required
-def group_delete(id):
+def group_delete(id, user_hex):
     old_group = Group.query.get_or_404(id)
 
-    if old_group.owner[0].id != current_user.id:
+    if old_group.owner[0].id != current_user.id or user_hex != old_group.owner[0].user_hex :
         abort(403)
 
     for post in old_group.posts:
@@ -197,7 +197,7 @@ def group_delete(id):
     db.session.delete(old_group)
     db.session.commit()
 
-    flash('Your group %s has been deleted!' % str(old_group.groupname, 'success'))
+    flash('Your group %s has been deleted!' % str(old_group.groupname), 'success')
     return redirect(url_for('main.index'))
 
 @group.route('<int:id>/members')
