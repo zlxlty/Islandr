@@ -30,12 +30,14 @@ def create_app(config_name):
     moment.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
-    scheduler.init_app(app)
+
+    if not config_name == 'testing':
+        scheduler.init_app(app)
+        scheduler.start()
 
     avatars.init_app(app)
     search.init_app(app)
 
-    scheduler.start()
     from .job import send_bulletin
     from flask import current_app
     with app.app_context():

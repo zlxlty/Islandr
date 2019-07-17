@@ -37,3 +37,9 @@ migrations
 msearch
 #vscode
 .vscode
+#coverage test
+tmp
+#flask profile
+profile
+#moments
+moments

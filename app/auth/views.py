@@ -28,7 +28,7 @@ def register():
         send_email(user.email, 'Comfirm Your Account',
                     'auth/email/confirm', user=user, token=token)
         
-        flash('A confirmation email has been ')
+        flash('A confirmation email has been sent to you by email')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
 
@@ -94,8 +94,7 @@ def password_reset_request():
             send_email(user.email, 'Reset Your Password',
                        'auth/email/reset_password',
                        user=user, token=token)
-        flash('An email with instructions to reset your password has been '
-              'sent to you.')
+        flash('An email with instructions to reset your password has been sent to you.')
         return redirect(url_for('auth.login'))
     return render_template('auth/reset_password.html', form=form)
 

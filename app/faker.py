@@ -10,6 +10,8 @@ def _get_key (dict , value):
     return str([k for k, v in dict.items() if v == value][0])
 
 def test_user():
+    if User.query.filter_by(email='skylty01@gmail.com').first():
+        return None
     u = User(email='skylty01@gmail.com',
              username='Sky',
              password='123',
@@ -78,4 +80,4 @@ def posts(count=100):
                  author=g)
         db.session.add(p)
     db.session.commit()
-    search.update_index()
+    search.update_index(Post)

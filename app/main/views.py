@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-12 15:17:53
+@LastEditTime: 2019-07-17 10:51:23
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -20,6 +20,7 @@ from app import search
 from ..search_index import update_index
 from ..job import add_job, sending_emails
 from ..image_saver import saver, deleter
+from flask_sqlalchemy import get_debug_queries
 
 time_format = '%Y-%m-%d-%H:%M'
 
@@ -297,3 +298,39 @@ def account_edit(user_id):
     form.about_me.data = user.about_me
 
     return render_template('edit_account.html', form=form)
+
+@main.after_app_request
+def after_request(response):
+    for query in get_debug_queries():
+        if query.duration >= current_app.config['FLASKY_SLOW_DB_QUERY_TIME']:
+            current_app.logger.warning(
+                'Slow query: %s\nParameters: %s\nDuration: %fs\nContext: %s\n' %
+                    (query.statement, query.parameters, query.duration, query.context))
+    return response
+
+def save_profile_pic(form_picture, user):
+
+    random_hex = user.user_hex
+    _, file_extension = os.path.splitext(form_picture.filename)
+    picture_file_name = random_hex + file_extension
+
+    # crop to square and resize the picutre
+    i = Image.open(form_picture)
+
+    width, height = i.size
+    new_size = min(width, height)
+
+    left = (width - new_size)/2
+    top = (height - new_size)/2
+    right = (width + new_size)/2
+    bottom = (height + new_size)/2
+
+    i = i.crop((left, top, right, bottom))
+    i.thumbnail([100, 100])
+
+    # save it to static folder
+    picture_path = os.path.join(current_app.root_path, 'static/profile_pic', picture_file_name)
+    i.save(picture_path)
+
+    return picture_file_name
+

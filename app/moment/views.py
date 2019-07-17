@@ -55,3 +55,17 @@ def create_moment():
 def moments():
     moments = Moment.query.order_by(Moment.timestamp.desc())
     return render_template('moments.html', moments=moments)
+
+@moment.route('/<int:id>/<hex>/delete')
+@login_required
+def delete_moment(id, hex):
+    moment = Moment.query.get_or_404(id)
+
+    if moment.from_group.owner[0].id != current_user.id:
+        abort(403)
+
+    db.session.delete(moment)
+    db.session.commit()
+
+    flash('Your Moment has been deleted!')
+    return redirect(request.referrer)

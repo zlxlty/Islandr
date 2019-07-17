@@ -194,6 +194,9 @@ def group_delete(id):
     for post in old_group.posts:
         db.session.delete(post)
 
+    for moment in old_group.moments:
+        db.session.delete(moment)
+
     db.session.delete(old_group)
     db.session.commit()
 
