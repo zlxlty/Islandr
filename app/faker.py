@@ -70,7 +70,7 @@ def posts(count=100):
     group = Group.query.filter_by(is_approved=1)
     group_count = group.count()
     for i in range(count):
-        g = group.offset(randint().first()
+        g = group.offset(randint(0, group_count - 1)).first()
         p = Post(title='Activity %d' % i,
                  location=fake.city(),
                  tag=_get_key(current_app.config['TAGS'], randint(0, 5)),
