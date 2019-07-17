@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-12 15:17:53
+@LastEditTime: 2019-07-17 09:18:13
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -20,6 +20,7 @@ from app import search
 from ..search_index import update_index
 from ..job import add_job, sending_emails
 from ..image_saver import saver, deleter
+from flask_sqlalchemy import get_debug_queries
 
 time_format = '%Y-%m-%d-%H:%M'
 
@@ -304,6 +305,14 @@ def account_edit(user_id):
 
     return render_template('edit_account.html', form=form)
 
+@main.after_app_request
+def after_request(response):
+    for query in get_debug_queries():
+        if query.duration >= current_app.config['FLASKY_SLOW_DB_QUERY_TIME']:
+            current_app.logger.warning(
+                'Slow query: %s\nParameters: %s\nDuration: %fs\nContext: %s\n' %
+                    (query.statement, query.parameters, query.duration, query.context))
+    return response
 
 def save_profile_pic(form_picture, user):
 
