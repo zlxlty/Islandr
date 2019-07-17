@@ -6,14 +6,12 @@
 {% block page_content %}
 
 <h1>Moments</h1>
-
-<img class="img-fluid mb-3 mt-3" src="{{ url_for('static', filename='moments/moments_background.jpg') }}">
-
 <div class="container">
     <div class="row">
         <div class="col-2"></div> <!--占位用-->
         <div class="col-8">
             {% for one_moment in moments.all() %}
+                <hr>
                 {{ macros.moment_generator(one_moment, one_moment.pictures | str_to_dic, without_name=True) }}
             {% endfor %}
         </div>
