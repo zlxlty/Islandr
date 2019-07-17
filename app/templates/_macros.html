@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-07-14 18:03:15
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-07-17 10:50:56
+ * @LastEditTime: 2019-07-17 11:14:25
  -->
 
 
@@ -43,12 +43,12 @@
 {% endmacro %}
 
 {% macro post_generator(posts, show_dot=False, full_width=False) %}
-<div class="row mt-3">
+{% if not full_width %}<div class="row mt-3">{% endif %}
     {% if posts %}
 
         {% for post in posts %}
-            <div class="{% if full_width %}col-sm{% else %}col-sm-4{% endif %}">
-                <div class="card mb-5 box-shadow">
+            <div class="{% if not full_width %}col-sm-4{% endif %}">
+                <div class="card my-3 box-shadow">
                     <a href="{{ url_for('event.post', id=post.id) }}">
                         <div style="position:relative;">
                             <img class="card-img-top" src="{{ url_for('static', filename='post_cover_pic/%s' % post.cover) }}" alt="Card image cap">
@@ -87,12 +87,12 @@
             </div>
         {% endfor %}
     {% else %}
-    <div class="container text-center mt-3">
+    <div style="color: gray;" class="container text-center mt-3">
         <h4>No Event is Found</h4>
 
     </div>
     {% endif %}
-</div>
+{% if not full_width %}</div>{% endif %}
 {% endmacro %}
 
 {% macro group_generator(groups) %}
@@ -128,7 +128,7 @@
             </div>
         {% endfor %}
     {% else %}
-    <div class="container text-center mt-3">
+    <div style="color:gray;" class="container text-center mt-3">
         <h4>No Team is Found</h4>
     </div>
     {% endif %}
@@ -158,9 +158,8 @@
             <hr>
         </div>
     {% else %}
-    <div class="container text-center mt-3">
+    <div style="color: gray;" class="container text-center mt-3">
         <h4>No User is Found</h4>
-
     </div>
     {% endif %}
 </div>
@@ -220,7 +219,7 @@
 {% endmacro %}
 
 {% macro moment_generator(one_moment, pictures, without_name=False) %}
-        <div class="media mt-5 md-5">
+        <div class="media my-3">
           <img class="rounded-circle account-img mr-3" src="{{ url_for('static', filename='group_logo/%s' % one_moment.from_group.logo) }}" height="80px" width="80px" alt="TEAM_LOGO">
           <div class="media-body">
 
