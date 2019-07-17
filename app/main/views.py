@@ -46,7 +46,7 @@ def about_us():
 @login_required
 def message():
     ctype = request.args.get('ctype') or 'notification'
-    
+
     if ctype=='my_group' and not current_user.my_group:
         abort(403)
 
@@ -72,7 +72,7 @@ def message():
     elif ctype in current_app.config['MSG_TYPE']:
         msgs = msg_model.filter_by(role=ctype).order_by(Message.timestamp.desc()).all()
     else:
-        abort(404)    
+        abort(404)
     return render_template('message.html', ctype=ctype, msgs=msgs, msg_model=msg_model, applicants=applicants, joins=pending_joins)
 
 @main.route('/search', methods=['GET', 'POST'])
@@ -189,12 +189,6 @@ def group_creater():
     _group = Group()
     return render_template('creater.html', old_group=_group)
 
-@main.route('/moments')
-@login_required
-def moments():
-    #TODO
-    return render_template('moments.html')
-
 @main.route('/approve', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -247,7 +241,7 @@ def account(user_id):
             page, per_page=9,
             error_out = False)
         items = pagination.items
-        
+
     elif ctype == 'group':
         pagination = user.groups.filter_by(is_approved=1).paginate(
             page, per_page=9,
@@ -260,7 +254,7 @@ def account(user_id):
     else:
         abort(404)
 
-    
+
 
     profile_pic = url_for('static', filename='profile_pic/' + user.profile_pic)
 
@@ -303,30 +297,3 @@ def account_edit(user_id):
     form.about_me.data = user.about_me
 
     return render_template('edit_account.html', form=form)
-
-
-def save_profile_pic(form_picture, user):
-
-    random_hex = user.user_hex
-    _, file_extension = os.path.splitext(form_picture.filename)
-    picture_file_name = random_hex + file_extension
-
-    # crop to square and resize the picutre
-    i = Image.open(form_picture)
-
-    width, height = i.size
-    new_size = min(width, height)
-
-    left = (width - new_size)/2
-    top = (height - new_size)/2
-    right = (width + new_size)/2
-    bottom = (height + new_size)/2
-
-    i = i.crop((left, top, right, bottom))
-    i.thumbnail([100, 100])
-
-    # save it to static folder
-    picture_path = os.path.join(current_app.root_path, 'static/profile_pic', picture_file_name)
-    i.save(picture_path)
-
-    return picture_file_name

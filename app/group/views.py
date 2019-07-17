@@ -19,9 +19,11 @@ from ..image_saver import saver, deleter
 @login_required
 def group_profile(id):
     group = Group.query.get_or_404(id)
+
     if group.is_approved != 1 and current_user.id != group.owner[0].id and current_user.is_admin == False:
         abort(403)
     page = request.args.get('page', 1, type=int)
+
     if not current_user.id == group.owner[0].id:
         group.posts = group.posts.filter_by(is_approved=1)
     pagination = group.posts.order_by(Post.last_modified.desc()).paginate(
@@ -29,9 +31,11 @@ def group_profile(id):
         error_out = False)
     users=[]
     joins = group.members.filter_by(is_approved=1).all()
+
     for join in joins:
         user = User.query.get_or_404(join.user_id)
         users.append(user)
+
     posts = pagination.items
     logo = url_for('static', filename="group_logo/"+group.logo)
     background = url_for('static', filename="group_background_pic/"+group.background)
@@ -164,7 +168,7 @@ def application_approve(group_id, user_id):
 @group.route('/application/<int:group_id>/<int:user_id>/reject')
 @login_required
 def application_reject(group_id, user_id):
-    join = Join.query.filter_by(group_id=group_id, user_id=user_id).first()    
+    join = Join.query.filter_by(group_id=group_id, user_id=user_id).first()
     if not join:
         abort(404)
     if join.group.owner[0].id != current_user.id:

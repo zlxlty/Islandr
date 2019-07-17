@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% import "_macros.html" as macros %}
+{% import "_macros.html" as macros with context %}
 
 {% block title %}Island Profile{% endblock %}
 
@@ -73,15 +73,46 @@
     {% endif %}
 </div>
 
-{% if group.is_approved == 1 and current_user.id == group.owner[0].id %}
-    <a href="{{ url_for('main.post_editor') }}">
-        <button type="button" class="btn btn-primary btn-lg btn-block my-4">New Event</button>
-    </a>
-    <hr>
-{% endif %}
-{{ macros.post_generator(posts, show_dot=(current_user.id==group.owner[0].id)) }}
-<div class="pagination justify-content-center">
-    {{ macros.pagination_widget(pagination, 'group.group_profile', id=group.id) }}
+<div class="container">
+    <div class="row"> <!-- The row for titles -->
+        <div class="col-8"><h2>Moments</h2></div>
+        <div class="col-4"><h2>Events</h2></div>
+    </div>
+    {% if group.is_approved == 1 and current_user.id == group.owner[0].id %}
+    <div class="row"> <!-- The row for buttons -->
+        <div class="col-8">
+            <a href="{{ url_for('moment.create_moment') }}">
+                <button type="button" class="btn btn-info btn-lg btn-block my-4">New Moment</button>
+            </a>
+        </div>
+        <div class="col-4">
+            <a href="{{ url_for('main.post_editor') }}">
+                <button type="button" class="btn btn-info btn-lg btn-block my-4">New Event</button>
+            </a>
+        </div>
+    </div>
+    {% endif %}
 </div>
-<hr>
+
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            {% if group.moments %}
+                {% for one_moment in group.moments.all()|reverse %}
+                    {{ macros.moment_generator(one_moment, one_moment.pictures | str_to_dic, without_name=True) }}
+                {% endfor %}
+            {% else %}
+                <div class="container mt-4">
+                    <h4>Nothing here yet.</h4>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-4">
+            {{ macros.post_generator(posts, show_dot=(current_user.id==group.owner[0].id), full_width=True) }}
+        </div>
+    </div>
+</div>
+
+
+
 {% endblock %}

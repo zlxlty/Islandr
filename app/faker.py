@@ -71,7 +71,7 @@ def posts(count=100):
     group_count = group.count()
     for i in range(count):
         g = group.offset(randint(0, group_count - 1)).first()
-        p = Post(title='Activity %d' % i, 
+        p = Post(title='Activity %d' % i,
                  location=fake.city(),
                  tag=_get_key(current_app.config['TAGS'], randint(0, 5)),
                  post_html=fake.text(),
