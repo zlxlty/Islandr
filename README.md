@@ -126,7 +126,7 @@ OK
 >>> faker.groups()
 >>> faker.posts()
 ```
-A admin account with email `skylty01@gmail.com` and password `123` will be added into your database for testing
+An admin account with email `skylty01@gmail.com` and password `123` will be added into your database for testing
 
 100 users ,groups and posts will be added into your database
 
