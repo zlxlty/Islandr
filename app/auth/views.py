@@ -28,7 +28,7 @@ def register():
         send_email(user.email, 'Comfirm Your Account',
                     'auth/email/confirm', user=user, token=token)
         
-        flash('A confirmation email has been sent to you by email')
+        flash('A confirmation email has been sent to you by email', 'warning')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
 
@@ -43,7 +43,7 @@ def login():
             if next is None or not next.startswith('/'):
                 next = url_for('main.index')
             return redirect(next)
-        flash('Invalid username or password.')
+        flash('Invalid username or password.','danger')
     return render_template('auth/login.html', form=form)
 
 @auth.route('/confirm/<token>')
@@ -55,9 +55,9 @@ def confirm(token):
         db.session.commit()
         update_index(User)
         current_user.add_msg(current_app.config['MSG_CONTENT']['welcome_msg'])
-        flash('You have confirmed your account. Thanks!')
+        flash('You have confirmed your account. Thanks!', 'success')
     else:
-        flash('The confirmation link is invalid or has expired.')
+        flash('The confirmation link is invalid or has expired.', 'danger')
     return redirect(url_for('main.index'))
 
 @auth.route('/confirm')
@@ -66,7 +66,7 @@ def resend_confirmation():
     token = current_user.generate_confirmation_token()
     send_email(current_user.email, 'Confirm Your Account', 
                 'auth/email/confirm', user=current_user, token=token)
-    flash('A new confirmation email has been sent to you by email.')
+    flash('A new confirmation email has been sent to you by email.', 'warning')
     return redirect(url_for('main.index'))
 
 @auth.route('/unconfirmed')
@@ -79,7 +79,7 @@ def unconfirmed():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.')
+    flash('You have been logged out.', 'success')
     return redirect(url_for('.login'))
 
 @auth.route('/reset', methods=['GET', 'POST'])
@@ -94,7 +94,7 @@ def password_reset_request():
             send_email(user.email, 'Reset Your Password',
                        'auth/email/reset_password',
                        user=user, token=token)
-        flash('An email with instructions to reset your password has been sent to you.')
+        flash('An email with instructions to reset your password has been sent to you.', 'warning')
         return redirect(url_for('auth.login'))
     return render_template('auth/reset_password.html', form=form)
 
@@ -107,7 +107,7 @@ def password_reset(token):
     if form.validate_on_submit():
         if User.reset_password(token, form.password.data):
             db.session.commit()
-            flash('Your password has been updated.')
+            flash('Your password has been updated.', 'success')
             return redirect(url_for('auth.login'))
         else:
             return redirect(url_for('main.index'))
@@ -122,7 +122,7 @@ def change_password():
             current_user.password = form.password.data
             db.session.add(current_user)
             db.session.commit()
-            flash('Your password has been updated.')
+            flash('Your password has been updated.', 'success')
             return redirect(url_for('main.index'))
         else:
             flash('Invalid password.')

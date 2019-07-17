@@ -45,7 +45,6 @@ def groups():
         if u.my_group is not None:
             continue
         g = Group(groupname=fake.name(),
-                  tag=_get_key(current_app.config['TAGS'], randint(0, 5)),
                   about_us=fake.text(),
                   is_approved=1)
         u.my_group = g

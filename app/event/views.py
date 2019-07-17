@@ -108,7 +108,7 @@ def post_edit(id):
 
     if request.method == 'POST':
         if not request.form['title'] or not request.form['content']:
-            flash('Write Something!')
+            flash('Write Something!', 'danger')
             return redirect(url_for('event.post_edit', id=id))
 
         if request.files['cover']:

@@ -61,11 +61,15 @@ export FLASK_APP=flasky.py
 (venv)$ flask db migrate -m "first migration"
 (venv)$ flask db upgrade
 ```
-7. Run your flask app
+7. Create index for search function
+```
+(venv)$ flask deploy
+```
+8. Run your flask app
 ```
 (venv)$ flask run
 ```
-8. Go to http://127.0.0.1:5000/ and see the app running
+9. Go to http://127.0.0.1:5000/ and see the app running
 
 ***
 ## Changlog
@@ -116,11 +120,15 @@ OK
 (venv)$ flask shell
 ```
 ```python
-from app import faker
-faker.users()
-faker.posts()
+>>> from app import faker
+>>> faker.test_user()
+>>> faker.users()
+>>> faker.groups()
+>>> faker.posts()
 ```
-100 users and posts will be added into your database
+A admin account with email `skylty01@gmail.com` and password `123` will be added into your database for testing
+
+100 users ,groups and posts will be added into your database
 
 ***
 ## Contributing

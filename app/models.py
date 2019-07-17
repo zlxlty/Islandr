@@ -144,7 +144,7 @@ class User(UserMixin, db.Model):
 
 class Group(db.Model):
     __tablename__ = 'groups'
-    __searchable__ = ['groupname', 'tag']
+    __searchable__ = ['groupname']
 
     id = db.Column(db.Integer, primary_key=True)
 
@@ -167,7 +167,6 @@ class Group(db.Model):
     #basic info
     create_date = db.Column(db.DateTime(), default=datetime.now)
     groupname = db.Column(db.String(64), index=True)
-    tag = db.Column(db.String(20), index=True)
     about_us = db.Column(db.Text, default='Nothing here yet...')
     logo = db.Column(db.String(64), default='default.jpg')
     background = db.Column(db.String(64), default='default.jpg')
