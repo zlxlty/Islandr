@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from . import moment
 from .. import db
 from ..models import Moment
-from ..image_saver import saver
+from ..image_saver import saver, deleter
 from datetime import datetime
 import json
 
@@ -61,8 +61,17 @@ def moments():
 def delete_moment(id, hex):
     moment = Moment.query.get_or_404(id)
 
+    print("ID", moment.id)
+    print("moment dir", moment.from_group.id)
+
     if moment.from_group.owner[0].id != current_user.id:
         abort(403)
+
+    # delete local files
+    picture_dict = json.loads(moment.pictures) # convert str to dict object
+    for index in range(1, len(picture_dict) + 1):
+        file_name = picture_dict[str(index)]
+        deleter('moment', file_name, moment_dir=moment.from_group.id)
 
     db.session.delete(moment)
     db.session.commit()

@@ -120,6 +120,12 @@ def saver(type, form_picture, user=None):
 
     return picture_file_name
 
-def deleter(type, old_file_name):
-    old_file_path = os.path.join(current_app.root_path, root_path[type], old_file_name)
-    os.remove(old_file_path)
+def deleter(type, old_file_name, moment_dir=None): # moment_dir is the id of the group to which the moment belongs.
+    if moment_dir:
+        full_pic_path = os.path.join(current_app.root_path, root_path[type], str(moment_dir), old_file_name)
+        thumbnail_path = os.path.join(current_app.root_path, root_path[type], str(moment_dir), 'thumbnail_%s' % old_file_name)
+        os.remove(full_pic_path)
+        os.remove(thumbnail_path)
+    else:
+        old_file_path = os.path.join(current_app.root_path, root_path[type], old_file_name)
+        os.remove(old_file_path)

@@ -218,6 +218,8 @@
     {% endif %}
 {% endmacro %}
 
+
+
 {% macro moment_generator(one_moment, pictures, without_name=False) %}
         <div class="media my-3">
             <a href="{{ url_for('group.group_profile', id=one_moment.from_group.id) }}">
@@ -290,9 +292,12 @@
                 {% endfor %}
             </div>
 
+
             {% if one_moment.from_group.owner[0].id == current_user.id %} <!-- Delete Button -->
-                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
-                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="mt-2"></div> <!-- space -->
+                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal_{{ one_moment.id }}">Delete</button>
+                <div class="modal fade" id="deleteModal_{{ one_moment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -312,6 +317,7 @@
                         </div>
                         </div>
                     </div>
+
                 </div>
             {% endif %}
 
