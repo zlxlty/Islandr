@@ -47,11 +47,14 @@
         {{ macros.profile_pic_generator(post.followers.all(), amount=3) }}
     </a>
 </div>
-{% if current_user.is_following(post) %}
-    <a href="{{ url_for('event.post_unfollow', id=post.id) }}"><button type="button" class="btn btn-info float-right">Leave</button></a>
-{% else %}
-    <a href="{{ url_for('event.post_follow', id=post.id) }}"><button type="button" class="btn btn-outline-info float-right">Attend</button></a>
+{% if current_user.id != post.author.owner[0].id %}
+    {% if current_user.is_following(post) %}
+        <a href="{{ url_for('event.post_unfollow', id=post.id) }}"><button type="button" class="btn btn-info float-right">Leave</button></a>
+    {% else %}
+        <a href="{{ url_for('event.post_follow', id=post.id) }}"><button type="button" class="btn btn-outline-info float-right">Attend</button></a>
+    {% endif %}
 {% endif %}
+
 <div class="mt-3">
     {% if current_user.group_id == post.author.id %}
         <a href="{{ url_for('event.post_edit', id=id) }}"><button type="button" class="btn btn-outline-secondary">Edit</button></a>

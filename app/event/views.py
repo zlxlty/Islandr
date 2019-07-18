@@ -12,6 +12,14 @@ from ..job import add_reminder
 
 time_format = '%Y-%m-%d-%H:%M'
 
+@event.route('/all')
+@login_required
+def all_post():
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.filter_by(is_approved=1).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
+    posts = pagination.items
+    return render_template('all_post.html', posts=posts, pagination=pagination)
+
 @event.route('/<int:id>')
 @login_required
 def post(id):

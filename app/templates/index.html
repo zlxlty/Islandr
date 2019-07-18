@@ -65,7 +65,7 @@
         <li class="nav-item">
           <a style="color:gray;" class="nav-link" id="random-tab" data-toggle="tab" href="#random" role="tab" aria-controls="random" aria-selected="false">Random</a>
         </li>
-        <a class="ml-5" href="#"><button class="btn btn-light">View All >></button></a>
+        <a class="ml-5" href="{{url_for('group.all_group')}}"><button class="btn btn-light">View All >></button></a>
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="latest" role="tabpanel" aria-labelledby="latest-tab">
@@ -143,7 +143,7 @@
         <li class="nav-item">
             <a style="color:gray;" class="nav-link" id="sunday-tab" data-toggle="tab" href="#sunday" role="tab" aria-controls="sunday" aria-selected="false">Sun</a>
         </li>
-        <a class="ml-5" href="#"><button class="btn btn-light">View All >></button></a>
+        <a class="ml-5" href="{{url_for('event.all_post')}}"><button class="btn btn-light">View All >></button></a>
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="monday" role="tabpanel" aria-labelledby="monday-tab">

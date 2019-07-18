@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Islandr - All Groups{% endblock %}
+{% import "_macros.html" as macros %}
+
+{% block page_content %}
+<div class="mt-6">
+    <h2>All Groups</h2>
+    <hr/>
+</div>
+{{ macros.group_generator(groups) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'group.all_group') }}
+</div>
+
+{% endblock %}

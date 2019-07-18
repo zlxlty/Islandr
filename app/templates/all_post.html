@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Islandr - All Events{% endblock %}
+
+{% block page_content %}
+<div class="mt-6">
+    <h2>All Events</h2>
+    <hr/>
+</div>
+{{ macros.post_generator(posts) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'event.all_post') }}
+</div>
+{% endblock %}

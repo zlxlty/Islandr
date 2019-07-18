@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-18 12:10:58
+@LastEditTime: 2019-07-18 12:44:45
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -21,7 +21,6 @@ from ..search_index import update_index
 from ..job import add_job, sending_emails
 from ..image_saver import saver, deleter
 from flask_sqlalchemy import get_debug_queries
-import datetime
 
 time_format = '%Y-%m-%d-%H:%M'
 
