@@ -12,6 +12,14 @@ from ..job import add_reminder
 
 time_format = '%Y-%m-%d-%H:%M'
 
+@event.route('/all')
+@login_required
+def all_post():
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.filter_by(is_approved=1).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
+    posts = pagination.items
+    return render_template('all_post.html', posts=posts, pagination=pagination)
+
 @event.route('/<int:id>')
 @login_required
 def post(id):
@@ -78,6 +86,8 @@ def post_followers(id):
 @login_required
 def post_follow(id):
     post = Post.query.get_or_404(id)
+    if post.has_passed():
+        abort(403)
     post.followers.append(current_user)
     post.author.owner[0].add_msg({'role': 'notification',
                                   'name': 'Follower',
@@ -89,6 +99,8 @@ def post_follow(id):
 @login_required
 def post_unfollow(id):
     post = Post.query.get_or_404(id)
+    if post.has_passed():
+        abort(403)
     if not current_user in post.followers.all():
         return redirect(url_for('.post', id=id))
     post.followers.remove(current_user)

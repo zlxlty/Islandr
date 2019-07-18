@@ -53,31 +53,6 @@
 </div>
 
 <div class="container mt-4">
-    <ul class="nav nav-tabs nav-fill mt-4" id="myTab" role="tablist">
-        <img class="mx-2" src="{{url_for('static', filename='icon/team.png')}}" alt="calendar" width="30px" height="30px">
-        <h4 class="mr-5">Teams</h4>
-        <li class="nav-item">
-          <a style="color:gray;" class="nav-link active" id="latest-tab" data-toggle="tab" href="#latest" role="tab" aria-controls="latest" aria-selected="true">Latest</a>
-        </li>
-        <li class="nav-item">
-          <a style="color:gray;" class="nav-link" id="popular-tab" data-toggle="tab" href="#popular" role="tab" aria-controls="popular" aria-selected="false">Popular</a>
-        </li>
-        <li class="nav-item">
-          <a style="color:gray;" class="nav-link" id="random-tab" data-toggle="tab" href="#random" role="tab" aria-controls="random" aria-selected="false">Random</a>
-        </li>
-        <a class="ml-5" href="#"><button class="btn btn-light">View All >></button></a>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="latest" role="tabpanel" aria-labelledby="latest-tab">
-            {{ macros.group_generator(groups['latest']) }}
-        </div>
-        <div class="tab-pane fade" id="popular" role="tabpanel" aria-labelledby="popular-tab">
-            {{ macros.group_generator(groups['popular']) }}
-        </div>
-        <div class="tab-pane fade" id="random" role="tabpanel" aria-labelledby="random-tab">
-            {{ macros.group_generator(groups['random']) }}
-        </div>
-    </div>
     <hr>
     <div class="row">
         <div class="col-sm-2 text-center">
@@ -143,7 +118,7 @@
         <li class="nav-item">
             <a style="color:gray;" class="nav-link" id="sunday-tab" data-toggle="tab" href="#sunday" role="tab" aria-controls="sunday" aria-selected="false">Sun</a>
         </li>
-        <a class="ml-5" href="#"><button class="btn btn-light">View All >></button></a>
+        <a class="ml-5" href="{{url_for('event.all_post')}}"><button class="btn btn-light">View All >></button></a>
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="monday" role="tabpanel" aria-labelledby="monday-tab">
@@ -166,6 +141,31 @@
         </div>
         <div class="tab-pane fade" id="sunday" role="tabpanel" aria-labelledby="sunday-tab">
             {{ macros.post_generator(posts['Sun']) }}
+        </div>
+    </div>
+    <ul class="nav nav-tabs nav-fill mt-4" id="myTab" role="tablist">
+        <img class="mx-2" src="{{url_for('static', filename='icon/team.png')}}" alt="calendar" width="30px" height="30px">
+        <h4 class="mr-5">Teams</h4>
+        <li class="nav-item">
+          <a style="color:gray;" class="nav-link active" id="latest-tab" data-toggle="tab" href="#latest" role="tab" aria-controls="latest" aria-selected="true">Latest</a>
+        </li>
+        <li class="nav-item">
+          <a style="color:gray;" class="nav-link" id="popular-tab" data-toggle="tab" href="#popular" role="tab" aria-controls="popular" aria-selected="false">Popular</a>
+        </li>
+        <li class="nav-item">
+          <a style="color:gray;" class="nav-link" id="random-tab" data-toggle="tab" href="#random" role="tab" aria-controls="random" aria-selected="false">Random</a>
+        </li>
+        <a class="ml-5" href="{{url_for('group.all_group')}}"><button class="btn btn-light">View All >></button></a>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="latest" role="tabpanel" aria-labelledby="latest-tab">
+            {{ macros.group_generator(groups['latest']) }}
+        </div>
+        <div class="tab-pane fade" id="popular" role="tabpanel" aria-labelledby="popular-tab">
+            {{ macros.group_generator(groups['popular']) }}
+        </div>
+        <div class="tab-pane fade" id="random" role="tabpanel" aria-labelledby="random-tab">
+            {{ macros.group_generator(groups['random']) }}
         </div>
     </div>
 </div>

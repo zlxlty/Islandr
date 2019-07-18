@@ -64,6 +64,14 @@ class User(UserMixin, db.Model):
     def get_skills(self):
         return [x.strip() for x in self.skills.split(',')]
 
+    def get_joined_group(self):
+        joined_groups = []
+        joins = self.groups.filter_by(is_approved=1).all()
+        for join in joins:
+            group = Group.query.get(join.group_id)
+            joined_groups.append(group)
+
+        return joined_groups
 
     def been_approved(self, group):
         if group.id == None:
@@ -241,6 +249,9 @@ class Post(db.Model):
             week_posts[key] = Post.query.filter_by(is_approved=1).filter(Post.datetime_from >= that_day_begin, Post.datetime_from <= that_day_end).all()
 
         return week_posts
+
+    def has_passed(self):
+        return self.datetime_from < datetime.now()
 
     def duration(self):
         return self.datetime_to - self.datetime_from

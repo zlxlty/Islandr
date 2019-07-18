@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 14:59:30
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-17 22:36:31
+@LastEditTime: 2019-07-18 15:44:01
 '''
 
 from flask import render_template, abort, url_for, request, redirect, flash, current_app
@@ -15,6 +15,15 @@ from ..search_index import update_index
 from ..decorators import admin_required
 from ..image_saver import saver, deleter
 import os, shutil
+
+@group.route('/all')
+@login_required
+def all_group():
+    page = request.args.get('page', 1, type=int)
+    pagination = Group.query.filter_by(is_approved=1).paginate(page, per_page=12,
+                                      error_out = False)
+    groups = pagination.items
+    return render_template('all_group.html', groups=groups, pagination=pagination)
 
 @group.route('/<int:id>')
 @login_required
@@ -102,7 +111,9 @@ def group_join(id):
 @login_required
 def group_leave(id):
     group = Group.query.get_or_404(id)
-    join = Join.query.filter_by(group_id=group.id).first()
+    if group.owner[0].id == current_user.id:
+        abort(403)
+    join = Join.query.filter_by(group_id=group.id, user_id=current_user.id).first()
     db.session.delete(join)
     db.session.commit()
     return redirect(url_for('group.group_profile', id=id))

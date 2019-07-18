@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-07-14 18:03:15
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-07-17 14:09:43
+ * @LastEditTime: 2019-07-18 15:55:24
  -->
 
 
@@ -244,17 +244,11 @@
                                                   <
                                               </button>
                                       {% else %}
-                                              <button class="btn btn-secondary" type="button">
-                                                  No more ~
-                                              </button>
+                                              <button class="btn btn-light" type="button"></button>
                                       {% endif %}
                                       {% if (row * 4) - 4 + col < pictures|length %}  <!-- if not the last pic, generate a right arrow -->
                                               <button class="btn btn-info" type="button" data-dismiss="modal" data-toggle="modal" data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col + 1)|string]) | remove_ext }}">
                                                   >
-                                              </button>
-                                      {% else %}
-                                              <button class="btn btn-secondary" type="button">
-                                                  No more ~
                                               </button>
                                       {% endif %}
 
