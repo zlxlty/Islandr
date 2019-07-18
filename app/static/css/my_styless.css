@@ -125,3 +125,22 @@ footer{
   border-radius: 50px;
   text-align: right;
 }
+
+.left-arraw-pos{
+    position: fixed;
+    /* center the element */
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    /* give it dimensions */
+    min-height: 10em;
+    width: 90%;
+}
+
+.right-arraw-pos{
+    width: 75%;
+    position: fixed;
+    left: 50%;
+    margin-left: -37.5%;
+}
