@@ -3,7 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
-from datetime import datetime
+from datetime import datetime, timedelta
+import random
 import secrets
 
 registrations = db.Table('registrations',
@@ -173,8 +174,28 @@ class Group(db.Model):
     is_approved = db.Column(db.Integer, default=0)
     reject_msg = db.Column(db.Text)
 
-    def post_count(self):
-        return self.posts.count()
+    @staticmethod
+    def get_explore_groups():
+        explore_groups = {
+            'latest':[],
+            'popular':[],
+            'random':[],
+        }
+
+        groups = Group.query.filter_by(is_approved=1)
+        groups_list = groups.all()
+        groups_num = groups.count()
+        explore_groups['latest'] = groups.order_by(Group.create_date.desc()).all()[:6]
+        groups_list.sort(key=Group.member_count, reverse=True)
+        explore_groups['popular'] = groups_list[:6]
+
+        for i in random.sample(range(groups_num), 6):
+            explore_groups['random'].append(groups_list[i])
+        
+        return explore_groups
+
+    def member_count(self):
+        return self.members.count()
 
     def __repr__(self):
         return '<Group %r>' % self.groupname
@@ -196,6 +217,30 @@ class Post(db.Model):
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
     is_approved = db.Column(db.Integer, default=0, index=True)
     cover = db.Column(db.String(64), default='default.jpg')
+
+    @staticmethod
+    def get_week_posts():
+        week_posts = {
+            'Mon':[],
+            'Tue':[],
+            'Wed':[],
+            'Thr':[],
+            'Fri':[],
+            'Sat':[],
+            'Sun':[],
+        }
+
+        today_begin = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+        today_end = today_begin.replace(hour=23, minute=59, second=59)
+        current_weekday = today_begin.isoweekday()
+
+        for i, key in enumerate(week_posts.keys(), start=1):
+            delta = timedelta(days=i-current_weekday)
+            that_day_begin = today_begin + delta
+            that_day_end = today_end + delta
+            week_posts[key] = Post.query.filter_by(is_approved=1).filter(Post.datetime_from >= that_day_begin, Post.datetime_from <= that_day_end).all()
+
+        return week_posts
 
     def duration(self):
         return self.datetime_to - self.datetime_from

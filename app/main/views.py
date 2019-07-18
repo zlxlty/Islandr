@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-17 14:23:52
+@LastEditTime: 2019-07-18 12:10:58
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -21,6 +21,7 @@ from ..search_index import update_index
 from ..job import add_job, sending_emails
 from ..image_saver import saver, deleter
 from flask_sqlalchemy import get_debug_queries
+import datetime
 
 time_format = '%Y-%m-%d-%H:%M'
 
@@ -30,12 +31,9 @@ def index():
         keyword = str(request.form['search'])
         return redirect(url_for('main.m_search', keyword=keyword))
 
-    posts = Post.query.filter_by(is_approved=1).order_by(Post.last_modified.desc()).all()
-    posts = posts[0:6]
+    posts = Post.get_week_posts()
 
-    groups = Group.query.filter_by(is_approved=1).all()
-    groups.sort(key=Group.post_count, reverse=True)
-    groups = groups[0:6]
+    groups = Group.get_explore_groups()
 
     return render_template('index.html', groups=groups, posts=posts)
 

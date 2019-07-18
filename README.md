@@ -77,7 +77,8 @@ export FLASK_APP=flasky.py
 
 **TODO**  
 Sky: 
-* Cover post system (working)
+* Home page system (working)
+* Unread message highlight
 
 Jiang:
 * Hover system (working)
