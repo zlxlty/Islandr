@@ -70,4 +70,7 @@ def profile(length, profile_dir):
 def str_to_dic(str):
     return json.loads(str)
 
-
+@app.template_filter() # Jinja2 custom filter: remove ".jpg" part or any extension of a file
+def remove_ext(file_name):
+    components = file_name.split(".")
+    return components[0]

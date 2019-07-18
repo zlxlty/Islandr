@@ -14,6 +14,7 @@ from ..models import Group, Post, User, Join
 from ..search_index import update_index
 from ..decorators import admin_required
 from ..image_saver import saver, deleter
+import os, shutil
 
 @group.route('/<int:id>')
 @login_required
@@ -193,6 +194,12 @@ def group_delete(id, user_hex):
 
     for post in old_group.posts:
         db.session.delete(post)
+
+    for moment in old_group.moments:
+        db.session.delete(moment)
+
+    moments_dir = os.path.join(current_app.root_path, 'static/moments', str(old_group.id))
+    shutil.rmtree(moments_dir)
 
     db.session.delete(old_group)
     db.session.commit()

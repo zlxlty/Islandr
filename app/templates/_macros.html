@@ -205,9 +205,13 @@
     {% endif %}
 {% endmacro %}
 
+
+
 {% macro moment_generator(one_moment, pictures, without_name=False) %}
         <div class="media my-3">
-          <img class="rounded-circle account-img mr-3" src="{{ url_for('static', filename='group_logo/%s' % one_moment.from_group.logo) }}" height="80px" width="80px" alt="TEAM_LOGO">
+            <a href="{{ url_for('group.group_profile', id=one_moment.from_group.id) }}">
+                <img class="rounded-circle account-img mr-3" src="{{ url_for('static', filename='group_logo/%s' % one_moment.from_group.logo) }}" height="80px" width="80px" alt="TEAM_LOGO">
+            </a>
           <div class="media-body">
 
             {% if without_name %}
@@ -224,13 +228,85 @@
                         {% for col in range(1, 5) %} <!-- pic_index = (row * 4) - 4 + col -->
                         <div class="col pr-1 pl-1">
                             {% if (row*4)-4+col <= pictures|length %}
-                            <img class="img-fluid mb-1" src="{{ url_for('static', filename='moments/%d/thumbnail_%s' % (one_moment.from_group.id, pictures['%s'% ((row * 4) - 4 + col)|string ] )  ) }}" alt="MOMENT" height="250px" width="250px">
+
+                            <img class="img-fluid mb-1" data-toggle="modal" data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col)|string]) | remove_ext }}" src="{{ url_for('static', filename='moments/%d/thumbnail_%s' % (one_moment.from_group.id, pictures['%s'% ((row * 4) - 4 + col)|string ] )  ) }}" alt="MOMENT" height="250px" width="250px">
+
+                            <div class="modal" id="{{ ('fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col)|string]) | remove_ext }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+                                <div class="modal-content">
+                                  <div class="modal-body">
+                                    <img class="img-fluid mb-1" data-toggle="modal" data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col)|string]) | remove_ext  }}" src="{{ url_for('static', filename='moments/%d/%s' % (one_moment.from_group.id, pictures['%s'% ((row * 4) - 4 + col)|string ] )  ) }}" alt="MOMENT_FULL_SIZE">
+                                  </div>
+                                  <div class="modal-footer d-flex justify-content-between">
+                                      {% if (row * 4) - 4 + col > 1 %}  <!-- if not the first pic, generate a left arrow -->
+                                              <button class="btn btn-info" type="button" data-dismiss="modal" data-toggle="modal" data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col - 1)|string]) | remove_ext }}">
+                                                  <
+                                              </button>
+                                      {% else %}
+                                              <button class="btn btn-secondary" type="button">
+                                                  No more ~
+                                              </button>
+                                      {% endif %}
+                                      {% if (row * 4) - 4 + col < pictures|length %}  <!-- if not the last pic, generate a right arrow -->
+                                              <button class="btn btn-info" type="button" data-dismiss="modal" data-toggle="modal" data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col + 1)|string]) | remove_ext }}">
+                                                  >
+                                              </button>
+                                      {% else %}
+                                              <button class="btn btn-secondary" type="button">
+                                                  No more ~
+                                              </button>
+                                      {% endif %}
+
+
+                                  </div>
+                                  <!-- CLOSE button -->
+                                  <div style="position:absolute; z-index:2; right:4px; top:-1px">
+                                      <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                      </button>
+                                  </div>
+                                </div>
+
+                              </div>
+
+                            </div>
+
                             {% endif %}
                         </div>
                         {% endfor %}
                     </div>
                 {% endfor %}
             </div>
+
+
+            {% if one_moment.from_group.owner[0].id == current_user.id %} <!-- Delete Button -->
+                <div class="mt-2"></div> <!-- space -->
+                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal_{{ one_moment.id }}">Delete</button>
+                <div class="modal fade" id="deleteModal_{{ one_moment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Confirmation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to <b style="color:red;">DELETE</b> this Moment?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a href="{{ url_for('moment.delete_moment', id=one_moment.id, hex=(one_moment.pictures|str_to_dic)['1']|remove_ext ) }}">
+                                <button type="button"class="btn btn-danger">Delete</button>
+                            </a>
+                        </div>
+                        </div>
+                    </div>
+
+                </div>
+            {% endif %}
 
           </div>
         </div>

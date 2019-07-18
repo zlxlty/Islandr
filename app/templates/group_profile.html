@@ -91,17 +91,22 @@
 </div>
 {% endif %}
 
-<div class="row">
-    <div class="col-8">
-        {% if group.moments.all() %}
-            {% for one_moment in group.moments.all()|reverse %}
-                {{ macros.moment_generator(one_moment, one_moment.pictures | str_to_dic, without_name=True) }}
-                <hr>
-            {% endfor %}
-        {% endif %}
-    </div>
-    <div class="col-4">
-        {{ macros.post_generator(posts, show_dot=(current_user.id==group.owner[0].id), full_width=True) }}
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            {% if group.moments.all()|length > 0 %}
+                {% for one_moment in group.moments.all()|reverse %}
+                    {{ macros.moment_generator(one_moment, one_moment.pictures | str_to_dic, without_name=True) }}
+                {% endfor %}
+            {% else %}
+                <div class="container mt-4">
+                    <h4>Nothing here yet.</h4>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-4">
+            {{ macros.post_generator(posts, show_dot=(current_user.id==group.owner[0].id), full_width=True) }}
+        </div>
     </div>
 </div>
 
