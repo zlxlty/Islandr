@@ -29,8 +29,6 @@
                     <a style="color:black;" href="{{ url_for('main.account', user_id=group.owner[0].id) }}">
                         <h6><b>Leader:</b>  {{ group.owner[0].username }}</h6>
                     </a>
-                    <hr>
-                    <h6><b>Tag:</b>  {{ group.tag }}</h6>
                     <hr/>
                     <h6><b>Events:</b>  {{ group.posts.filter_by(is_approved=1).count() }}</h6>
                     <hr/>
@@ -74,8 +72,8 @@
 </div>
 <hr>
 <div class="row mt-4"> <!-- The row for titles -->
-    <div class="col-8"><h3>Moments</h3><hr></div>
-    <div class="col-4"><h3>Events</h3><hr></div>
+    <div class="col-8"><h4>Moments</h4><hr></div>
+    <div class="col-4"><h4>Events</h4><hr></div>
 </div>
 
 {% if group.is_approved == 1 and current_user.id == group.owner[0].id %}

@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-07-14 18:03:15
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-07-17 11:14:25
+ * @LastEditTime: 2019-07-17 14:09:43
  -->
 
 
@@ -86,11 +86,6 @@
 
             </div>
         {% endfor %}
-    {% else %}
-    <div style="color: gray;" class="container text-center mt-3">
-        <h4>No Event is Found</h4>
-
-    </div>
     {% endif %}
 {% if not full_width %}</div>{% endif %}
 {% endmacro %}
@@ -127,10 +122,6 @@
 
             </div>
         {% endfor %}
-    {% else %}
-    <div style="color:gray;" class="container text-center mt-3">
-        <h4>No Team is Found</h4>
-    </div>
     {% endif %}
 </div>
 {% endmacro %}
@@ -157,10 +148,6 @@
             {% endfor %}
             <hr>
         </div>
-    {% else %}
-    <div style="color: gray;" class="container text-center mt-3">
-        <h4>No User is Found</h4>
-    </div>
     {% endif %}
 </div>
 {% endmacro %}

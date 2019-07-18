@@ -5,6 +5,7 @@ from . import db
 from .models import User, Post, Group, Join
 from flask import current_app
 from app import search
+from datetime import datetime
 
 def _get_key (dict , value):
     return str([k for k, v in dict.items() if v == value][0])
@@ -45,7 +46,6 @@ def groups():
         if u.my_group is not None:
             continue
         g = Group(groupname=fake.name(),
-                  tag=_get_key(current_app.config['TAGS'], randint(0, 5)),
                   about_us=fake.text(),
                   is_approved=1)
         u.my_group = g
@@ -71,11 +71,16 @@ def posts(count=100):
     fake = Faker('en_US')
     group = Group.query.filter_by(is_approved=1)
     group_count = group.count()
+
     for i in range(count):
+        datetime_from = datetime(2019, 7, randint(14, 20))
+        datetime_to = datetime(2019, 7, randint(14, 20))
         g = group.offset(randint(0, group_count - 1)).first()
         p = Post(title='Activity %d' % i,
                  location=fake.city(),
                  tag=_get_key(current_app.config['TAGS'], randint(0, 5)),
+                 datetime_from = datetime_from,
+                 datetime_to = datetime_to,
                  post_html=fake.text(),
                  author=g)
         db.session.add(p)

@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-17 10:51:23
+@LastEditTime: 2019-07-18 12:10:58
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -21,6 +21,7 @@ from ..search_index import update_index
 from ..job import add_job, sending_emails
 from ..image_saver import saver, deleter
 from flask_sqlalchemy import get_debug_queries
+import datetime
 
 time_format = '%Y-%m-%d-%H:%M'
 
@@ -30,12 +31,9 @@ def index():
         keyword = str(request.form['search'])
         return redirect(url_for('main.m_search', keyword=keyword))
 
-    posts = Post.query.filter_by(is_approved=1).order_by(Post.last_modified.desc()).all()
-    posts = posts[0:6]
+    posts = Post.get_week_posts()
 
-    groups = Group.query.filter_by(is_approved=1).all()
-    groups.sort(key=Group.post_count, reverse=True)
-    groups = groups[0:4]
+    groups = Group.get_explore_groups()
 
     return render_template('index.html', groups=groups, posts=posts)
 
@@ -91,7 +89,7 @@ def m_search():
     page = request.args.get('page', 1, type=int)
 
     if option == 'group':
-        pagination = Group.query.msearch(keyword, fields=['groupname','tag']).filter_by(is_approved=1).order_by(Group.create_date.desc()).paginate(
+        pagination = Group.query.msearch(keyword, fields=['groupname']).filter_by(is_approved=1).order_by(Group.create_date.desc()).paginate(
             page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
             error_out = False)
     elif option == 'user':
@@ -116,7 +114,7 @@ def post_editor():
 
     if request.method == 'POST':
         if not request.form['content'] or not request.form['title'] or not request.form['datetime_from'] or not request.form['datetime_to']:
-            flash('Please fill in all forms!')
+            flash('Please fill in all forms!', 'danger')
             return redirect(url_for('.post_editor'))
         print("IN POST")
 
@@ -154,12 +152,12 @@ def post_editor():
 def group_creater():
 
     if current_user.my_group:
-        flash('You already have a group!')
+        flash('You already have a group!', 'danger')
         return redirect(url_for('main.index'))
 
     if request.method == 'POST':
         if not request.form['groupname']:
-            flash('Please fill in the name!')
+            flash('Please fill in the name!', 'danger')
             return redirect(url_for('.group_creater'))
 
         if request.files['logo']:
@@ -175,7 +173,6 @@ def group_creater():
             background_filename = "default.jpg"
 
         group = Group(groupname=request.form['groupname'],
-                      tag=request.form['tag'],
                       about_us=request.form['aboutus'],
                       logo=logo_filename,
                       background=background_filename)

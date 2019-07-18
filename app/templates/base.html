@@ -19,24 +19,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('main.index')}}">Home<span class="sr-only">(current)</span></a>
+                <a class="nav-link active" href="{{url_for('main.index')}}">Home <span><img src="{{url_for('static', filename='icon/home.png')}}" alt="home icon" height="21px" width="21px"></span></a>
             </li>
-            <!-- TODO -->
+
             <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('moment.moments')}}">Moments<span class="sr-only">(current)</span></a>
-            </li>
-            <!-- TODO -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Group
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% if not current_user.my_group %}
-                        <a class="dropdown-item" href="{{url_for('main.group_creater')}}">Create Group</a>
-                    {% else %}
-                        <a class="dropdown-item" href="{{url_for('group.group_profile', id=current_user.group_id)}}">My Group</a>
-                    {% endif %}
-                </div>
+                <a class="nav-link" href="{{url_for('moment.moments')}}">Moments <span><img src="{{url_for('static', filename='icon/moments.png')}}" alt="home icon" height="21px" width="21px"></span></a>
             </li>
             {% if current_user.is_admin %}
                 <li class="nav-item dropdown">
@@ -70,6 +57,11 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ url_for('main.account', user_id=current_user.id) }}">My Account</a>
+                    {% if not current_user.my_group %}
+                        <a class="dropdown-item" href="{{url_for('main.group_creater')}}">Create Group</a>
+                    {% else %}
+                        <a class="dropdown-item" href="{{url_for('group.group_profile', id=current_user.group_id)}}">My Group</a>
+                    {% endif %}
                     <a class="dropdown-item" href="{{ url_for('main.message') }}">Message {% if msg_count != 0 %} <span class="ml-1 badge badge-pill badge-danger">{{ msg_count }}</span> {% endif %}</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ url_for('auth.change_password') }}">Change Password</a>
@@ -91,8 +83,20 @@
 <div class="page">
     {% block page_header %}{% endblock %}
     <div class="container mt-6 mb-3">
-        {% for message in get_flashed_messages() %}
+        {% for message in get_flashed_messages(category_filter=['danger']) %}
         <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% for message in get_flashed_messages(category_filter=['success']) %}
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% for message in get_flashed_messages(category_filter=['warning']) %}
+        <div class="alert alert-warning">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message }}
         </div>

@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 14:59:30
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-09 11:19:37
+@LastEditTime: 2019-07-17 22:36:31
 '''
 
 from flask import render_template, abort, url_for, request, redirect, flash, current_app
@@ -61,7 +61,7 @@ def group_profile_edit(id):
 
     if request.method == 'POST':
         if not request.form['groupname']:
-            flash("Please fill in the name!")
+            flash("Please fill in the name!", 'danger')
             return redirect(url_for('.group_profile_edit'))
 
         if request.files['logo']:
@@ -79,7 +79,6 @@ def group_profile_edit(id):
             old_group.background = new_background_filename
 
         old_group.groupname = request.form['groupname']
-        old_group.tag = request.form['tag']
         old_group.about_us = request.form['aboutus']
 
         db.session.add(old_group)
@@ -96,6 +95,7 @@ def group_join(id):
     join = Join(group=group, member=current_user)
     db.session.add(join)
     db.session.commit()
+    flash('Your application has been sent to group leader.', 'warning')
     return redirect(url_for('group.group_profile', id=id))
 
 @group.route('/<int:id>/leave')
@@ -184,12 +184,12 @@ def application_reject(group_id, user_id):
     db.session.commit()
     return redirect(url_for('main.message', ctype='my_group'))
 
-@group.route('/<int:id>/delete')
+@group.route('/<int:id>/delete/<user_hex>')
 @login_required
-def group_delete(id):
+def group_delete(id, user_hex):
     old_group = Group.query.get_or_404(id)
 
-    if old_group.owner[0].id != current_user.id:
+    if old_group.owner[0].id != current_user.id or user_hex != old_group.owner[0].user_hex :
         abort(403)
 
     for post in old_group.posts:
@@ -204,7 +204,7 @@ def group_delete(id):
     db.session.delete(old_group)
     db.session.commit()
 
-    flash('Your group %s has been deleted!' % str(old_group.groupname))
+    flash('Your group %s has been deleted!' % str(old_group.groupname), 'success')
     return redirect(url_for('main.index'))
 
 @group.route('<int:id>/members')

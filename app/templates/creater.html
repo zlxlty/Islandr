@@ -20,20 +20,6 @@
         <input maxlength="50" type="text" class="form-control" name="groupname" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ old_group.groupname|safe }}">
     </div>
 
-    <div class="row">
-        <div class="form-group col-md-4 mb-3">
-            <label for="tag">Tag</label>
-            <select class="form-control" name="tag" id="tag">
-                <option>Arts</option>
-                <option>Culture</option>
-                <option>Environment</option>
-                <option>Music</option>
-                <option>Academic</option>
-                <option>Sports</option>
-            </select>
-        </div>
-    </div>
-
     <div class="form-group">
         <label>Logo</label>
         <div class="custom-file">
@@ -105,7 +91,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="{{ url_for('group.group_delete', id=old_group.id) }}">
+                    <a href="{{ url_for('group.group_delete', id=old_group.id, user_hex=old_group.owner[0].user_hex) }}">
                         <button type="button"class="btn btn-danger">Delete</button>
                     </a>
                 </div>

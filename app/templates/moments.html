@@ -11,7 +11,9 @@
         <div class="col-2"></div> <!--占位用-->
         <div class="col-8">
             {% for one_moment in moments.all() %}
+
                 {{ macros.moment_generator(one_moment, one_moment.pictures | str_to_dic) }}
+
             {% endfor %}
         </div>
         <div class="col-2"></div> <!--占位用-->
