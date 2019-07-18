@@ -47,12 +47,14 @@
         {{ macros.profile_pic_generator(post.followers.all(), amount=3) }}
     </a>
 </div>
-{% if current_user.id != post.author.owner[0].id %}
+{% if current_user.id != post.author.owner[0].id and not post.has_passed()%}
     {% if current_user.is_following(post) %}
         <a href="{{ url_for('event.post_unfollow', id=post.id) }}"><button type="button" class="btn btn-info float-right">Leave</button></a>
     {% else %}
         <a href="{{ url_for('event.post_follow', id=post.id) }}"><button type="button" class="btn btn-outline-info float-right">Attend</button></a>
     {% endif %}
+{% elif post.has_passed() %}
+    <button type="button" class="btn btn-secondary float-right">Closed</button>
 {% endif %}
 
 <div class="mt-3">

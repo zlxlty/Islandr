@@ -86,6 +86,8 @@ def post_followers(id):
 @login_required
 def post_follow(id):
     post = Post.query.get_or_404(id)
+    if post.has_passed():
+        abort(403)
     post.followers.append(current_user)
     post.author.owner[0].add_msg({'role': 'notification',
                                   'name': 'Follower',
@@ -97,6 +99,8 @@ def post_follow(id):
 @login_required
 def post_unfollow(id):
     post = Post.query.get_or_404(id)
+    if post.has_passed():
+        abort(403)
     if not current_user in post.followers.all():
         return redirect(url_for('.post', id=id))
     post.followers.remove(current_user)

@@ -25,6 +25,25 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{url_for('moment.moments')}}">Moments <span><img src="{{url_for('static', filename='icon/moments.png')}}" alt="home icon" height="21px" width="21px"></span></a>
             </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Team
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% if not current_user.my_group %}
+                        <a class="dropdown-item" href="{{url_for('main.group_creater')}}">Create Team</a>
+                    {% else %}
+                        <a class="dropdown-item" href="{{url_for('group.group_profile', id=current_user.group_id)}}">My Team</a>
+                    {% endif %}
+                    <a class="dropdown-item" href="{{url_for('main.approve')}}">All Teams</a>
+                    <div class="dropdown-divider"></div>
+                    {% if current_user.groups %}
+                        {% for group in current_user.get_joined_group() %}
+                            <a class="dropdown-item" href="{{url_for('group.group_profile', id=group.id)}}">{{group.groupname}}</a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </li>
             {% if current_user.is_admin %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -57,11 +76,6 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ url_for('main.account', user_id=current_user.id) }}">My Account</a>
-                    {% if not current_user.my_group %}
-                        <a class="dropdown-item" href="{{url_for('main.group_creater')}}">Create Group</a>
-                    {% else %}
-                        <a class="dropdown-item" href="{{url_for('group.group_profile', id=current_user.group_id)}}">My Group</a>
-                    {% endif %}
                     <a class="dropdown-item" href="{{ url_for('main.message') }}">Message {% if msg_count != 0 %} <span class="ml-1 badge badge-pill badge-danger">{{ msg_count }}</span> {% endif %}</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ url_for('auth.change_password') }}">Change Password</a>
