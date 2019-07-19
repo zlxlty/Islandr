@@ -19,15 +19,15 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link active" href="{{url_for('main.index')}}">Home <span><img src="{{url_for('static', filename='icon/home.png')}}" alt="home icon" height="21px" width="21px"></span></a>
+                <a class="nav-link active" href="{{url_for('main.index')}}">Explore <span><img src="{{url_for('static', filename='icon/explore.png')}}" alt="explore icon" height="21px" width="21px"></span></a>
             </li>
 
             <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('moment.moments')}}">Moments <span><img src="{{url_for('static', filename='icon/moments.png')}}" alt="home icon" height="21px" width="21px"></span></a>
+                <a class="nav-link" href="{{url_for('moment.moments')}}">Moments <span><img src="{{url_for('static', filename='icon/moments.png')}}" alt="moments icon" height="21px" width="21px"></span></a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Team
+                <a style="color: white;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Team <span><img src="{{url_for('static', filename='icon/team1.png')}}" alt="home icon" height="21px" width="21px"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% if not current_user.my_group %}
