@@ -24,6 +24,10 @@ tinymce.init({
     fontsize_formats: '10pt 12pt 14pt 18pt 24pt 36pt', 
      //按tab不换行 
     nonbreaking_force_tab: true,
+    templates: [
+        {title: 'Some title 1', description: 'Some desc 1', content: 'My content'},
+        // {title: 'Some title 2', description: 'Some desc 2', url: ''}
+    ],
     init_instance_callback: "insert_contents",
 });
 
