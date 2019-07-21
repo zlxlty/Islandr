@@ -97,6 +97,7 @@
             {% if group.moments.all()|length > 0 %}
                 {% for one_moment in group.moments.all()|reverse %}
                     {{ macros.moment_generator(one_moment, one_moment.pictures | str_to_dic, without_name=True) }}
+                    <br />
                 {% endfor %}
             {% endif %}
         </div>

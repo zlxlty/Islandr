@@ -140,7 +140,7 @@ def post_edit(id):
         db.session.add(old_post)
         db.session.commit()
         return redirect(url_for('event.post', id=id))
-    return render_template('editor.html', old_post=old_post, old_time_from=strtime_from, old_time_to=strtime_to) 
+    return render_template('editor.html', old_post=old_post, old_time_from=strtime_from, old_time_to=strtime_to)
 
 
 # get current post attributes, used in email.py

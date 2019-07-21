@@ -9,9 +9,27 @@
 
         <h3 class='title'>Record and capture the best <i>Moments</i> of your team. </h3>
         <br />
+
         <div class="form-group">
             <label for="body">Moment Description</label>
             <textarea class="form-control" name="body" id="body" rows="3"></textarea>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <label for="link">Link event (One moment must link with one event of your team.)</label>
+            <br />
+            <select name="link"  class="form-control">
+                {% if group.posts.all() %}
+                    {% for post in group.posts.all() %}
+                        {% if post.is_approved == 1%}
+                            <option value="{{ post.id }}">{{ post.title }}&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp{{ post.datetime_from }}</option>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <option value="None">There's no event yet.</option>
+                {% endif %}
+            </select>
         </div>
         <br />
 
