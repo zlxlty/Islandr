@@ -5,7 +5,8 @@
 
 {% block page_content %}
 
-<h1>Moments</h1>
+<h2>Moments</h2>
+<hr>
 <div class="container">
     <div class="row">
         <div class="col-2"></div> <!--占位用-->
@@ -13,6 +14,7 @@
             {% for one_moment in moments.all() %}
 
                 {{ macros.moment_generator(one_moment, one_moment.pictures | str_to_dic) }}
+                <hr>
 
             {% endfor %}
         </div>

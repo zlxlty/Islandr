@@ -79,6 +79,8 @@ export FLASK_APP=flasky.py
 Sky: 
 * Home page system (working)
 * Unread message highlight
+* Account page redesign
+* Team profile page redesign
 
 Jiang:
 * Hover system (working)
@@ -93,6 +95,9 @@ Multy:
 Marketing Team:
 * Tag system (working)
 * Reward and evaluate system
+
+**ERROR**
+* Search function can't find any result if there is a space in keyword
 
 ***
 ## Unittesting
