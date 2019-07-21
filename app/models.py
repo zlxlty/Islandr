@@ -197,7 +197,10 @@ class Group(db.Model):
         groups_list.sort(key=Group.member_count, reverse=True)
         explore_groups['popular'] = groups_list[:6]
 
-        for i in random.sample(range(groups_num), 6):
+        amount = 6
+        if groups_num < 6:
+            amount = groups_num
+        for i in random.sample(range(groups_num), amount):
             explore_groups['random'].append(groups_list[i])
         
         return explore_groups

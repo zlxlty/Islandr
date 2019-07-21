@@ -35,7 +35,7 @@
                     {% else %}
                         <a class="dropdown-item" href="{{url_for('group.group_profile', id=current_user.group_id)}}">My Team</a>
                     {% endif %}
-                    <a class="dropdown-item" href="{{url_for('main.approve')}}">All Teams</a>
+                    <a class="dropdown-item" href="{{url_for('group.all_group')}}">All Teams</a>
                     <div class="dropdown-divider"></div>
                     {% if current_user.groups %}
                         {% for group in current_user.get_joined_group() %}
