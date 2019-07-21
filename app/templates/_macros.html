@@ -221,16 +221,13 @@
                 <h4 class="md-2">{{ moment(one_moment.timestamp).fromNow() }}</h4> <!-- "moment()" here is flask-moment function -->
             {% else %}
                 {% if without_name %}
-                    <h4 class="mt-0">{{ moment(one_moment.timestamp).fromNow() }}</h4>
                     <a style="color: #0065A1;" href="{{url_for('event.post', id=one_moment.event_id)}}">
-                        <h6><b>Event</b> - {{ one_moment.from_post.title }}</h6>
+                        <h4>{{ one_moment.from_post.title }}</h4>
                     </a>
-                {% else %}
-                    <h4 class="md-2">{{ one_moment.from_group.groupname }}</h4>
                     <h6 class="mt-0">{{ moment(one_moment.timestamp).fromNow() }}</h6>
-                    <a style="color: #0065A1;" href="{{url_for('event.post', id=one_moment.event_id)}}">
-                        <h6><b>Event</b> - {{ one_moment.from_post.title }}</h6>
-                    </a>
+                {% else %}
+                    <h4 class="md-2">{{ one_moment.from_group.groupname }}&nbsp&nbsp|&nbsp&nbsp<a style="color: #0065A1;" href="{{url_for('event.post', id=one_moment.event_id)}}">{{ one_moment.from_post.title }}</a></h4>
+                    <h6 class="mt-0">{{ moment(one_moment.timestamp).fromNow() }}</h6>
                 {% endif %}
             {% endif %}
 
