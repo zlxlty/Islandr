@@ -44,8 +44,8 @@ class User(UserMixin, db.Model):
 
     # user profile page info
     profile_pic = db.Column(db.String(64), nullable=False, default='default.jpg')
-    name = db.Column(db.String(128), default='What is your REAL name?')
-    location = db.Column(db.String(128), default='Where are your from?')
+    name = db.Column(db.String(128), default=' / ')
+    location = db.Column(db.String(128), default=' / ')
     user_hex = db.Column(db.String(16), default=secrets.token_hex(8))
     about_me = db.Column(db.Text(), default='Nothing here yet...')
 
@@ -187,7 +187,7 @@ class Group(db.Model):
         explore_groups = {
             'latest':[],
             'popular':[],
-            'random':[],
+            'random':[]
         }
 
         groups = Group.query.filter_by(is_approved=1)
@@ -202,7 +202,7 @@ class Group(db.Model):
             amount = groups_num
         for i in random.sample(range(groups_num), amount):
             explore_groups['random'].append(groups_list[i])
-        
+
         return explore_groups
 
     def member_count(self):
@@ -226,8 +226,11 @@ class Post(db.Model):
     post_html = db.Column(db.Text)
     reject_msg = db.Column(db.Text)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
-    is_approved = db.Column(db.Integer, default=0, index=True)
+    is_approved = db.Column(db.Integer, default=0, index=True) # -1=reject, 0=pending, 1=approved
     cover = db.Column(db.String(64), default='default.jpg')
+
+    # relationship with Moment: one-to-many
+    moments = db.relationship('Moment', backref='from_post', lazy='dynamic')
 
     @staticmethod
     def get_week_posts():
@@ -291,3 +294,4 @@ class Moment(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     pictures = db.Column(db.String(), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
