@@ -187,7 +187,7 @@ class Group(db.Model):
         explore_groups = {
             'latest':[],
             'popular':[],
-            'random':[],
+            'random':[]
         }
 
         groups = Group.query.filter_by(is_approved=1)
@@ -199,7 +199,7 @@ class Group(db.Model):
 
         for i in random.sample(range(groups_num), 6):
             explore_groups['random'].append(groups_list[i])
-        
+
         return explore_groups
 
     def member_count(self):
