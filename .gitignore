@@ -32,7 +32,7 @@ nosetests.xml
 # Virtual environment
 venv
 # Migration
-migrations
+# migrations
 #msearch
 msearch
 #vscode
