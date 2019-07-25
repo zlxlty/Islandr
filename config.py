@@ -9,7 +9,7 @@ class Config:
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in \
         ['true', 'on', '1']
     MAIL_USERNAME = 'islandr-csc@outlook.com'
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_PASSWORD = 'islandrUWCCSC2019'
     FLASKY_MAIL_SENDER = 'islandr-csc@outlook.com'
 
     SQLALCHEMY_RECORD_QUERIES = True
