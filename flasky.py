@@ -20,7 +20,7 @@ migrate = Migrate(app, db)
 @app.cli.command()
 def deploy():
     '''Run deployment tasks'''
-    upgrade()
+    db.create_all()
     search.create_index()
     faker.test_user()
     search.update_index(User)
