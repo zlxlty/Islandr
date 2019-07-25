@@ -119,25 +119,28 @@ class ProductionConfig(Config):
         app.logger.addHandler(mail_handler)
 
 class HerokuConfig(ProductionConfig):
+    print('testing')
+    
     SSL_REDIRECT = True if os.environ.get('DYNO') else False
+
     @classmethod
     def init_app(cls, app):
         ProductionConfig.init_app(app)
 
+        # handle reverse proxy server headers
+        from werkzeug.contrib.fixers import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app)
+
+        # log to stderr
         import logging
         from logging import StreamHandler
         file_handler = StreamHandler()
         file_handler.setLevel(logging.INFO)
         app.logger.addHandler(file_handler)
-
-        from werkzeug.contrib.fixers import ProxyFix
-        app.wsgi_app = ProxyFix(app.wsgi_app)
-
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
     'heroku': HerokuConfig,
-
-    'default': DevelopmentConfig
+    'default': DevelopmentConfig,
 }
