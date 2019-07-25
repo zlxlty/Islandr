@@ -24,13 +24,13 @@ def saver(type, form_picture, user=None):
     picture_file_name = random_hex + file_extension
 
     i = Image.open(form_picture)
+    i.load()
 
     if type == 'moment': # moments 需要存两份图片，一个缩略图，一个大图
-        print("IN SAver, IN MOMEnT")
+
         group = user.my_group
-        print(group, group.id)
         moment_dir = os.path.join(current_app.root_path, root_path[type], str(group.id))
-        print("moment_dir")
+
         if not os.path.exists(moment_dir):
             os.mkdir(moment_dir)
 
@@ -117,6 +117,8 @@ def saver(type, form_picture, user=None):
 
         picture_path = os.path.join(current_app.root_path, root_path[type], picture_file_name)
         i.save(picture_path)
+
+    i.close()
 
     return picture_file_name
 
