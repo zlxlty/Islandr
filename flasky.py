@@ -23,7 +23,7 @@ def deploy():
     upgrade()
     search.create_index()
     faker.test_user()
-    search.update_index(User)
+    search.update_index()
 
 
 
