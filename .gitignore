@@ -43,3 +43,5 @@ tmp
 profile
 #moments
 moments
+#env
+.env
