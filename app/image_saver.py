@@ -3,6 +3,10 @@ from PIL import Image
 import secrets
 from flask import current_app
 from datetime import datetime
+from threading import Thread
+from . import db
+from .models import Moment, User
+import json
 
 # type与root path对应的字典，方便今后维护
 root_path = {
@@ -13,7 +17,39 @@ root_path = {
     'moment': 'static/moments'
 }
 
+# thread creator
+def thr_saver(type, form_picture, user_id, **kwargs):
+    print("first user = ", user_id)
+    app = current_app._get_current_object()
+    if type == 'moment':
+        thr = Thread(target=moment_saver, args=[app, form_picture, user_id, kwargs['m_body'], kwargs['m_group'], kwargs['m_post']])
+    thr.start()
+    return thr
+
+def moment_saver(app, form_pictures, user_id, body, group, post):
+    print("user in moment_saver = ", user_id)
+    with app.app_context():
+        print("\nin app_context\n")
+        print("user in moment_saver = ", user_id)
+        print("body = ", body)
+        pic_names = {}
+        pic_index = 0
+        for picture in form_pictures:
+            pic_index += 1
+            pic_names[str(pic_index)] = saver('moment', picture, user_id)
+            picture.close()
+        pic_names_str = json.dumps(pic_names)
+        moment = Moment(body=body,
+                        pictures=pic_names_str,
+                        from_group=group,
+                        from_post=post)
+        db.session.add(moment)
+        db.session.commit()
+
 def saver(type, form_picture, user=None):
+
+    print("\n in saver \n")
+    print("User in saver = ", user)
 
     if type == 'user_profile_pic' and user is not None:
         random_hex = user.user_hex
@@ -23,12 +59,22 @@ def saver(type, form_picture, user=None):
     _, file_extension = os.path.splitext(form_picture.filename)
     picture_file_name = random_hex + file_extension
 
-    i = Image.open(form_picture)
-    i.load()
+    _path = os.path.join(current_app.root_path, "static", picture_file_name)
+    print("\n before save \n")
+    form_picture.save(_path)
+    form_picture.close()
+    print("\n before open \n")
+    i = Image.open(_path)
+    print("\n after open \n")
+
+    #form_picture.close()
+    #i = Image.open(form_picture)
+    #form_picture.close()
 
     if type == 'moment': # moments 需要存两份图片，一个缩略图，一个大图
 
-        group = user.my_group
+        user_id = user
+        group = User.query.get(user_id).my_group
         moment_dir = os.path.join(current_app.root_path, root_path[type], str(group.id))
 
         if not os.path.exists(moment_dir):
@@ -119,6 +165,7 @@ def saver(type, form_picture, user=None):
         i.save(picture_path)
 
     i.close()
+    #os.remove(_path)
 
     return picture_file_name
 
