@@ -6,6 +6,7 @@ from ..models import Moment, Post
 from ..image_saver import saver, deleter
 from datetime import datetime
 import json
+import threading
 
 
 @moment.route('/create_moment', methods=['GET', 'POST'])
@@ -19,9 +20,6 @@ def create_moment():
         moment_text = str(request.form['body'])
         moment_pictures = request.files.getlist("pictures")
         event = request.form['link'] # User wants to link moment with this event
-
-        print("EVENT = ", event)
-        print("EVENT type= ", type(event))
 
         if event == "None":
             flash("One moment MUST link with one event of your team.")
@@ -38,23 +36,30 @@ def create_moment():
             return redirect(url_for('.create_moment'))
 
         # save pictures to local
-        pic_names = {}
-        pic_index = 0
-        for picture in moment_pictures:
-            pic_index += 1
-            pic_names[str(pic_index)] = saver('moment', picture, current_user)
+        def save_pics(moment_pictures, current_user=current_user):
+            print("in thread")
+            pic_names = {}
+            pic_index = 0
 
-        pic_names_str = json.dumps(pic_names)
+            for picture in moment_pictures:
+                print("PIC: ", picture)
+                pic_index += 1
+                pic_names[str(pic_index)] = saver('moment', picture, current_user)
 
-        # save text and pics to the database
-        moment = Moment(body=moment_text,
-                        pictures=pic_names_str,
-                        from_group=current_user.my_group,
-                        from_post=event)
-        db.session.add(moment)
-        db.session.commit()
+            pic_names_str = json.dumps(pic_names)
 
-        return redirect(url_for('.moments'))
+            # save text and pics to the database
+            moment = Moment(body=moment_text,
+                            pictures=pic_names_str,
+                            from_group=current_user.my_group,
+                            from_post=event)
+            db.session.add(moment)
+            db.session.commit()
+
+        save_pic_thread = threading.Thread(target=save_pics, args=[moment_pictures,])
+        save_pic_thread.start()
+        flash("Start saving your files...")
+        #return redirect(url_for('.moments'))
 
     return render_template('create_moment.html', group=current_user.my_group)
 
