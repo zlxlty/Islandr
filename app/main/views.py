@@ -251,8 +251,6 @@ def account(user_id):
     else:
         abort(404)
 
-
-
     profile_pic = url_for('static', filename='profile_pic/' + user.profile_pic)
 
     return render_template('account.html', type=ctype, user=user, profile_pic=profile_pic, user_id=user_id, items=items, pagination=pagination)
@@ -329,4 +327,3 @@ def save_profile_pic(form_picture, user):
     i.save(picture_path)
 
     return picture_file_name
-
