@@ -43,6 +43,6 @@ tmp
 profile
 #moments
 moments
-migrations
+# migrations
 #env
 .env
