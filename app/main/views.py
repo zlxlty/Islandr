@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-20 06:49:05
+@LastEditTime: 2019-08-03 14:14:22
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -84,7 +84,6 @@ def m_search():
 
     keyword = request.args.get('keyword') or ' '
     option = request.args.get('option') or 'event'
-
     page = request.args.get('page', 1, type=int)
 
     if option == 'group':
