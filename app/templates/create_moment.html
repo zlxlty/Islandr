@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block title %}Islandr - New Moment{% endblock %}
-{% import "_macros.html" as macros %}
+{% import "_macros.html" as macros with context %}
 
 {% block page_content %}
 <div class="mt-6">
-    <form method="POST" action="" enctype="multipart/form-data">
+    <form method="POST" action="" enctype="multipart/form-data" id="form-with-disable">
 
         <h3 class='title'>Record and capture the best <i>Moments</i> of your team. </h3>
         <br />
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <input type="submit" value="Post is now!" class="btn btn-light btn-outline-info mt-3"></input>
+        <input type="submit" value="Post is now!" class="btn btn-light btn-outline-info mt-3" id="disable-submitBtn"></input>
 
     </form>
 </div>

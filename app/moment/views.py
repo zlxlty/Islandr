@@ -3,10 +3,9 @@ from flask_login import login_required, current_user
 from . import moment
 from .. import db
 from ..models import Moment, Post
-from ..image_saver import thr_saver, deleter
+from ..image_saver import saver, deleter
 from datetime import datetime
 import json
-import threading
 
 
 @moment.route('/create_moment', methods=['GET', 'POST'])
@@ -29,15 +28,30 @@ def create_moment():
 
         #Make sure at 1 to 9 pictures are uploaded
         if not request.files["pictures"]:
-            flash("At least ONE picture is required for a Moment.")
+            flash("At least ONE picture is required for a Moment.") #ERROR: doen't display
             return redirect(url_for('.create_moment'))
         if len(moment_pictures) > 9:
-            flash("Maximum 9 pictures are allowed for a Moment.")
+            print("BIGGER THEN ()")
+            flash("Maximum 9 pictures are allowed for a Moment.") #ERROR: doen't display
             return redirect(url_for('.create_moment'))
 
-        thr_saver('moment', moment_pictures, current_user.id, m_body=moment_text, m_group=current_user.my_group, m_post=event)
+        # save pictures to local
+        pic_names = {}
+        pic_index = 0
+        for picture in moment_pictures:
+            pic_index += 1
+            pic_names[str(pic_index)] = saver('moment', picture, current_user)
 
-        flash("Your moment has been created! Start saving pictures...")
+        pic_names_str = json.dumps(pic_names)
+
+        # save text and pics to the database
+        moment = Moment(body=moment_text,
+                        pictures=pic_names_str,
+                        from_group=current_user.my_group,
+                        from_post=event)
+        db.session.add(moment)
+        db.session.commit()
+
         return redirect(url_for('.moments'))
 
     return render_template('create_moment.html', group=current_user.my_group)
