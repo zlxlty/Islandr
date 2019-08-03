@@ -21,7 +21,7 @@ function insert_contents(inst){
 
 
 {% block page_content %}
-<form method="POST" action="" enctype="multipart/form-data">
+<form method="POST" action="" enctype="multipart/form-data" id="form-with-disable">
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
@@ -97,7 +97,7 @@ function insert_contents(inst){
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit"class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" id="disable-submitBtn">Submit</button>
             </div>
             </div>
         </div>

@@ -12,7 +12,7 @@
 
 
 {% block page_content %}
-<form method="POST" action="" enctype="multipart/form-data">
+<form method="POST" action="" enctype="multipart/form-data" id="form-with-disable">
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroup-sizing-default">Group Name</span>
@@ -65,7 +65,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit"class="btn btn-primary">Submit</button>
+                <button type="submit"class="btn btn-primary" id="disable-submitBtn">Submit</button>
             </div>
             </div>
         </div>
@@ -92,7 +92,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <a href="{{ url_for('group.group_delete', id=old_group.id, user_hex=old_group.owner[0].user_hex) }}">
-                        <button type="button"class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-danger" id="disable-submitBtn">Delete</button>
                     </a>
                 </div>
                 </div>

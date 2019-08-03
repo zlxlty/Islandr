@@ -20,9 +20,6 @@ def create_moment():
         moment_pictures = request.files.getlist("pictures")
         event = request.form['link'] # User wants to link moment with this event
 
-        print("EVENT = ", event)
-        print("EVENT type= ", type(event))
-
         if event == "None":
             flash("One moment MUST link with one event of your team.")
             return redirect(url_for('.create_moment'))
