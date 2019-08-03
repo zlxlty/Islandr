@@ -28,10 +28,11 @@ def create_moment():
 
         #Make sure at 1 to 9 pictures are uploaded
         if not request.files["pictures"]:
-            flash("At least ONE picture is required for a Moment.")
+            flash("At least ONE picture is required for a Moment.") #ERROR: doen't display
             return redirect(url_for('.create_moment'))
         if len(moment_pictures) > 9:
-            flash("Maximum 9 pictures are allowed for a Moment.")
+            print("BIGGER THEN ()")
+            flash("Maximum 9 pictures are allowed for a Moment.") #ERROR: doen't display
             return redirect(url_for('.create_moment'))
 
         # save pictures to local
