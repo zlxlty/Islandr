@@ -10,7 +10,7 @@ class Config:
         ['true', 'on', '1']
     MAIL_USERNAME = 'islandr-csc@outlook.com'
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    FLASKY_MAIL_SENDER = 'Islandr Team'
+    FLASKY_MAIL_SENDER = 'islandr-csc@outlook.com'
 
     SQLALCHEMY_RECORD_QUERIES = True
     FLASKY_SLOW_DB_QUERY_TIME = 0.5
@@ -118,43 +118,12 @@ class ProductionConfig(Config):
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
 
-class HerokuConfig(ProductionConfig):
-    print('testing')
-    
-    SSL_REDIRECT = True if os.environ.get('DYNO') else False
 
-    @classmethod
-    def init_app(cls, app):
-        ProductionConfig.init_app(app)
-
-        # handle reverse proxy server headers
-        from werkzeug.contrib.fixers import ProxyFix
-        app.wsgi_app = ProxyFix(app.wsgi_app)
-
-        # log to stderr
-        import logging
-        from logging import StreamHandler
-        file_handler = StreamHandler()
-        file_handler.setLevel(logging.INFO)
-        app.logger.addHandler(file_handler)
-
-class DockerConfig(ProductionConfig):
-    @classmethod
-    def init_app(cls, app):
-        ProductionConfig.init_app(app)
-
-        import logging
-        from logging import StreamHandler
-        file_handler = StreamHandler()
-        file_handler.setLevel(logging.INFO)
-        app.logger.addHandler(file_handler)
 
 
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
-    'heroku': HerokuConfig,
-    'docker': DockerConfig,
-    'default': DevelopmentConfig,
+    'default': ProductionConfig,
 }

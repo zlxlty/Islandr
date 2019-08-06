@@ -77,27 +77,32 @@ export FLASK_APP=flasky.py
 
 **TODO**  
 Sky: 
-* Home page system (working)
-* Unread message highlight
-* Account page redesign
-* Team profile page redesign
+- [ ] Unread message highlight
+- [ ] Account page redesign
+- [ ] Team profile page redesign
+- [ ] Transfer Team Ownership
 
 Jiang:
-* Hover system (working)
+- [ ] Hover system (working)
 
 Steven:
-* Moments (working)
+- [ ] Moments Like function(working)
 
 Multy:
-* Email template (working)
-* About Us page
+- [ ] Email template (working)
+- [ ] About Us page
 
 Marketing Team:
-* Tag system (working)
-* Reward and evaluate system
+- [ ] Tag system (working)
+- [ ] Team Organization
+- [ ] Tingting Communication
 
 **ERROR**
-* Search function can't find any result if there is a space in keyword
+- [ ] Search function can't find any result if there is a space in keyword
+- [ ] Email Authentication Error
+- [ ] Nginx Large File Error
+- [ ] Mobile Display Error
+- [ ] Server Time Error
 
 ***
 ## Unittesting
