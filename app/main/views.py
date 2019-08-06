@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-03 14:14:22
+@LastEditTime: 2019-08-06 12:59:24
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -30,11 +30,11 @@ def index():
         keyword = str(request.form['search'])
         return redirect(url_for('main.m_search', keyword=keyword))
 
-    posts = Post.get_week_posts()
+    date, posts = Post.get_week_posts()
 
     groups = Group.get_explore_groups()
 
-    return render_template('index.html', groups=groups, posts=posts)
+    return render_template('index.html', date=date, groups=groups, posts=posts)
 
 @main.route('/about_us')
 def about_us():

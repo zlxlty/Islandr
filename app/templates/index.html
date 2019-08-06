@@ -98,25 +98,25 @@
         <img class="mx-2" src="{{url_for('static', filename='icon/calendar.png')}}" alt="calendar" width="30px" height="30px">
         <h4 class="mr-5">Calendar</h4>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link active" id="monday-tab" data-toggle="tab" href="#monday" role="tab" aria-controls="monday" aria-selected="true">Mon</a>
+            <a style="color:gray;" class="nav-link {% if date==0 %}active{% endif %}" id="monday-tab" data-toggle="tab" href="#monday" role="tab" aria-controls="monday" aria-selected="true">{% if date==0 %}Today{% else %}Mon{% endif %}</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link" id="tuesday-tab" data-toggle="tab" href="#tuesday" role="tab" aria-controls="tuesday" aria-selected="false">Tue</a>
+            <a style="color:gray;" class="nav-link {% if date==1 %}active{% endif %}" id="tuesday-tab" data-toggle="tab" href="#tuesday" role="tab" aria-controls="tuesday" aria-selected="false">{% if date==1 %}Today{% else %}Tue{% endif %}</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link" id="wednesday-tab" data-toggle="tab" href="#wednesday" role="tab" aria-controls="wednesday" aria-selected="false">Wed</a>
+            <a style="color:gray;" class="nav-link {% if date==2 %}active{% endif %}" id="wednesday-tab" data-toggle="tab" href="#wednesday" role="tab" aria-controls="wednesday" aria-selected="false">{% if date==2 %}Today{% else %}Wed{% endif %}</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link" id="thursday-tab" data-toggle="tab" href="#thursday" role="tab" aria-controls="thursday" aria-selected="false">Thr</a>
+            <a style="color:gray;" class="nav-link {% if date==3 %}active{% endif %}" id="thursday-tab" data-toggle="tab" href="#thursday" role="tab" aria-controls="thursday" aria-selected="false">{% if date==3 %}Today{% else %}Thr{% endif %}</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link" id="friday-tab" data-toggle="tab" href="#friday" role="tab" aria-controls="friday" aria-selected="false">Fri</a>
+            <a style="color:gray;" class="nav-link {% if date==4 %}active{% endif %}" id="friday-tab" data-toggle="tab" href="#friday" role="tab" aria-controls="friday" aria-selected="false">{% if date==4 %}Today{% else %}Fri{% endif %}</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link" id="saturday-tab" data-toggle="tab" href="#saturday" role="tab" aria-controls="saturday" aria-selected="false">Sat</a>
+            <a style="color:gray;" class="nav-link {% if date==5 %}active{% endif %}" id="saturday-tab" data-toggle="tab" href="#saturday" role="tab" aria-controls="saturday" aria-selected="false">{% if date==5 %}Today{% else %}Sat{% endif %}</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link" id="sunday-tab" data-toggle="tab" href="#sunday" role="tab" aria-controls="sunday" aria-selected="false">Sun</a>
+            <a style="color:gray;" class="nav-link {% if date==6 %}active{% endif %}" id="sunday-tab" data-toggle="tab" href="#sunday" role="tab" aria-controls="sunday" aria-selected="false">{% if date==6 %}Today{% else %}Sun{% endif %}</a>
         </li>
         <a class="ml-5" href="{{url_for('event.all_post')}}"><button class="btn btn-light">View All >></button></a>
     </ul>

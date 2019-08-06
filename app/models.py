@@ -254,7 +254,7 @@ class Post(db.Model):
             that_day_end = today_end + delta
             week_posts[key] = Post.query.filter_by(is_approved=1).filter(Post.datetime_from >= that_day_begin, Post.datetime_from <= that_day_end).all()
 
-        return week_posts
+        return today_begin.weekday(), week_posts
 
     def has_passed(self):
         return self.datetime_from < datetime.now()
