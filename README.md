@@ -76,6 +76,8 @@ export FLASK_APP=flasky.py
 
 **TODO**  
 Sky: 
+- [ ] Show to day on calender
+- [ ] Show empty if their is no activity on that day
 - [ ] Unread message highlight
 - [ ] Account page redesign
 - [ ] Team profile page redesign
@@ -86,6 +88,7 @@ Jiang:
 
 Steven:
 - [ ] Moments Like function(working)
+- [ ] Change form default into placeholder
 
 Multy:
 - [ ] Email template (working)
