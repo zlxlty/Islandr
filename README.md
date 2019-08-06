@@ -90,6 +90,7 @@ Steven:
 Multy:
 - [ ] Email template (working)
 - [ ] About Us page
+- [ ] Moment Pagination
 
 Marketing Team:
 - [ ] Tag system (working)
@@ -98,8 +99,8 @@ Marketing Team:
 
 **ERROR**
 - [ ] Search function can't find any result if there is a space in keyword
-- [ ] Email Authentication Error
-- [ ] Nginx Large File Error
+- [x] Email Authentication Error
+- [x] Nginx Large File Error
 - [ ] Mobile Display Error
 - [ ] Server Time Error
 
