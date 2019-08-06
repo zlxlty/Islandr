@@ -76,7 +76,7 @@ export FLASK_APP=flasky.py
 
 **TODO**  
 Sky: 
-- [ ] Show to day on calender
+- [ ] Show today on calender
 - [ ] Show empty if their is no activity on that day
 - [ ] Unread message highlight
 - [ ] Account page redesign
@@ -89,11 +89,11 @@ Jiang:
 Steven:
 - [ ] Moments Like function(working)
 - [ ] Change form default into placeholder
+- [ ] Moment Pagination
 
 Multy:
 - [ ] Email template (working)
 - [ ] About Us page
-- [ ] Moment Pagination
 
 Marketing Team:
 - [ ] Tag system (working)
@@ -101,11 +101,11 @@ Marketing Team:
 - [ ] Tingting Communication
 
 **ERROR**
-- [ ] Search function can't find any result if there is a space in keyword
 - [x] Email Authentication Error
 - [x] Nginx Large File Error
+- [ ] Search function can't find any result if there is a space in keyword
 - [ ] Mobile Display Error
-- [ ] Server Time Error
+- [ ] Server Datetime Error
 
 ***
 ## Unittesting
