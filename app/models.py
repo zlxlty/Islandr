@@ -278,7 +278,8 @@ class Message(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def get_time(self):
-        return self.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+        msg_time = self.timestamp + timedelta(hours=8)
+        return msg_time.strftime("%Y-%m-%d %H:%M:%S")
 
     def __repr__(self):
         return '<Message %r>' % self.name
