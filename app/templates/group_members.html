@@ -11,7 +11,7 @@
     </div>
     <hr/>
 </div>
-{{ macros.user_generator(users) }}
+{{ macros.user_generator(users, group=group, viewer=current_user) }}
 <div class="pagination justify-content-center">
     {{ macros.pagination_widget(pagination, 'group.group_members', id=group.id) }}
 </div>

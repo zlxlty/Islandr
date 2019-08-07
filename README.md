@@ -75,27 +75,20 @@ export FLASK_APP=flasky.py
 2019.07.08
 
 **TODO**  
-Sky: 
-- [ ] Show today on calender
-- [ ] Show empty if their is no activity on that day
-- [ ] Unread message highlight
-- [ ] Account page redesign
-- [ ] Team profile page redesign
-- [ ] Transfer Team Ownership
-
-Jiang:
-- [ ] Hover system (working)
-
-Steven:
-- [ ] Moments Like function(working)
-- [ ] Change form default into placeholder
-- [ ] Moment Pagination
-
-Multy:
+- [x] Show today on calender
+- [x] Show empty if their is no activity on that day
+- [ ] Account page redesign (sky 8.7)
+- [ ] Team profile page redesign (multy 8.7)
+- [ ] Transfer Team Ownership (sky 8.7)
+- [ ] Delete Events (sky 8.7)
+- [ ] Change Email Comma (sky 8.7)
+- [ ] Change Search Engine (sky 8.9)
+- [ ] Hover system (Jiang 8.7)
+- [ ] Moments Like function (Steven 8.9)
+- [ ] Change form default into placeholder (Steven 8.9)
+- [ ] Moment Pagination (Steven 8.9)
 - [ ] Email template (working)
 - [ ] About Us page
-
-Marketing Team:
 - [ ] Tag system (working)
 - [ ] Team Organization
 - [ ] Tingting Communication

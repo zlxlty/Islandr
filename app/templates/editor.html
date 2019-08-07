@@ -77,6 +77,12 @@ function insert_contents(inst){
         <a href="https://screenshot.net/free-image-uploader.html" target="_blank">Upload Local Image</a>
     </div>
 
+    {% if not old_post.title=='' %}
+    <button type="button" class="btn btn-danger mt-3 float-right" data-toggle="modal" data-target="#deleteModal">
+        Delete
+    </button>
+    {% endif %}
+
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-outline-dark mt-3" data-toggle="modal" data-target="#confirmModal">
         Submit
@@ -102,6 +108,28 @@ function insert_contents(inst){
             </div>
         </div>
     </div>
+
+    {% if not old_post.title=='' %}
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalCenterTitle">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to <b style="color: red">DELETE</b> this event?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a href="{{url_for('event.post_delete', id=old_post.id)}}"><button type="button" class="btn btn-danger">Confirm</button></a>
+            </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </form>
 
 {% endblock %}

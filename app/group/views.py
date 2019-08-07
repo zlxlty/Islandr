@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 14:59:30
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-18 15:44:01
+@LastEditTime: 2019-08-07 15:23:19
 '''
 
 from flask import render_template, abort, url_for, request, redirect, flash, current_app
@@ -12,7 +12,7 @@ from . import group
 from .. import db
 from ..models import Group, Post, User, Join
 from ..search_index import update_index
-from ..decorators import admin_required
+from ..decorators import admin_required, owner_required
 from ..image_saver import saver, deleter
 import os, shutil
 
@@ -210,7 +210,8 @@ def group_delete(id, user_hex):
         db.session.delete(moment)
 
     moments_dir = os.path.join(current_app.root_path, 'static/moments', str(old_group.id))
-    shutil.rmtree(moments_dir)
+    if os.path.isdir(moments_dir):
+        shutil.rmtree(moments_dir)
 
     db.session.delete(old_group)
     db.session.commit()
@@ -230,3 +231,37 @@ def group_members(id):
         users.append(user)
     member_amount = len(users)
     return render_template('group_members.html', group=group, pagination=pagination, users=users, member_amount=member_amount)
+
+@group.route('/remove/<int:group_id>/<int:user_id>')
+@login_required
+@owner_required
+def remove_member(group_id, user_id):
+    if current_user.my_group.id != group_id:
+        abort(403)
+    user = User.query.get_or_404(user_id)
+    join = Join.query.filter_by(group_id=group_id, user_id=user_id).first()
+    if not join:
+        abort(404)
+    db.session.delete(join)
+    db.session.commit()
+
+    flash('Your have removed %s from your group' % (user.username), 'success')
+
+    return redirect(url_for('group.group_members', id=group_id))
+
+@group.route('/transfer/<int:group_id>/<int:user_id>')
+@login_required
+@owner_required
+def transfer_owner(group_id, user_id):
+    if current_user.my_group.id != group_id:
+        abort(403)
+
+    group = Group.query.get_or_404(group_id)
+    new_owner = User.query.get_or_404(user_id)
+    group.owner[0] = new_owner
+    db.session.commit()
+
+    flash('Your have transferred your ownership of %s to %s' % (group.groupname, new_owner.username), 'success')
+    
+    return redirect(url_for('group.group_members', id=group_id))
+    

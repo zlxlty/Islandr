@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-07-14 18:03:15
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-08-06 12:54:40
+ * @LastEditTime: 2019-08-07 15:20:25
  -->
 
 
@@ -149,7 +149,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro user_generator(users) %}
+{% macro user_generator(users, group=None, viewer=None) %}
 <div class="row mt-3">
     {% if users %}
     <div class="container mx-6">
@@ -164,6 +164,64 @@
                 </a>
             </div>
             <div class="col-sm-10">
+                {% if group != None and viewer != None%}
+                    {% if viewer.my_group.id == group.id %}
+                        {% if viewer.id == user.id %}
+                            <button class="btn btn-outline-secondary float-right">Yourself</button>                        
+                        {% else %}
+                            <button type="button" class="btn btn-outline-danger float-right ml-2" data-toggle="modal" data-target="#removeModal">
+                                Remove
+                            </button>
+                            <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="removeModalCenterTitle">Remove Member</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to <b style="color: red">REMOVE</b> this member?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <a href="{{url_for('group.remove_member', group_id = group.id, user_id = user.id)}}"><button type="button" class="btn btn-danger">Confirm</button></a>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            {% if not user.my_group %}
+                                <button type="button" class="btn btn-outline-info float-right" data-toggle="modal" data-target="#transferModal">
+                                    Transfer
+                                </button>
+                                <div class="modal fade" id="transferModal" tabindex="-1" role="dialog" aria-labelledby="transferModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="transferModalCenterTitle">Transfer Ownership</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to <b style="color:turquoise">TRANSFER</b> Team Ownership to this member?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <a href="{{url_for('group.transfer_owner', group_id = group.id, user_id = user.id)}}"><button type="button" class="btn btn-info">Confirm</button></a>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+
                 <h5 class="mb-2">{{ user.username|safe }}</h5>
                 <p style="font-size: 80%;" class="text-muted mb-1">Location: {{ user.location }}</p>
                 <p style="font-size: 80%;" class="text-muted mb-1">Email: {{ user.email }}</p>

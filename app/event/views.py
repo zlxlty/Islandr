@@ -4,7 +4,7 @@ from .. import db
 from ..models import User, Post
 from ..email import send_email
 from . import event
-from ..decorators import admin_required
+from ..decorators import admin_required, owner_required
 from datetime import datetime
 from ..image_saver import saver, deleter
 
@@ -106,6 +106,17 @@ def post_unfollow(id):
     post.followers.remove(current_user)
     db.session.commit()
     return redirect(url_for('.post', id=id))
+
+@event.route('/<int:id>/delete', methods=['GET'])
+@login_required
+@owner_required
+def post_delete(id):
+    post = Post.query.get_or_404(id)
+    if not post in current_user.my_group.posts.all():
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('group.group_profile', id=current_user.my_group.id))
 
 @event.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
