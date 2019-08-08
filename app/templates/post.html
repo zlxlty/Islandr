@@ -60,6 +60,8 @@
 <div class="mt-3">
     {% if current_user.group_id == post.author.id %}
         <a href="{{ url_for('event.post_edit', id=id) }}"><button type="button" class="btn btn-outline-secondary">Edit</button></a>
+    {% else %}
+        <button type="button" class="btn btn-outline-light"></button>
     {% endif %}
 </div>
 <div class="mt-3">
