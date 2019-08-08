@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-07 13:43:41
+@LastEditTime: 2019-08-08 19:18:11
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -94,19 +94,20 @@ def m_search():
         return redirect(url_for('main.m_search', keyword=keyword, option=option))
 
     keyword = request.args.get('keyword') or ' '
+    keyword_list = keyword.split(' ')
     option = request.args.get('option') or 'event'
     page = request.args.get('page', 1, type=int)
 
     if option == 'group':
-        pagination = Group.query.msearch(keyword, fields=['groupname']).filter_by(is_approved=1).order_by(Group.create_date.desc()).paginate(
+        pagination = Group.query.msearch(keyword_list, fields=['groupname']).filter_by(is_approved=1).order_by(Group.create_date.desc()).paginate(
             page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
             error_out = False)
     elif option == 'user':
-        pagination = User.query.msearch(keyword, fields=['username','email','skills']).filter_by(confirmed=True).paginate(
+        pagination = User.query.msearch(keyword_list, fields=['username','email','skills']).filter_by(confirmed=True).paginate(
             page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
             error_out = False)
     else:
-        pagination = Post.query.msearch(keyword, fields=['title','tag']).filter_by(is_approved=1).order_by(Post.last_modified.desc()).paginate(
+        pagination = Post.query.msearch(keyword_list, fields=['title','tag']).filter_by(is_approved=1).order_by(Post.last_modified.desc()).paginate(
             page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
             error_out = False)
 
@@ -290,8 +291,8 @@ def account_edit(user_id):
         user.skills = form.skills.data
         user.about_me = form.about_me.data
 
-        update_index(User)
         db.session.commit()
+        update_index(User)
         flash('Your account has been updated!', 'success')
         return redirect(url_for('main.account', user_id=user.id))
 
