@@ -6,6 +6,7 @@ from ..models import User
 from ..search_index import update_index
 from ..email import send_email
 from .forms import LoginForm, RegistrationForm, ChangePasswordForm, PasswordResetRequestForm, PasswordResetForm
+import re
 
 @auth.before_app_request
 def before_request():
@@ -19,6 +20,9 @@ def before_request():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        if not re.match(r'[0-9a-zA-Z_]{0,19}@uwcchina.org', str(form.email.data)):
+            flash('Please use UWCCSC Email to register!', 'warning')
+            return redirect(url_for('auth.register'))
         user = User(email=form.email.data,
                     username=form.username.data,
                     password=form.password.data)
