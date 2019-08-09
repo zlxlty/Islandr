@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-08 19:18:11
+@LastEditTime: 2019-08-09 16:28:17
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -288,7 +288,9 @@ def account_edit(user_id):
         user.name = form.name.data
         user.username = form.username.data
         user.location = form.location.data
+        user.wechat_id = form.wechat_id.data
         user.skills = form.skills.data
+        user.grade = form.grade.data
         user.about_me = form.about_me.data
 
         db.session.commit()
@@ -299,7 +301,9 @@ def account_edit(user_id):
     form.name.data = user.name
     form.username.data = user.username
     form.location.data = user.location
+    form.wechat_id.data = user.wechat_id
     form.skills.data = user.skills
+    form.grade.data = user.grade
     form.about_me.data = user.about_me
 
     return render_template('edit_account.html', form=form)

@@ -1,3 +1,10 @@
+'''
+@Description: Database Models for Islandr Platform
+@Author: Tianyi Lu
+@Date: 2019-08-09 15:32:20
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-08-09 15:42:18
+'''
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -30,6 +37,8 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
+    grade = db.Column(db.String(8), index=True)
+    wechat_id = db.Column(db.String(64), unique=True, index=True)
     skills = db.Column(db.String(128), index=True, default='Enter your skill set (separate with \',\')')
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)

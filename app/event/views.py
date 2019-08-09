@@ -1,3 +1,10 @@
+'''
+@Description: Edit
+@Author: Tianyi Lu
+@Date: 2019-08-09 15:41:15
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-08-09 15:42:01
+'''
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
 from flask_login import login_required, current_user
 from .. import db
@@ -16,7 +23,7 @@ time_format = '%Y-%m-%d-%H:%M'
 @login_required
 def all_post():
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.filter_by(is_approved=1).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
+    pagination = Post.query.filter_by(is_approved=1).order_by(Post.datetime_from.desc()).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
     posts = pagination.items
     return render_template('all_post.html', posts=posts, pagination=pagination)
 

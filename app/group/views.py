@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 14:59:30
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-07 15:23:19
+@LastEditTime: 2019-08-09 15:40:38
 '''
 
 from flask import render_template, abort, url_for, request, redirect, flash, current_app
@@ -20,7 +20,7 @@ import os, shutil
 @login_required
 def all_group():
     page = request.args.get('page', 1, type=int)
-    pagination = Group.query.filter_by(is_approved=1).paginate(page, per_page=12,
+    pagination = Group.query.filter_by(is_approved=1).order_by(Group.groupname).paginate(page, per_page=12,
                                       error_out = False)
     groups = pagination.items
     return render_template('all_group.html', groups=groups, pagination=pagination)
