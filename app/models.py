@@ -19,6 +19,11 @@ registrations = db.Table('registrations',
     db.Column('post_id', db.Integer, db.ForeignKey('posts.id'))
 )
 
+likes = db.Table('likes',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('moment_id', db.Integer, db.ForeignKey('moments.id'))
+)
+
 class Join(db.Model):
     __tablename__ = 'joins'
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'),
@@ -97,6 +102,11 @@ class User(UserMixin, db.Model):
         if post.id == None:
             return False
         return post in self.followings.all()
+
+    def is_liking(self, moment):
+        if moment.id == None:
+            return False
+        return moment in self.moments_liked.all()
 
     @property
     def password(self):
@@ -306,3 +316,4 @@ class Moment(db.Model):
     pictures = db.Column(db.String(), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    likes = db.relationship('User', secondary=likes, backref=db.backref('moments_liked', lazy='dynamic'), lazy='dynamic')

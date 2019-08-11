@@ -2,7 +2,7 @@ from flask import render_template, abort, url_for, request, redirect, flash, cur
 from flask_login import login_required, current_user
 from . import moment
 from .. import db
-from ..models import Moment, Post
+from ..models import Moment, Post, Group
 from ..image_saver import saver, deleter
 from datetime import datetime
 import json
@@ -62,6 +62,38 @@ def moments():
     pagination = Moment.query.order_by(Moment.timestamp.desc()).paginate(page, per_page=current_app.config['FLASKY_MOMENTS_PER_PAGE'], error_out=False)
     moments = pagination.items #moments is a list
     return render_template('moments.html', moments=moments, pagination=pagination)
+
+@moment.route('/<int:id>/like')
+@login_required
+def moment_like(id):
+    moment = Moment.query.get_or_404(id)
+    moment.likes.append(current_user)
+    group = Group.query.get_or_404(moment.group_id)
+    post = Post.query.get_or_404(moment.event_id)
+    group.owner[0].add_msg({'role': 'notification',
+                                  'name': 'Likes',
+                                  'content': '\"%s\" liked your group\'s moment. Event - \"%s\"' % (current_user.username, post.title)})
+    db.session.commit()
+    return redirect(url_for('moment.moments'))
+
+@moment.route('/<int:id>/unlike')
+@login_required
+def moment_unlike(id):
+    moment = Moment.query.get_or_404(id)
+    if current_user in moment.likes.all():
+        moment.likes.remove(current_user)
+        db.session.commit()
+    return redirect(url_for('moment.moments'))
+
+@moment.route('/<int:id>/likes') #IMPORTANT: likes is different than like
+@login_required
+def moment_likes(id):
+    moment = Moment.query.get_or_404(id)
+    page = request.args.get('page', 1, type=int)
+    pagination = moment.likes.paginate(page, per_page=12, error_out=False)
+    users = pagination.items
+    user_amount = moment.likes.count()
+    return render_template('moment_likes.html', one_moment=moment, pagination=pagination, users=users, user_amount=user_amount)
 
 @moment.route('/<int:id>/<hex>/delete')
 @login_required
