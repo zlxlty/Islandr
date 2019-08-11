@@ -9,8 +9,10 @@ from .forms import EditorForm, UpdateAccountForm
 from ..decorators import admin_required, owner_required
 from datetime import datetime
 from app import search
-from ..job import add_job, sending_emails
+from ..job import send_test_bulletin
 from ..image_saver import saver, deleter
+
+from ..faker import test_user
 
 time_format = '%Y-%m-%d-%H:%M'
 
@@ -270,6 +272,13 @@ def account_edit(user_id):
     form.about_me.data = user.about_me
 
     return render_template('edit_account.html', form=form)
+
+
+# test bulletin function
+@main.route('/send_test_bulletin', methods=['GET', 'POST'])
+def test_bulletin():
+    send_test_bulletin(current_app._get_current_object())
+    return "bulletin sent"
 
 
 def save_profile_pic(form_picture, user):
