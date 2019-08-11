@@ -3,11 +3,10 @@ Islandr
 ![Language](https://img.shields.io/badge/language-python-green.svg)  ![Version](https://img.shields.io/badge/version-0.1.0-yellow.svg)    ![Dependencies](https://img.shields.io/badge/dependencies-up_to_date-green.svg)
 <div align=center><img src="app/static/pic/cover.png"/></div>
 
-### Islandr is a website for UWCCSCer to organize, publicize and find interesting activities
+### Islandr is a website for UWCCSCer to organize, publicize and find interesting activities <!-- omit in toc -->
 
 ## Content
 - [Islandr](#Islandr)
-    - [Islandr is a website for UWCCSCer to organize, publicize and find interesting activities](#Islandr-is-a-website-for-UWCCSCer-to-organize-publicize-and-find-interesting-activities)
   - [Content](#Content)
   - [Getting_Started](#GettingStarted)
     - [Prerequisites](#Prerequisites)
@@ -76,28 +75,30 @@ export FLASK_APP=flasky.py
 2019.07.08
 
 **TODO**  
-Sky: 
-* Home page system (working)
-* Unread message highlight
-* Account page redesign
-* Team profile page redesign
-
-Jiang:
-* Hover system (working)
-
-Steven:
-* Moments (working)
-
-Multy:
-* Email template (working)
-* About Us page
-
-Marketing Team:
-* Tag system (working)
-* Reward and evaluate system
+- [x] Show today on calender
+- [x] Show empty if their is no activity on that day
+- [ ] Account page redesign (sky 8.7)
+- [ ] Team profile page redesign (multy 8.7)
+- [ ] Transfer Team Ownership (sky 8.7)
+- [ ] Delete Events (sky 8.7)
+- [ ] Change Email Comma (sky 8.7)
+- [ ] Change Search Engine (sky 8.9)
+- [ ] Hover system (Jiang 8.7)
+- [ ] Moments Like function (Steven 8.9)
+- [ ] Change form default into placeholder (Steven 8.9)
+- [ ] Moment Pagination (Steven 8.9)
+- [ ] Email template (working)
+- [ ] About Us page
+- [ ] Tag system (working)
+- [ ] Team Organization
+- [ ] Tingting Communication
 
 **ERROR**
-* Search function can't find any result if there is a space in keyword
+- [x] Email Authentication Error
+- [x] Nginx Large File Error
+- [ ] Search function can't find any result if there is a space in keyword
+- [ ] Mobile Display Error
+- [ ] Server Datetime Error
 
 ***
 ## Unittesting

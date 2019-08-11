@@ -8,8 +8,8 @@ tinymce.init({
     height:400, 
     //工具栏上面的补丁按钮 
     plugins: [ 'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker', 
-    'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking', 
-    'save table contextmenu directionality emoticons template paste textcolor', 'codesample', ], 
+    'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking', 
+    'save table contextmenu directionality emoticons template paste textcolor'], 
     //工具栏的补丁按钮 
     toolbar: 'insertfile undo redo |\
      styleselect |\

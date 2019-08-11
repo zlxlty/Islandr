@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-07-14 18:03:15
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-07-18 15:55:24
+ * @LastEditTime: 2019-08-07 15:20:25
  -->
 
 
@@ -17,20 +17,20 @@
             </a>
         </li>
         {% for p in pagination.iter_pages(left_edge=3, left_current=3, right_current=3, right_edge=3) %}
-            {% if p %}
-                {% if p == pagination.page %}
-                <li class="page-item active">
-                    <a class="page-link" href="{{ url_for(endpoint, page = p, **kwargs) }}">
-                        {{ p }}
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                {% else %}
-                <li class="page-item">
-                    <a class="page-link" href="{{ url_for(endpoint, page = p, **kwargs) }}">{{ p }}</a>
-                </li>
-                {% endif %}
-            {% endif %}
+        {% if p %}
+        {% if p == pagination.page %}
+        <li class="page-item active">
+            <a class="page-link" href="{{ url_for(endpoint, page = p, **kwargs) }}">
+                {{ p }}
+                <span class="sr-only">(current)</span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for(endpoint, page = p, **kwargs) }}">{{ p }}</a>
+        </li>
+        {% endif %}
+        {% endif %}
         {% endfor %}
         <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
             <a href="{% if pagination.has_next %}{{ url_for(endpoint,
@@ -43,111 +43,194 @@
 {% endmacro %}
 
 {% macro post_generator(posts, show_dot=False, full_width=False) %}
+{% if posts %}
 {% if not full_width %}<div class="row mt-3">{% endif %}
-    {% if posts %}
 
-        {% for post in posts %}
-            <div class="{% if not full_width %}col-sm-4{% endif %}">
-                <div class="card my-3 box-shadow">
-                    <a href="{{ url_for('event.post', id=post.id) }}">
-                        <div style="position:relative;">
-                            <img class="card-img-top" src="{{ url_for('static', filename='post_cover_pic/%s' % post.cover) }}" alt="Card image cap">
-                            {% if show_dot %}
-                            <div style="position:absolute; z-index:2; left:10px; top:10px">
-                                {% if post.is_approved == -1 %}
-                                    <div id="reject-circle"></div>
-                                {% elif post.is_approved == 0 %}
-                                    <div id="pending-circle"></div>
-                                {% elif post.is_approved == 1 %}
-                                    <div id="approved-circle"></div>
-                                {% endif %}
-                            </div>
-                            {% endif %}
-                        </div>
-                    </a>
-                    <div class="card-body">
-                        <div class="row ml-1">
-                            <h4>{{ post.title }}</h4>
-                            <img class="ml-2" src="{{ url_for('static', filename='icon/%s.png' % post.tag.lower()) }}" alt="tag" height="25px" width="25px">
-                        </div>
-                        <div class="row no-gutters">
-                            <div class="col-sm-3">
-                                <a href="{{ url_for('group.group_profile', id=post.author.id) }}">
-                                    <img class="rounded-circle" src="{{ url_for('static', filename='group_logo/%s' % post.author.logo) }}" height=50 width=50/>
-                                </a>
-                            </div>
-                            <div class="col-sm">
-                                <p class="mb-1">Organizer: {{ post.author.groupname }}</p>
-                                <p class="mb-1">Date: {{ post.datetime_from.strftime("%Y-%m-%d") }}</p>
-                            </div>
-                        </div>
+    {% for post in posts %}
+    <div class="{% if not full_width %}col-sm-4{% endif %}">
+        <div class="card my-3 box-shadow">
+            <a href="{{ url_for('event.post', id=post.id) }}">
+                <div style="position:relative;">
+                    <img class="card-img-top" src="{{ url_for('static', filename='post_cover_pic/%s' % post.cover) }}"
+                        alt="Card image cap">
+                    {% if show_dot %}
+                    <div style="position:absolute; z-index:2; left:10px; top:10px">
+                        {% if post.is_approved == -1 %}
+                        <div id="reject-circle"></div>
+                        {% elif post.is_approved == 0 %}
+                        <div id="pending-circle"></div>
+                        {% elif post.is_approved == 1 %}
+                        <div id="approved-circle"></div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </a>
+            <div class="card-body">
+                <div class="row ml-1">
+                    <h4>{{ post.title }}</h4>
+                    <img class="ml-2" src="{{ url_for('static', filename='icon/%s.png' % post.tag.lower()) }}" alt="tag"
+                        height="25px" width="25px">
+                </div>
+                <div class="row no-gutters">
+                    <div class="col-sm-3">
+                        <a href="{{ url_for('group.group_profile', id=post.author.id) }}">
+                            <img class="rounded-circle"
+                                src="{{ url_for('static', filename='group_logo/%s' % post.author.logo) }}" height=50
+                                width=50 />
+                        </a>
+                    </div>
+                    <div class="col-sm">
+                        <p class="mb-1">Organizer: {{ post.author.groupname }}</p>
+                        <p class="mb-1">Date: {{ post.datetime_from.strftime("%Y-%m-%d") }}</p>
                     </div>
                 </div>
-
             </div>
-        {% endfor %}
-    {% endif %}
-{% if not full_width %}</div>{% endif %}
+        </div>
+
+    </div>
+    {% endfor %}
+    {% if not full_width %}</div>{% endif %}
+{% else %}
+<div class="card border-secondary my-3">
+    <div class="card-header">Oops</div>
+    <div class="card-body text-secondary">
+        <h5 class="card-title">There is no event right here</h5>
+        <p class="card-text">Please visit other places to find events you like.</p>
+    </div>
+</div>
+{% endif %}
 {% endmacro %}
 
 {% macro group_generator(groups) %}
+{% if groups %}
 <div class="row mt-4">
-    {% if groups %}
-        {% for group in groups %}
-            <div class="col-sm-6">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-body">
-                        <div class="row no-gutters">
-                            <div class="col-sm-2">
-                                <a href="{{ url_for('group.group_profile', id=group.id) }}">
-                                    <img class="rounded-circle" src="{{ url_for('static', filename='group_logo/%s' % group.logo) }}" height=50 width=50/>
-                                </a>
+    {% for group in groups %}
+    <div class="col-sm-6">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <div class="row no-gutters">
+                    <div class="col-sm-2">
+                        <a href="{{ url_for('group.group_profile', id=group.id) }}">
+                            <img class="rounded-circle"
+                                src="{{ url_for('static', filename='group_logo/%s' % group.logo) }}" height=50
+                                width=50 />
+                        </a>
+                    </div>
+                    <div class="col-sm-10">
+                        <a style="text-decoration: None; color: black;"
+                            href="{{ url_for('group.group_profile', id=group.id) }}">
+                            <h4>{{ group.groupname }}</h4>
+                        </a>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p>Members: {{ group.members.filter_by(is_approved=1).count() }}</p>
                             </div>
-                            <div class="col-sm-10">
-                                <a style="text-decoration: None; color: black;" href="{{ url_for('group.group_profile', id=group.id) }}">
-                                    <h4>{{ group.groupname }}</h4>
-                                </a>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <p>Members: {{ group.members.filter_by(is_approved=1).count() }}</p>
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <p>Events: {{ group.posts.filter_by(is_approved=1).count() }}</p>
-                                    </div>
-                                </div>
+                            <div class="col-sm-5">
+                                <p>Events: {{ group.posts.filter_by(is_approved=1).count() }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-        {% endfor %}
-    {% endif %}
+        </div>
+
+    </div>
+    {% endfor %}
 </div>
+{% else %}
+<div class="card border-secondary my-3">
+    <div class="card-header">Oops</div>
+    <div class="card-body text-secondary">
+        <h5 class="card-title">There is no team right here</h5>
+        <p class="card-text">Please visit other places to find teams you like.</p>
+    </div>
+</div>
+{% endif %}
 {% endmacro %}
 
-{% macro user_generator(users) %}
+{% macro user_generator(users, group=None, viewer=None) %}
 <div class="row mt-3">
     {% if users %}
-        <div class="container mx-6">
-            {% for user in users %}
-                <hr>
-                    <div class="row">
-                        <div class="col-sm-1 mx-3" align="center">
-                            <a href="{{ url_for('main.account', user_id=user.id) }}">
-                                <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % user.profile_pic) }}" alt="user_pic" height="80px" width="80px">
-                            </a>
-                        </div>
-                        <div class="col-sm-10">
-                            <h5 class="mb-2">{{ user.username|safe }}</h5>
-                            <p style="font-size: 80%;" class="text-muted mb-1">Location:  {{ user.location }}</p>
-                            <p style="font-size: 80%;" class="text-muted mb-1">Email:  {{ user.email }}</p>
-                            <p style="font-size: 80%;" class="text-muted mb-1">Skills:  {{ user.skills }}</p>
-                        </div>
-                    </div>
-            {% endfor %}
-            <hr>
+    <div class="container mx-6">
+        {% for user in users %}
+        <hr>
+        <div class="row">
+            <div class="col-sm-1 mx-3" align="center">
+                <a href="{{ url_for('main.account', user_id=user.id) }}">
+                    <img class="rounded-circle"
+                        src="{{ url_for('static', filename='profile_pic/%s' % user.profile_pic) }}" alt="user_pic"
+                        height="80px" width="80px">
+                </a>
+            </div>
+            <div class="col-sm-10">
+                {% if group != None and viewer != None%}
+                    {% if viewer.my_group.id == group.id %}
+                        {% if viewer.id == user.id %}
+                            <button class="btn btn-outline-secondary float-right">Yourself</button>                        
+                        {% else %}
+                            <button type="button" class="btn btn-outline-danger float-right ml-2" data-toggle="modal" data-target="#removeModal">
+                                Remove
+                            </button>
+                            <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="removeModalCenterTitle">Remove Member</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to <b style="color: red">REMOVE</b> this member?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <a href="{{url_for('group.remove_member', group_id = group.id, user_id = user.id)}}"><button type="button" class="btn btn-danger">Confirm</button></a>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            {% if not user.my_group %}
+                                <button type="button" class="btn btn-outline-info float-right" data-toggle="modal" data-target="#transferModal">
+                                    Transfer
+                                </button>
+                                <div class="modal fade" id="transferModal" tabindex="-1" role="dialog" aria-labelledby="transferModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="transferModalCenterTitle">Transfer Ownership</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to <b style="color:turquoise">TRANSFER</b> Team Ownership to this member?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <a href="{{url_for('group.transfer_owner', group_id = group.id, user_id = user.id)}}"><button type="button" class="btn btn-info">Confirm</button></a>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+
+                <h5 class="mb-2">{{ user.username|safe }}</h5>
+                <p style="font-size: 80%;" class="text-muted mb-1">Location: {{ user.location }}</p>
+                <p style="font-size: 80%;" class="text-muted mb-1">Email: {{ user.email }}</p>
+                <p style="font-size: 80%;" class="text-muted mb-1">Skills: {{ user.skills }}</p>
+            </div>
         </div>
+        {% endfor %}
+        <hr>
+    </div>
     {% endif %}
 </div>
 {% endmacro %}
@@ -155,146 +238,172 @@
 {% macro profile_pic_generator(users, amount=3) %}
 <button type="button" class="btn btn-light">
     {% for i in range(amount) if users[i] %}
-        <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % users[i].profile_pic) }}" alt="" height="23px" width="23px">
+    <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % users[i].profile_pic) }}" alt=""
+        height="23px" width="23px">
     {% endfor %}
     ···
 </button>
 {% endmacro %}
 
 {% macro applicant_generator(applicants, joins, user) %}
-    {% if applicants %}
-        {% for applicant in applicants %}
-                <div class="card mb-4 box-shadow">
-                    <div class="card-body">
-                        <div class="row no-gutters">
-                            <div class="col-sm-1">
-                                <a href="{{ url_for('main.account', user_id=applicant.id) }}">
-                                    <img class="rounded-circle" src="{{ url_for('static', filename='profile_pic/%s' % applicant.profile_pic) }}" height=50 width=50/>
-                                </a>
-                            </div>
-                            <div class="col-sm-11">
-                                <a href="{{url_for('group.application_reject',group_id=user.my_group.id, user_id=applicant.id)}}">
-                                    <button class="btn btn-danger float-right ml-2 mt-3">Reject</button>
-                                </a>
-                                <a href="{{url_for('group.application_approve',group_id=user.my_group.id, user_id=applicant.id)}}">
-                                    <button class="btn btn-success float-right mt-3">Approve</button>
-                                </a>
-                                <a style="text-decoration: None; color: black;" href="{{ url_for('main.account', user_id=applicant.id) }}">
-                                    <h4>{{ applicant.username }}</h4>
-                                </a>
-                                <p style="color:gray">Applying for your group</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        {% endfor %}
-    {% endif %}
+{% if applicants %}
+{% for applicant in applicants %}
+<div class="card mb-4 box-shadow">
+    <div class="card-body">
+        <div class="row no-gutters">
+            <div class="col-sm-1">
+                <a href="{{ url_for('main.account', user_id=applicant.id) }}">
+                    <img class="rounded-circle"
+                        src="{{ url_for('static', filename='profile_pic/%s' % applicant.profile_pic) }}" height=50
+                        width=50 />
+                </a>
+            </div>
+            <div class="col-sm-11">
+                <a href="{{url_for('group.application_reject',group_id=user.my_group.id, user_id=applicant.id)}}">
+                    <button class="btn btn-danger float-right ml-2 mt-3">Reject</button>
+                </a>
+                <a href="{{url_for('group.application_approve',group_id=user.my_group.id, user_id=applicant.id)}}">
+                    <button class="btn btn-success float-right mt-3">Approve</button>
+                </a>
+                <a style="text-decoration: None; color: black;"
+                    href="{{ url_for('main.account', user_id=applicant.id) }}">
+                    <h4>{{ applicant.username }}</h4>
+                </a>
+                <p style="color:gray">Applying for your group</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
 {% endmacro %}
 
 {% macro message_generator(msgs) %}
-    {% if msgs %}
-        {% for msg in msgs %}
-                <p style="color:gray;">{{ msg.get_time() }}</p>
-                <div class="card mb-4 box-shadow">
-                    <div class="card-body">
-                        <h4>{{ msg.name }}</h4>
-                        <p style="color:gray">{{ msg.content }}</p>
-                    </div>
-                </div>
-        {% endfor %}
-    {% endif %}
+{% if msgs %}
+{% for msg in msgs %}
+<p style="color:gray;">{{ msg.get_time() }}</p>
+<div class="card mb-4 box-shadow">
+    <div class="card-body">
+        <h4>{{ msg.name }}</h4>
+        <p style="color:gray">{{ msg.content }}</p>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
 {% endmacro %}
 
 
 
 {% macro moment_generator(one_moment, pictures, without_name=False, without_event=False) %}
-    <div class="container-fluid">
+<div class="container-fluid">
 
-        <div class="media my-3">
-            <a href="{{ url_for('group.group_profile', id=one_moment.from_group.id) }}">
-                <img class="rounded-circle account-img mr-3" src="{{ url_for('static', filename='group_logo/%s' % one_moment.from_group.logo) }}" height="80px" width="80px" alt="TEAM_LOGO">
-            </a>
-          <div class="media-body">
+    <div class="media my-3">
+        <a href="{{ url_for('group.group_profile', id=one_moment.from_group.id) }}">
+            <img class="rounded-circle account-img mr-3"
+                src="{{ url_for('static', filename='group_logo/%s' % one_moment.from_group.logo) }}" height="80px"
+                width="80px" alt="TEAM_LOGO">
+        </a>
+        <div class="media-body">
 
             <!-- Title section -->
             {% if without_name and without_event %}
-                <h4 class="md-2">{{ moment(one_moment.timestamp).fromNow() }}</h4> <!-- "moment()" here is flask-moment function -->
+            <h4 class="md-2">{{ moment(one_moment.timestamp).fromNow() }}</h4>
+            <!-- "moment()" here is flask-moment function -->
             {% else %}
-                {% if without_name %}
-                    <a style="color: #0065A1;" href="{{url_for('event.post', id=one_moment.event_id)}}">
-                        <h4>{{ one_moment.from_post.title }}</h4>
-                    </a>
-                    <h6 class="mt-0">{{ moment(one_moment.timestamp).fromNow() }}</h6>
-                {% else %}
-                    <h4 class="md-2">{{ one_moment.from_group.groupname }}&nbsp&nbsp|&nbsp&nbsp<a style="color: #0065A1;" href="{{url_for('event.post', id=one_moment.event_id)}}">{{ one_moment.from_post.title }}</a></h4>
-                    <h6 class="mt-0">{{ moment(one_moment.timestamp).fromNow() }}</h6>
-                {% endif %}
+            {% if without_name %}
+            <a style="color: #0065A1;" href="{{url_for('event.post', id=one_moment.event_id)}}">
+                <h4>{{ one_moment.from_post.title }}</h4>
+            </a>
+            <h6 class="mt-0">{{ moment(one_moment.timestamp).fromNow() }}</h6>
+            {% else %}
+            <h4 class="md-2">{{ one_moment.from_group.groupname }}&nbsp&nbsp|&nbsp&nbsp<a style="color: #0065A1;"
+                    href="{{url_for('event.post', id=one_moment.event_id)}}">{{ one_moment.from_post.title }}</a></h4>
+            <h6 class="mt-0">{{ moment(one_moment.timestamp).fromNow() }}</h6>
+            {% endif %}
             {% endif %}
 
-            <div class="container mb-3"><p class="c">{{one_moment.body}}</p></div>
+            <div class="container mb-3">
+                <p class="c">{{one_moment.body}}</p>
+            </div>
             <div class="container">
                 {% for row in range(1, 2 + ((pictures|length)/4) | round(0, 'floor') | int) %}
-                    <div class="row md-1 mt-1">
-                        {% for col in range(1, 5) %} <!-- pic_index = (row * 4) - 4 + col -->
-                        <div class="col pr-1 pl-1">
-                            {% if (row*4)-4+col <= pictures|length %}
+                <div class="row md-1 mt-1">
+                    {% for col in range(1, 5) %}
+                    <!-- pic_index = (row * 4) - 4 + col -->
+                    <div class="col pr-1 pl-1">
+                        {% if (row*4)-4+col <= pictures|length %}
 
-                            <img class="img-fluid mb-1" data-toggle="modal" data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col)|string]) | remove_ext }}" src="{{ url_for('static', filename='moments/%d/thumbnail_%s' % (one_moment.from_group.id, pictures['%s'% ((row * 4) - 4 + col)|string ] )  ) }}" alt="MOMENT" height="250px" width="250px">
+                        <img class="img-fluid mb-1" data-toggle="modal"
+                            data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col)|string]) | remove_ext }}"
+                            src="{{ url_for('static', filename='moments/%d/thumbnail_%s' % (one_moment.from_group.id, pictures['%s'% ((row * 4) - 4 + col)|string ] )  ) }}"
+                            alt="MOMENT" height="250px" width="250px">
 
-                            <div class="modal" id="{{ ('fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col)|string]) | remove_ext }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal"
+                            id="{{ ('fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col)|string]) | remove_ext }}"
+                            tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 
                                 <div class="modal-content">
-                                  <div class="modal-body">
-                                    <img class="img-fluid mb-1" data-toggle="modal" data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col)|string]) | remove_ext  }}" src="{{ url_for('static', filename='moments/%d/%s' % (one_moment.from_group.id, pictures['%s'% ((row * 4) - 4 + col)|string ] )  ) }}" alt="MOMENT_FULL_SIZE">
-                                  </div>
-                                  <div class="modal-footer d-flex justify-content-between">
-                                      {% if (row * 4) - 4 + col > 1 %}  <!-- if not the first pic, generate a left arrow -->
-                                              <button class="btn btn-info" type="button" data-dismiss="modal" data-toggle="modal" data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col - 1)|string]) | remove_ext }}">
-                                                  <
-                                              </button>
-                                      {% else %}
-                                              <button class="btn btn-light" type="button"></button>
-                                      {% endif %}
-                                      {% if (row * 4) - 4 + col < pictures|length %}  <!-- if not the last pic, generate a right arrow -->
-                                              <button class="btn btn-info" type="button" data-dismiss="modal" data-toggle="modal" data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col + 1)|string]) | remove_ext }}">
-                                                  >
-                                              </button>
-                                      {% endif %}
+                                    <div class="modal-body">
+                                        <img class="img-fluid mb-1" data-toggle="modal"
+                                            data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col)|string]) | remove_ext  }}"
+                                            src="{{ url_for('static', filename='moments/%d/%s' % (one_moment.from_group.id, pictures['%s'% ((row * 4) - 4 + col)|string ] )  ) }}"
+                                            alt="MOMENT_FULL_SIZE">
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-between">
+                                        {% if (row * 4) - 4 + col > 1 %}
+                                        <!-- if not the first pic, generate a left arrow -->
+                                        <button class="btn btn-info" type="button" data-dismiss="modal"
+                                            data-toggle="modal"
+                                            data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col - 1)|string]) | remove_ext }}">
+                                            < </button> {% else %} <button class="btn btn-light" type="button">
+                                        </button>
+                                        {% endif %}
+                                        {% if (row * 4) - 4 + col < pictures|length %}
+                                        <!-- if not the last pic, generate a right arrow -->
+                                        <button class="btn btn-info" type="button" data-dismiss="modal"
+                                            data-toggle="modal"
+                                            data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col + 1)|string]) | remove_ext }}">
+                                            >
+                                        </button>
+                                        {% endif %}
 
 
-                                  </div>
-                                  <!-- CLOSE button -->
-                                  <div style="position:absolute; z-index:2; right:4px; top:-1px">
-                                      <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
-                                      </button>
-                                  </div>
+                                    </div>
+                                    <!-- CLOSE button -->
+                                    <div style="position:absolute; z-index:2; right:4px; top:-1px">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
                                 </div>
-
-                              </div>
 
                             </div>
 
-                            {% endif %}
                         </div>
-                        {% endfor %}
+
+                        {% endif %}
                     </div>
+                    {% endfor %}
+                </div>
                 {% endfor %}
             </div>
 
 
-            {% if one_moment.from_group.owner[0].id == current_user.id %} <!-- Delete Button -->
-                <div class="mt-2"></div> <!-- space -->
-                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal_{{ one_moment.id }}">Delete</button>
-                <div class="modal fade" id="deleteModal_{{ one_moment.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            {% if one_moment.from_group.owner[0].id == current_user.id %}
+            <!-- Delete Button -->
+            <div class="mt-2"></div> <!-- space -->
+            <button type="button" class="btn btn-outline-danger" data-toggle="modal"
+                data-target="#deleteModal_{{ one_moment.id }}">Delete</button>
+            <div class="modal fade" id="deleteModal_{{ one_moment.id }}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalCenterTitle">Confirmation</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
@@ -302,17 +411,18 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <a href="{{ url_for('moment.delete_moment', id=one_moment.id, hex=(one_moment.pictures|str_to_dic)['1']|remove_ext ) }}">
-                                <button type="button"class="btn btn-danger">Delete</button>
+                            <a
+                                href="{{ url_for('moment.delete_moment', id=one_moment.id, hex=(one_moment.pictures|str_to_dic)['1']|remove_ext ) }}">
+                                <button type="button" class="btn btn-danger">Delete</button>
                             </a>
                         </div>
-                        </div>
                     </div>
-
                 </div>
+
+            </div>
             {% endif %}
 
-          </div>
         </div>
     </div>
+</div>
 {% endmacro %}

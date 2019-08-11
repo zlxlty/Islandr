@@ -1,10 +1,17 @@
+'''
+@Description: Blueprint for event
+@Author: Tianyi Lu
+@Date: 2019-08-09 15:41:15
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-08-10 10:20:02
+'''
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
 from flask_login import login_required, current_user
 from .. import db
 from ..models import User, Post
 from ..email import send_email
 from . import event
-from ..decorators import admin_required
+from ..decorators import admin_required, owner_required
 from datetime import datetime
 from ..image_saver import saver, deleter
 
@@ -16,7 +23,7 @@ time_format = '%Y-%m-%d-%H:%M'
 @login_required
 def all_post():
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.filter_by(is_approved=1).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
+    pagination = Post.query.filter_by(is_approved=1).order_by(Post.datetime_from.desc()).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
     posts = pagination.items
     return render_template('all_post.html', posts=posts, pagination=pagination)
 
@@ -106,6 +113,17 @@ def post_unfollow(id):
     post.followers.remove(current_user)
     db.session.commit()
     return redirect(url_for('.post', id=id))
+
+@event.route('/<int:id>/delete', methods=['GET'])
+@login_required
+@owner_required
+def post_delete(id):
+    post = Post.query.get_or_404(id)
+    if not post in current_user.my_group.posts.all():
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('group.group_profile', id=current_user.my_group.id))
 
 @event.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required

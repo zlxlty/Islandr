@@ -1,3 +1,10 @@
+'''
+@Description: Database Models for Islandr Platform
+@Author: Tianyi Lu
+@Date: 2019-08-09 15:32:20
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-08-10 10:43:26
+'''
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -30,10 +37,13 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
+    grade = db.Column(db.String(8), index=True)
+    wechat_id = db.Column(db.String(64), unique=True, index=True)
     skills = db.Column(db.String(128), index=True, default='Enter your skill set (separate with \',\')')
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
+    egg = db.Column(db.Integer, default=0)
 
     #Message
     msgs = db.relationship('Message', backref='user',
@@ -254,7 +264,7 @@ class Post(db.Model):
             that_day_end = today_end + delta
             week_posts[key] = Post.query.filter_by(is_approved=1).filter(Post.datetime_from >= that_day_begin, Post.datetime_from <= that_day_end).all()
 
-        return week_posts
+        return today_begin.weekday(), week_posts
 
     def has_passed(self):
         return self.datetime_from < datetime.now()
@@ -278,7 +288,8 @@ class Message(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def get_time(self):
-        return self.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+        msg_time = self.timestamp + timedelta(hours=8)
+        return msg_time.strftime("%Y-%m-%d %H:%M:%S")
 
     def __repr__(self):
         return '<Message %r>' % self.name

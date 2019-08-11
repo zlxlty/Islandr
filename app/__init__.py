@@ -1,3 +1,10 @@
+'''
+@Description: Factory Function
+@Author: Tianyi Lu
+@Date: 2019-08-10 11:09:09
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-08-10 11:09:19
+'''
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
@@ -38,6 +45,10 @@ def create_app(config_name):
     avatars.init_app(app)
     search.init_app(app)
 
+    if app.config['SSL_REDIRECT']:
+        from flask_sslify import SSLify
+        sslify = SSLify(app)
+
     from .job import send_bulletin
     from flask import current_app
     with app.app_context():
@@ -58,5 +69,8 @@ def create_app(config_name):
 
     from .moment import moment as moment_blueprint
     app.register_blueprint(moment_blueprint, url_prefix='/moment')
+
+    from .egg import egg as egg_blueprint
+    app.register_blueprint(egg_blueprint)
 
     return app

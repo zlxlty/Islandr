@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-07-20 06:49:05
+@LastEditTime: 2019-08-10 10:31:23
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -30,15 +30,26 @@ def index():
         keyword = str(request.form['search'])
         return redirect(url_for('main.m_search', keyword=keyword))
 
-    posts = Post.get_week_posts()
+    date, posts = Post.get_week_posts()
 
     groups = Group.get_explore_groups()
 
-    return render_template('index.html', groups=groups, posts=posts)
+    return render_template('index.html', date=date, groups=groups, posts=posts)
 
 @main.route('/about_us')
+@login_required
 def about_us():
     return render_template('about_us.html')
+
+@main.route('/getting_started')
+@login_required
+def getting_started():
+    return render_template('getting_started.html')
+
+@main.route('/introduction')
+@login_required
+def introduction():
+    return render_template('intro.html')
 
 @main.route('/message')
 @login_required
@@ -83,20 +94,20 @@ def m_search():
         return redirect(url_for('main.m_search', keyword=keyword, option=option))
 
     keyword = request.args.get('keyword') or ' '
+    keyword_list = keyword.split(' ')
     option = request.args.get('option') or 'event'
-
     page = request.args.get('page', 1, type=int)
 
     if option == 'group':
-        pagination = Group.query.msearch(keyword, fields=['groupname']).filter_by(is_approved=1).order_by(Group.create_date.desc()).paginate(
+        pagination = Group.query.msearch(keyword_list, fields=['groupname']).filter_by(is_approved=1).order_by(Group.create_date.desc()).paginate(
             page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
             error_out = False)
     elif option == 'user':
-        pagination = User.query.msearch(keyword, fields=['username','email','skills']).filter_by(confirmed=True).paginate(
+        pagination = User.query.msearch(keyword_list, fields=['username','email','skills']).filter_by(confirmed=True).paginate(
             page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
             error_out = False)
     else:
-        pagination = Post.query.msearch(keyword, fields=['title','tag']).filter_by(is_approved=1).order_by(Post.last_modified.desc()).paginate(
+        pagination = Post.query.msearch(keyword_list, fields=['title','tag']).filter_by(is_approved=1).order_by(Post.last_modified.desc()).paginate(
             page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
             error_out = False)
 
@@ -277,18 +288,22 @@ def account_edit(user_id):
         user.name = form.name.data
         user.username = form.username.data
         user.location = form.location.data
+        user.wechat_id = form.wechat_id.data
         user.skills = form.skills.data
+        user.grade = form.grade.data
         user.about_me = form.about_me.data
 
-        update_index(User)
         db.session.commit()
+        update_index(User)
         flash('Your account has been updated!', 'success')
         return redirect(url_for('main.account', user_id=user.id))
 
     form.name.data = user.name
     form.username.data = user.username
     form.location.data = user.location
+    form.wechat_id.data = user.wechat_id
     form.skills.data = user.skills
+    form.grade.data = user.grade
     form.about_me.data = user.about_me
 
     return render_template('edit_account.html', form=form)

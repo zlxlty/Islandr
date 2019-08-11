@@ -33,7 +33,7 @@ nosetests.xml
 venv
 # Migration
 migrations
-#msearch
+# msearch
 msearch
 #vscode
 .vscode
@@ -43,3 +43,8 @@ tmp
 profile
 #moments
 moments
+# migrations
+#env
+.env
+
+Islandr.ini

@@ -14,24 +14,24 @@ if os.environ.get('FLASK_COVERAGE'):
     COV = coverage.coverage(branch=True, include='app/*')
     COV.start()
 
-app = create_app(os.getenv('FLASK_CONFIG') or 'default')
-migrate = Migrate(app, db)
+application = create_app(os.getenv('FLASK_CONFIG') or 'default')
+migrate = Migrate(application, db)
 
-@app.cli.command()
+@application.cli.command()
 def deploy():
     '''Run deployment tasks'''
     upgrade()
     search.create_index()
     faker.test_user()
-    search.update_index(User)
+    search.update_index()
 
 
 
-@app.shell_context_processor
+@application.shell_context_processor
 def make_shell_context():
     return dict(db=db, User=User, Post=Post, Group=Group, Join=Join, Message=Message)
 
-@app.cli.command()
+@application.cli.command()
 @click.option('--coverage/--no-coverage', default=False,
               help='Run tests under code coverage.')
 def test(coverage):
@@ -54,7 +54,7 @@ def test(coverage):
         print('HTML version: file://%s/index.html' % covdir)
         COV.erase()
 
-@app.cli.command()
+@application.cli.command()
 @click.option('--length', default=25,
                 help='Number of functions to include in the profiler report.')
 @click.option('--profile-dir', default=None,
@@ -62,15 +62,15 @@ def test(coverage):
 def profile(length, profile_dir):
     """Start the application under the code profiler."""
     from werkzeug.contrib.profiler import ProfilerMiddleware
-    app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[length],
+    application.wsgi_app = ProfilerMiddleware(application.wsgi_app, restrictions=[length],
         profile_dir=profile_dir)
-    app.run(debug=False)
+    application.run(debug=False)
 
-@app.template_filter() # Jinja2 custom filter
+@application.template_filter() # Jinja2 custom filter
 def str_to_dic(str):
     return json.loads(str)
 
-@app.template_filter() # Jinja2 custom filter: remove ".jpg" part or any extension of a file
+@application.template_filter() # Jinja2 custom filter: remove ".jpg" part or any extension of a file
 def remove_ext(file_name):
     components = file_name.split(".")
     return components[0]
