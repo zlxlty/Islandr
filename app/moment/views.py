@@ -21,18 +21,17 @@ def create_moment():
         event = request.form['link'] # User wants to link moment with this event
 
         if event == "None":
-            flash("One moment MUST link with one event of your team.")
+            flash("One moment MUST link with one event of your team.", 'danger')
             return redirect(url_for('.create_moment'))
         else:
             event = Post.query.get_or_404(int(event))
 
         #Make sure at 1 to 9 pictures are uploaded
-        if not request.files["pictures"]:
-            flash("At least ONE picture is required for a Moment.", 'danger') #ERROR: doen't display
+        if str(moment_pictures[0]) == "<FileStorage: '' ('application/octet-stream')>":
+            flash("At least ONE picture is required for a Moment.", 'danger')
             return redirect(url_for('.create_moment'))
         if len(moment_pictures) > 9:
-            print("BIGGER THEN ()")
-            flash("Maximum 9 pictures are allowed for a Moment.", 'danger') #ERROR: doen't display
+            flash("Maximum 9 pictures are allowed for a Moment.", 'danger')
             return redirect(url_for('.create_moment'))
 
         # save pictures to local
@@ -61,17 +60,13 @@ def create_moment():
 def moments():
     page = request.args.get('page', 1, type=int)
     pagination = Moment.query.order_by(Moment.timestamp.desc()).paginate(page, per_page=current_app.config['FLASKY_MOMENTS_PER_PAGE'], error_out=False)
-    moments = pagination.items
-    return render_template('moments.html', moments=moments)
+    moments = pagination.items #moments is a list
+    return render_template('moments.html', moments=moments, pagination=pagination)
 
 @moment.route('/<int:id>/<hex>/delete')
 @login_required
 def delete_moment(id, hex):
     moment = Moment.query.get_or_404(id)
-
-    print("ID", moment.id)
-    print("moment dir", moment.from_group.id)
-
     if moment.from_group.owner[0].id != current_user.id:
         abort(403)
 
