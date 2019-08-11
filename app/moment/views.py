@@ -59,7 +59,9 @@ def create_moment():
 @moment.route('/moments')
 @login_required
 def moments():
-    moments = Moment.query.order_by(Moment.timestamp.desc())
+    page = request.args.get('page', 1, type=int)
+    pagination = Moment.query.order_by(Moment.timestamp.desc()).paginate(page, per_page=current_app.config['FLASKY_MOMENTS_PER_PAGE'], error_out=False)
+    moments = pagination.items
     return render_template('moments.html', moments=moments)
 
 @moment.route('/<int:id>/<hex>/delete')

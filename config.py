@@ -43,6 +43,7 @@ class Config:
     }
 
     FLASKY_POSTS_PER_PAGE = 15
+    FLASKY_MOMENTS_PER_PAGE = 8
     FLASKY_MAIL_SUBJECT_PREFIX = '[ISLANDR]'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN') or 'islandr-csc@outlook.com'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
