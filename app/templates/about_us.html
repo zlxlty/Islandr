@@ -1,3 +1,10 @@
+<!--
+ * @Description: Edit
+ * @Author: Tianyi Lu
+ * @Date: 2019-08-11 14:38:54
+ * @LastEditors: Tianyi Lu
+ * @LastEditTime: 2019-08-11 14:54:48
+ -->
 {% extends 'base.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
@@ -6,49 +13,92 @@
 
 {% block page_header %}
 <div class="jumbotron">
-  <h1 class="display-4">About us</h1>
-  <p class="lead">This is a simple 3 people team, a team willing to serve for UWC community in order to improve people's life on campus.</p>
-  <hr class="my-4">
+	<div class="container">
+		<h1 class="display-4">About us</h1>
+		<p class="lead">This is a simple 3 people team, a team willing to serve for UWC community in order to improve
+			people's life on campus.</p>
+		<hr class="my-4">
+	</div>
 </div>
 
 {% endblock %}
 
 {% block page_content %}
-<div class="card-deck" >
-  <div class="card-header">
-    <h4>Contributors</h4>
-    <hr class="my-4">
-    <p>A team from UWCCSC,</br> a group of students who is</br>interested in CS and services<p>
-  </div>
-  <div class="card">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Yufeng Wu</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-    </div>
-    <div class="card-footer">
-      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-    </div>
-  </div>
-  <div class="card">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Tianyi Lu</h5>
-      <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-    </div>
-    <div class="card-footer">
-      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-    </div>
-  </div>
-  <div class="card">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Ruihan Xu</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-    </div>
-    <div class="card-footer">
-      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-    </div>
-  </div>
+<div class="text-center mb-4">
+	<h2>Tech Team</h2>
+	<hr>
 </div>
+<div class="row text-center">
+	<div class="col-lg-4">
+		<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
+			preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
+			<title>Placeholder</title>
+			<rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777"
+				dy=".3em">140x140</text>
+		</svg>
+		<h3>Tianyi Lu</h3>
+		<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
+			vehicula ut
+			id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+		<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+	</div>
+	<div class="col-lg-4">
+		<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
+			preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
+			<title>Placeholder</title>
+			<rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777"
+				dy=".3em">140x140</text>
+		</svg>
+		<h3>Yufeng Wu</h3>
+		<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
+			vehicula ut
+			id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+		<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+	</div>
+	<div class="col-lg-4">
+		<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
+			preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
+			<title>Placeholder</title>
+			<rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777"
+				dy=".3em">140x140</text>
+		</svg>
+		<h3>Ruihan Xu</h3>
+		<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
+			vehicula ut
+			id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+		<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+	</div>
+</div>
+<div class="text-center mb-4 mt-6">
+		<h2>Media Team</h2>
+		<hr>
+	</div>
+	<div class="row text-center">
+		<div class="col-lg-6">
+			<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
+				preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
+				<title>Placeholder</title>
+				<rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777"
+					dy=".3em">140x140</text>
+			</svg>
+			<h3>Tianyi Lu</h3>
+			<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
+				vehicula ut
+				id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+			<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+		</div>
+		<div class="col-lg-6">
+			<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
+				preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
+				<title>Placeholder</title>
+				<rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777"
+					dy=".3em">140x140</text>
+			</svg>
+			<h3>Title</h3>
+			<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
+				vehicula ut
+				id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+			<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+		</div>
+	</div>
 {% endblock %}

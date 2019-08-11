@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-08-10 10:21:40
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-08-10 22:05:22
+ * @LastEditTime: 2019-08-11 14:58:27
  -->
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
@@ -70,7 +70,7 @@
     </div>
 </div>
 
-<div class="container mt-4">
+<div class="container mt-5">
     <hr>
     <div class="row">
         <div class="col-sm-2 text-center">
@@ -112,7 +112,7 @@
     </div>
     <hr>
     <!-- Weekly Bulliton -->
-    <ul class="nav nav-tabs nav-fill mt-4" id="myTab" role="tablist">
+    <ul class="nav nav-tabs nav-fill mt-5" id="myTab" role="tablist">
         <img class="mx-2" src="{{url_for('static', filename='icon/calendar.png')}}" alt="calendar" width="30px" height="30px">
         <h4 class="mr-5">Calendar</h4>
         <li class="nav-item">
@@ -161,7 +161,7 @@
             {{ macros.post_generator(posts['Sun']) }}
         </div>
     </div>
-    <ul class="nav nav-tabs nav-fill mt-4" id="myTab" role="tablist">
+    <ul class="nav nav-tabs nav-fill mt-5" id="myTab" role="tablist">
         <img class="mx-2" src="{{url_for('static', filename='icon/team.png')}}" alt="calendar" width="30px" height="30px">
         <h4 class="mr-5">Teams</h4>
         <li class="nav-item">
