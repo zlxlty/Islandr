@@ -1,0 +1,24 @@
+<!--
+ * @Description: Easter Egg
+ * @Author: Tianyi Lu
+ * @Date: 2019-08-10 10:36:04
+ * @LastEditors: Tianyi Lu
+ * @LastEditTime: 2019-08-10 11:15:47
+ -->
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block title %}Easter  - Key Two{% endblock %}
+
+{% block page_content %}
+{{ wtf.quick_form(form, button_map={"submit": "outline-secondary"}) }}
+{% if passed %}
+<div class="container mt-3">
+    <h3>Congrats! You have completed the second puzzle</h3>
+    <h4>Here is your third key <b>"Not Availabel Right Now"</b></h4>
+</div>
+{% else %}
+No!
+{% endif %}
+{% endblock %}

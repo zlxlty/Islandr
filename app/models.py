@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-08-09 15:32:20
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-09 15:42:18
+@LastEditTime: 2019-08-10 10:43:26
 '''
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -43,6 +43,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False)
+    egg = db.Column(db.Integer, default=0)
 
     #Message
     msgs = db.relationship('Message', backref='user',

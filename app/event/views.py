@@ -1,9 +1,9 @@
 '''
-@Description: Edit
+@Description: Blueprint for event
 @Author: Tianyi Lu
 @Date: 2019-08-09 15:41:15
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-09 15:42:01
+@LastEditTime: 2019-08-10 10:20:02
 '''
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
 from flask_login import login_required, current_user
