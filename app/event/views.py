@@ -1,16 +1,31 @@
+'''
+@Description: Blueprint for event
+@Author: Tianyi Lu
+@Date: 2019-08-09 15:41:15
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-08-10 10:20:02
+'''
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
 from flask_login import login_required, current_user
 from .. import db
 from ..models import User, Post
 from ..email import send_email
 from . import event
-from ..decorators import admin_required
+from ..decorators import admin_required, owner_required
 from datetime import datetime
 from ..image_saver import saver, deleter
 
 from ..job import add_reminder, send_test_reminder
 
 time_format = '%Y-%m-%d-%H:%M'
+
+@event.route('/all')
+@login_required
+def all_post():
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.filter_by(is_approved=1).order_by(Post.datetime_from.desc()).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
+    posts = pagination.items
+    return render_template('all_post.html', posts=posts, pagination=pagination)
 
 @event.route('/<int:id>')
 @login_required
@@ -29,6 +44,11 @@ def post_approved(id):
     elif post.is_approved == -1:
         return redirect(url_for('event.post_rejected', id=id))
     db.session.add(post)
+
+    #send post approve message to post author
+    post.author.owner[0].add_msg({'role': 'notification',
+                                  'name': 'Event Approved',
+                                  'content': 'Your event \"%s\" has been approved' % post.title})
     db.session.commit()
     post_datetime = post.datetime_from
     time = [post_datetime.year, post_datetime.month, post_datetime.day]
@@ -53,10 +73,13 @@ def post_rejected(id):
         return redirect(url_for('main.approve'))
 
     db.session.add(post)
+    post.author.owner[0].add_msg({'role': 'notification',
+                                  'name': 'Event Rejected',
+                                  'content': 'Sorry, your event \"%s\" has been rejected' % post.title})
     db.session.commit()
     return render_template('post_rejected.html')
 
-@event.route('<int:id>/followers')
+@event.route('/<int:id>/followers')
 @login_required
 def post_followers(id):
     post = Post.query.get_or_404(id)
@@ -70,7 +93,12 @@ def post_followers(id):
 @login_required
 def post_follow(id):
     post = Post.query.get_or_404(id)
+    if post.has_passed():
+        abort(403)
     post.followers.append(current_user)
+    post.author.owner[0].add_msg({'role': 'notification',
+                                  'name': 'Follower',
+                                  'content': '\"%s\" starts to follow your event \"%s\"' % (current_user.username, post.title)})
     db.session.commit()
     return redirect(url_for('.post', id=id))
 
@@ -78,11 +106,24 @@ def post_follow(id):
 @login_required
 def post_unfollow(id):
     post = Post.query.get_or_404(id)
+    if post.has_passed():
+        abort(403)
     if not current_user in post.followers.all():
         return redirect(url_for('.post', id=id))
     post.followers.remove(current_user)
     db.session.commit()
     return redirect(url_for('.post', id=id))
+
+@event.route('/<int:id>/delete', methods=['GET'])
+@login_required
+@owner_required
+def post_delete(id):
+    post = Post.query.get_or_404(id)
+    if not post in current_user.my_group.posts.all():
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('group.group_profile', id=current_user.my_group.id))
 
 @event.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -97,7 +138,7 @@ def post_edit(id):
 
     if request.method == 'POST':
         if not request.form['title'] or not request.form['content']:
-            flash('Write Something!')
+            flash('Write Something!', 'danger')
             return redirect(url_for('event.post_edit', id=id))
 
         if request.files['cover']:
@@ -117,7 +158,7 @@ def post_edit(id):
         db.session.add(old_post)
         db.session.commit()
         return redirect(url_for('event.post', id=id))
-    return render_template('editor.html', old_post=old_post, old_time_from=strtime_from, old_time_to=strtime_to) 
+    return render_template('editor.html', old_post=old_post, old_time_from=strtime_from, old_time_to=strtime_to)
 
 # test reminder function
 @event.route('/<int:id>/send_reminder')

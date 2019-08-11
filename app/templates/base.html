@@ -19,33 +19,39 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('main.index')}}">Home<span class="sr-only">(current)</span></a>
+                <a class="nav-link active" href="{{url_for('main.index')}}">Explore <span><img src="{{url_for('static', filename='icon/explore.png')}}" alt="explore icon" height="21px" width="21px"></span></a>
             </li>
-            <!-- TODO -->
+
             <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('main.moments')}}">Moments<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{url_for('moment.moments')}}">Moments <span><img src="{{url_for('static', filename='icon/moments.png')}}" alt="moments icon" height="21px" width="21px"></span></a>
             </li>
-            <!-- TODO -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Group
+                <a style="color: white;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Team <span><img src="{{url_for('static', filename='icon/team1.png')}}" alt="home icon" height="21px" width="21px"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% if not current_user.my_group %}
-                        <a class="dropdown-item" href="{{url_for('main.group_creater')}}">Create Group</a>
+                        <a class="dropdown-item" href="{{url_for('main.group_creater')}}">Create Team</a>
                     {% else %}
-                        <a class="dropdown-item" href="{{url_for('group.group_profile', id=current_user.group_id)}}">My Group</a>
+                        <a class="dropdown-item" href="{{url_for('group.group_profile', id=current_user.group_id)}}">My Team</a>
+                    {% endif %}
+                    <a class="dropdown-item" href="{{url_for('group.all_group')}}">All Teams</a>
+                    <div class="dropdown-divider"></div>
+                    {% if current_user.groups %}
+                        {% for group in current_user.get_joined_group() %}
+                            <a class="dropdown-item" href="{{url_for('group.group_profile', id=group.id)}}">{{group.groupname}}</a>
+                        {% endfor %}
                     {% endif %}
                 </div>
             </li>
             {% if current_user.is_admin %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Approve
+                        <b>Admin</b>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{url_for('group.group_approve')}}">Approve Group</a>
-                        <a class="dropdown-item" href="{{url_for('main.approve')}}">Approve Post</a>
+                        <a class="dropdown-item" href="{{url_for('group.group_approve')}}">Approve Team</a>
+                        <a class="dropdown-item" href="{{url_for('main.approve')}}">Approve Event</a>
                     </div>
                 </li>
             {% endif %}
@@ -59,13 +65,20 @@
                 </a>
             </li>
             <li class="nav-item dropdown">
+                {% if current_user.my_group %}
+                    {% set application_count = current_user.my_group.members.filter_by(is_approved=0).count() %}
+                {% else %}
+                    {% set application_count = 0 %}
+                {% endif %}
+                {% set msg_count = current_user.count_msg() + application_count %}
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ current_user.username}} {% if current_user.has_msg %} <span class="ml-1 badge badge-pill badge-danger">!</span> {% endif %}
+                    {{ current_user.username}} {% if msg_count != 0 %} <span class="ml-1 badge badge-pill badge-danger">{{ msg_count }}</span> {% endif %}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ url_for('main.account', user_id=current_user.id) }}">My Account</a>
-                    <a class="dropdown-item" href="{{ url_for('main.message') }}">Message {% if current_user.has_msg %} <span class="ml-1 badge badge-pill badge-danger">!</span> {% endif %}</a>
+                    <a class="dropdown-item" href="{{ url_for('main.message') }}">Message {% if msg_count != 0 %} <span class="ml-1 badge badge-pill badge-danger">{{ msg_count }}</span> {% endif %}</a>
                     <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ url_for('auth.change_password') }}">Change Password</a>
                     <a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log Out</a>
                 </div>
             </li>
@@ -84,8 +97,20 @@
 <div class="page">
     {% block page_header %}{% endblock %}
     <div class="container mt-6 mb-3">
-        {% for message in get_flashed_messages() %}
+        {% for message in get_flashed_messages(category_filter=['danger']) %}
         <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% for message in get_flashed_messages(category_filter=['success']) %}
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% for message in get_flashed_messages(category_filter=['warning']) %}
+        <div class="alert alert-warning">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message }}
         </div>
@@ -94,11 +119,11 @@
         {% block page_content %}{% endblock %}
     </div>
 </div>
-<footer class="py-5 footer mt-5">
+<footer class="py-5 footer">
     <div class="container">
         <div class="text-center">
-            <p class="m-0 text-white">Copyright &copy; Islandr 2019</p>
-            <p class="m-0 text-white">Contact: skylty01@gmail.com</p>
+            <p class="m-0 text-white">United World College Changshu China | Islandr Team 2019</p>
+            <p class="m-0 text-white"><a style="color:white; text-decoration: underline" href="{{url_for('main.about_us')}}">About Us</a> · <a style="color:white; text-decoration: underline;" href="#">Join Us</a> · <a style="color: white; text-decoration: underline;" href="mailto:islandr-csc@outlook.com">Contact</a> · <a style="color: white; text-decoration: underline;" href="https://github.com/zlxlty/Islandr" target="_blank">Github</a> · <a style="color: white; text-decoration: underline;" href="https://github.com/zlxlty/Islandr/blob/master/LICENSE" target="_blank">MIT License</a></p>
         </div>
     </div>
     <!-- /.container -->

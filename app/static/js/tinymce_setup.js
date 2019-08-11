@@ -8,8 +8,8 @@ tinymce.init({
     height:400, 
     //工具栏上面的补丁按钮 
     plugins: [ 'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker', 
-    'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking', 
-    'save table contextmenu directionality emoticons template paste textcolor', 'codesample', ], 
+    'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime nonbreaking', 
+    'save table contextmenu directionality emoticons template paste textcolor'], 
     //工具栏的补丁按钮 
     toolbar: 'insertfile undo redo |\
      styleselect |\
@@ -24,6 +24,10 @@ tinymce.init({
     fontsize_formats: '10pt 12pt 14pt 18pt 24pt 36pt', 
      //按tab不换行 
     nonbreaking_force_tab: true,
+    templates: [
+        {title: 'Some title 1', description: 'Some desc 1', content: 'My content'},
+        // {title: 'Some title 2', description: 'Some desc 2', url: ''}
+    ],
     init_instance_callback: "insert_contents",
 });
 

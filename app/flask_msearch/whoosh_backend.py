@@ -218,7 +218,14 @@ class WhooshSearch(BaseBackend):
         group = OrGroup if or_ else AndGroup
         parser = getattr(m, "__msearch_parser__",
                          _parser(fields, ix.schema, group, **kwargs))
-        return ix.search(parser.parse(query), limit=limit)
+        
+        for i, q in enumerate(query):
+            if i == 0:
+                index_all = ix.search(parser.parse(q), limit=limit)
+            else:
+                index = ix.search(parser.parse(q), limit=limit)
+                index_all.upgrade_and_extend(index)
+        return index_all
 
     def _query_class(self, q):
         _self = self

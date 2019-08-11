@@ -33,7 +33,18 @@ nosetests.xml
 venv
 # Migration
 migrations
-#msearch
+# msearch
 msearch
 #vscode
 .vscode
+#coverage test
+tmp
+#flask profile
+profile
+#moments
+moments
+# migrations
+#env
+.env
+
+Islandr.ini

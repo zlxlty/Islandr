@@ -1,7 +1,19 @@
 import unittest
-from app.models import User, Post, Organ
+from app import create_app, db
+from app.models import User, Post, Group
 
 class UserModelTestCase(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app('testing')
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
     def test_password_setter(self):
         u = User(password = 'cat')
         self.assertTrue(u.password_hash is not None)
@@ -25,10 +37,10 @@ class UserModelTestCase(unittest.TestCase):
         u = User(email='sky@example.com', password='cat')
         self.assertFalse(u.is_admin)
 
-    def test_user_post_organ(self):
+    def test_user_post_group(self):
         u = User()
-        o = Organ()
+        g = Group()
         p = Post()
-        u.my_organ = o
-        p.author = o
-        self.assertTrue(p.author.owner)
+        u.my_group = g
+        p.author = g
+        self.assertTrue(p.author.owner[0])

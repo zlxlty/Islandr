@@ -3,19 +3,19 @@ Islandr
 ![Language](https://img.shields.io/badge/language-python-green.svg)  ![Version](https://img.shields.io/badge/version-0.1.0-yellow.svg)    ![Dependencies](https://img.shields.io/badge/dependencies-up_to_date-green.svg)
 <div align=center><img src="app/static/pic/cover.png"/></div>
 
-### Islandr is a website for UWCCSCer to organize, publicize and find interesting activities
+### Islandr is a website for UWCCSCer to organize, publicize and find interesting activities <!-- omit in toc -->
 
 ## Content
-- [Islandr](#islandr)
-    - [Islandr is a website for UWCCSCer to organize, publicize and find interesting activities](#islandr-is-a-website-for-uwccscer-to-organize-publicize-and-find-interesting-activities)
-  - [Content](#content)
-  - [Getting_Started](#gettingstarted)
-    - [Prerequisites](#prerequisites)
-    - [Installing](#installing)
-  - [Unittesting](#unittesting)
-  - [Faking Users and Posts](#faking-users-and-posts)
-  - [Contributing](#contributing)
-    - [Pull Request Process](#pull-request-process)
+- [Islandr](#Islandr)
+  - [Content](#Content)
+  - [Getting_Started](#GettingStarted)
+    - [Prerequisites](#Prerequisites)
+    - [Installing](#Installing)
+  - [Changlog](#Changlog)
+  - [Unittesting](#Unittesting)
+  - [Faking Users and Posts](#Faking-Users-and-Posts)
+  - [Contributing](#Contributing)
+    - [Pull Request Process](#Pull-Request-Process)
 
 ***
 ## Getting_Started
@@ -60,11 +60,45 @@ export FLASK_APP=flasky.py
 (venv)$ flask db migrate -m "first migration"
 (venv)$ flask db upgrade
 ```
-7. Run your flask app
+7. Create index for search function
+```
+(venv)$ flask deploy
+```
+8. Run your flask app
 ```
 (venv)$ flask run
 ```
-8. Go to http://127.0.0.1:5000/ and see the app running
+9. Go to http://127.0.0.1:5000/ and see the app running
+
+***
+## Changlog
+2019.07.08
+
+**TODO**  
+- [x] Show today on calender
+- [x] Show empty if their is no activity on that day
+- [ ] Account page redesign (sky 8.7)
+- [ ] Team profile page redesign (multy 8.7)
+- [ ] Transfer Team Ownership (sky 8.7)
+- [ ] Delete Events (sky 8.7)
+- [ ] Change Email Comma (sky 8.7)
+- [ ] Change Search Engine (sky 8.9)
+- [ ] Hover system (Jiang 8.7)
+- [ ] Moments Like function (Steven 8.9)
+- [ ] Change form default into placeholder (Steven 8.9)
+- [ ] Moment Pagination (Steven 8.9)
+- [ ] Email template (working)
+- [ ] About Us page
+- [ ] Tag system (working)
+- [ ] Team Organization
+- [ ] Tingting Communication
+
+**ERROR**
+- [x] Email Authentication Error
+- [x] Nginx Large File Error
+- [ ] Search function can't find any result if there is a space in keyword
+- [ ] Mobile Display Error
+- [ ] Server Datetime Error
 
 ***
 ## Unittesting
@@ -93,11 +127,15 @@ OK
 (venv)$ flask shell
 ```
 ```python
-from app import faker
-faker.users()
-faker.posts()
+>>> from app import faker
+>>> faker.test_user()
+>>> faker.users()
+>>> faker.groups()
+>>> faker.posts()
 ```
-100 users and posts will be added into your database
+An admin account with email `skylty01@gmail.com` and password `123` will be added into your database for testing
+
+100 users ,groups and posts will be added into your database
 
 ***
 ## Contributing

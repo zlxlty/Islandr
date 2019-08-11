@@ -1,3 +1,10 @@
+<!--
+ * @Description: Edit
+ * @Author: Tianyi Lu
+ * @Date: 2019-08-09 16:10:38
+ * @LastEditors: Tianyi Lu
+ * @LastEditTime: 2019-08-09 16:24:51
+ -->
 {% extends "base.html" %}
 {% import "_macros.html" as macros %}
 
@@ -7,55 +14,72 @@
 <hr>
 
 <div class="content-section px-3 py-3" style="background-color:rgba(226, 226, 226, 0.315);">
-        <div class="media">
-            <img class="rounded-circle account-img ml-4 mr-5" src="{{ profile_pic }}" height="100px" width="100px"/>
+    <div class="media">
+        <img class="rounded-circle account-img ml-4 mr-5" src="{{ profile_pic }}" height="100px" width="100px" />
 
-            <div class="media-body">
-                <h1 class="account-heading">{{ user.username }}</h1>
-                <br />
-                <h6><b>Email address:</b>  {{ user.email }}</h6>
-                <hr/>
-                <h6><b>Name:</b>  {{ user.name }}</h6>
-                <hr/>                
-                <h6><b>Hometown:</b>  {{ user.location }}</h6>
-                <hr/>
-                <h6><b>About Me:</b>  {{ user.about_me }}</h6>
-                <hr/>
+        <div class="media-body">
+            <h1 class="account-heading">{{ user.username }}</h1>
+            <br />
+            <h6><b>Email address:</b> {{ user.email }}</h6>
+            <hr />
+            <h6><b>Name:</b> {{ user.name }}</h6>
+            <hr />
+            <h6><b>Grade:</b> {{ user.grade }}</h6>
+            <hr />
+            <h6><b>Hometown:</b> {{ user.location }}</h6>
+            <div class="collapse" id="collapseExample">
+                <hr>
+                <h6><b>Skills:</b> {{ user.skills }}</h6>
+                <hr>
+                <h6><b>Wechat:</b> {{ user.wechat_id }}</h6>
+                <hr />
+                <h6><b>About Me:</b> {{ user.about_me }}</h6>
+                <hr />
                 {% if user.my_group %}
                 <a style="color:black;" href="{{ url_for('group.group_profile', id=user.group_id) }}">
-                    <h6><b>My Group:</b>  {{ user.my_group.groupname }}</h6>
+                    <h6><b>My Group:</b> {{ user.my_group.groupname }}</h6>
                 </a>
                 {% endif %}
-                {% if current_user.id == user.id %}
-                <div class="content-section mt-3">
-                    <a href="{{ url_for('main.account_edit', user_id=user.id) }}">
-                        <button class="btn btn-outline-secondary">Edit Account Info</button>
-                    </a>
-                </div>
-                {% endif %}
-
             </div>
+            <div class="text-center">
+                <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                    aria-controls="collapseExample">
+                    <img src="{{ url_for('static', filename='icon/drop.png') }}" alt="drop down" height="17px">
+                </a>
+            </div>
+
+            {% if current_user.id == user.id %}
+            <div class="content-section mt-3">
+                <a href="{{ url_for('main.account_edit', user_id=user.id) }}">
+                    <button class="btn btn-outline-secondary">Edit Account Info</button>
+                </a>
+            </div>
+            {% endif %}
+
         </div>
+    </div>
 </div>
 <hr>
 <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link {% if type=='event' %}active{% endif %}" href="{{url_for('main.account', user_id=user.id, ctype='event')}}" aria-selected="true">Following</a>
+        <a class="nav-link {% if type=='event' %}active{% endif %}"
+            href="{{url_for('main.account', user_id=user.id, ctype='event')}}" aria-selected="true">Following</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {% if type=='group' %}active{% endif %}" href="{{url_for('main.account', user_id=user.id, ctype='group')}}" aria-selected="false">Joined</a>
+        <a class="nav-link {% if type=='group' %}active{% endif %}"
+            href="{{url_for('main.account', user_id=user.id, ctype='group')}}" aria-selected="false">Joined</a>
     </li>
 </ul>
 
 {% if type == 'event' %}
-    {{ macros.post_generator(items) }}
-    <div class="pagination justify-content-center">
-        {{ macros.pagination_widget(pagination, 'main.account', user_id=user.id, ctype='event') }}
-    </div>
+{{ macros.post_generator(items) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'main.account', user_id=user.id, ctype='event') }}
+</div>
 {% elif type == 'group' %}
-    {{ macros.group_generator(items) }}
-    <div class="pagination justify-content-center">
-        {{ macros.pagination_widget(pagination, 'main.account', user_id=user.id, ctype='group') }}
-    </div>
+{{ macros.group_generator(items) }}
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'main.account', user_id=user.id, ctype='group') }}
+</div>
 {% endif %}
 {% endblock %}

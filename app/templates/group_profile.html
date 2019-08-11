@@ -1,5 +1,12 @@
+<!--
+ * @Description: Group profile page for Islandr
+ * @Author: Tianyi Lu
+ * @Date: 2019-08-09 16:01:32
+ * @LastEditors: Tianyi Lu
+ * @LastEditTime: 2019-08-09 16:14:40
+ -->
 {% extends "base.html" %}
-{% import "_macros.html" as macros %}
+{% import "_macros.html" as macros with context %}
 
 {% block title %}Island Profile{% endblock %}
 
@@ -24,20 +31,23 @@
         <div class="media px-4 py-4 ">
                 <img class="rounded-circle account-img ml-4 mr-5" src="{{ logo }}" height="100px" width="100px"/>
                 <div class="media-body">
+                    <!-- profile start -->
                     <h1 class="account-heading">{{ group.groupname }}</h1>
                     <br />
                     <a style="color:black;" href="{{ url_for('main.account', user_id=group.owner[0].id) }}">
-                        <h6><b>Owner:</b>  {{ group.owner[0].username }}</h6>
+                        <h6><b>Leader:</b>  {{ group.owner[0].username }}</h6>
                     </a>
-                    <hr>
-                    <h6><b>Tag:</b>  {{ group.tag }}</h6>
+                    <hr/>
+                    <h6><b>Events:</b>  {{ group.posts.filter_by(is_approved=1).count() }}</h6>
                     <hr/>
                     <a style="color:black;" href="{{ url_for('group.group_members', id=group.id) }}">
                         <h6><b>Members:</b>  {{ macros.profile_pic_generator(users=users, amount=3) }}</h6>
                     </a>
                     <hr/>
                     <h6><b>About Us:</b>  {{ group.about_us }}</h6>
-                    <hr/>
+                    <hr>
+                   
+                    <!-- profile end -->
                     {% if not current_user.id == group.owner[0].id %}
                         {% if current_user.has_joined(group) %}
                             {% if current_user.been_approved(group) %}
@@ -70,16 +80,39 @@
         {% endif %}
     {% endif %}
 </div>
+<hr>
+<div class="row mt-4"> <!-- The row for titles -->
+    <div class="col-8"><h4>Moments</h4><hr></div>
+    <div class="col-4"><h4>Events</h4><hr></div>
+</div>
 
 {% if group.is_approved == 1 and current_user.id == group.owner[0].id %}
-    <a href="{{ url_for('main.post_editor') }}">
-        <button type="button" class="btn btn-primary btn-lg btn-block my-4">New Event</button>
-    </a>
-    <hr>
-{% endif %}
-{{ macros.post_generator(posts, show_dot=(current_user.id==group.owner[0].id)) }}
-<div class="pagination justify-content-center">
-    {{ macros.pagination_widget(pagination, 'group.group_profile', id=group.id) }}
+<div class="row"> <!-- The row for buttons -->
+    <div class="col-8">
+        <a href="{{ url_for('moment.create_moment') }}">
+            <button type="button" class="btn btn-info btn-lg btn-block my-2">New Moment</button>
+        </a>
+    </div>
+    <div class="col-4">
+        <a href="{{ url_for('main.post_editor') }}">
+            <button type="button" class="btn btn-info btn-lg btn-block my-2">New Event</button>
+        </a>
+    </div>
 </div>
-<hr>
+{% endif %}
+
+<div class="row">
+    <div class="col-8">
+        {% if group.moments.all()|length > 0 %}
+            {% for one_moment in group.moments.all()|reverse %}
+                {{ macros.moment_generator(one_moment, one_moment.pictures | str_to_dic, without_name=True) }}
+                <br />
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="col-4">
+        {{ macros.post_generator(posts, show_dot=(current_user.id==group.owner[0].id), full_width=True) }}
+    </div>
+</div>
+
 {% endblock %}
