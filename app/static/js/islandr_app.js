@@ -25,11 +25,9 @@ $(document).ready(function () {
                 id : moment_id
             },
             type : "POST",
-            url : "_like_or_unlike"
+            url : Flask.url_for('moment.like_or_unlike')
         })
         .done(function(data){
-            console.log(moment_id, "=id");
-            console.log($('div[moment_id=' + moment_id + '][name="moment-icon"]').get());
             $('div[moment_id=' + moment_id + '][name="moment-icon"]').html(data['icon_html']);
             $('div[moment_id=' + moment_id + '][name="moment-text"]').html(data['text_html']);
         });
