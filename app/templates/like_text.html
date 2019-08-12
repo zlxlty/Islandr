@@ -1,0 +1,10 @@
+
+    <a class="moment-count" moment_id="{{ one_moment.id }}" href="{{ url_for('moment.moment_likes', id=one_moment.id) }}">
+        {% if one_moment.likes.count() > 0 %}
+            {% if one_moment.likes.count() == 1 %}
+                <span class="badge badge-pill badge-danger">1 Like</span>
+            {% else %}
+                <span class="badge badge-pill badge-danger">{{ "%s Likes" % one_moment.likes.count() }}</span>
+            {% endif %}
+        {% endif %}
+    </a>

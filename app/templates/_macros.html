@@ -423,20 +423,16 @@
             {% endif %}
 
             <!-- like -->
-            <div class="float-right">
+            <div class="float-right moment-icon ml-3" moment_id="{{ one_moment.id }}" style="cursor: pointer;" name="moment-icon">
             {% if current_user.is_liking(one_moment) %}
-                <a href="{{ url_for('moment.moment_unlike', id=one_moment.id) }}">
                     <img src="{{url_for('static', filename='icon/like-red.png')}}" alt="Like icon" height="30px" width="30px">
-                </a>
             {% else %}
-                <a href="{{ url_for('moment.moment_like', id=one_moment.id) }}">
                     <img src="{{url_for('static', filename='icon/like-gray.png')}}" alt="Like icon" height="30px" width="30px">
-                </a>
             {% endif %}
             </div>
 
-            <div class="float-right mr-3">
-                <a href="{{ url_for('moment.moment_likes', id=one_moment.id) }}">
+            <div class="float-right moment-text" moment_id="{{ one_moment.id }}" name="moment-text">
+                <a class="moment-count" moment_id="{{ one_moment.id }}" href="{{ url_for('moment.moment_likes', id=one_moment.id) }}">
                     {% if one_moment.likes.count() > 0 %}
                         {% if one_moment.likes.count() == 1 %}
                             <span class="badge badge-pill badge-danger">1 Like</span>

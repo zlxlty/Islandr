@@ -1,4 +1,4 @@
-from flask import render_template, abort, url_for, request, redirect, flash, current_app
+from flask import render_template, abort, url_for, request, redirect, flash, current_app, jsonify
 from flask_login import login_required, current_user
 from . import moment
 from .. import db
@@ -63,27 +63,36 @@ def moments():
     moments = pagination.items #moments is a list
     return render_template('moments.html', moments=moments, pagination=pagination)
 
-@moment.route('/<int:id>/like')
+@moment.route('/_like_or_unlike', methods=['POST'])
 @login_required
-def moment_like(id):
-    moment = Moment.query.get_or_404(id)
-    moment.likes.append(current_user)
-    group = Group.query.get_or_404(moment.group_id)
-    post = Post.query.get_or_404(moment.event_id)
-    group.owner[0].add_msg({'role': 'notification',
-                                  'name': 'Likes',
-                                  'content': '\"%s\" liked your group\'s moment. Event - \"%s\"' % (current_user.username, post.title)})
-    db.session.commit()
-    return redirect(url_for('moment.moments'))
-
-@moment.route('/<int:id>/unlike')
-@login_required
-def moment_unlike(id):
-    moment = Moment.query.get_or_404(id)
-    if current_user in moment.likes.all():
-        moment.likes.remove(current_user)
+def like_or_unlike():
+    try:
+        id = int(request.form['id'])
+    except:
+        id = 0
+    if id != 0:
+        moment = Moment.query.get_or_404(id)
+        if current_user in moment.likes.all(): # if already liked, then unlike it.
+            moment.likes.remove(current_user)
+        else:                                  # else, like it.
+            moment.likes.append(current_user)
+            group = Group.query.get_or_404(moment.group_id)
+            post = Post.query.get_or_404(moment.event_id)
+            group.owner[0].add_msg({'role': 'notification',
+                                          'name': 'Likes',
+                                          'content': '\"%s\" liked your group\'s moment. Event - \"%s\"' % (current_user.username, post.title)})
         db.session.commit()
-    return redirect(url_for('moment.moments'))
+
+    return jsonify(icon_html=render_template('like_icon.html', one_moment=moment), text_html=render_template('like_text.html', one_moment=moment))
+
+# @moment.route('/<int:id>/_unlike', methods=['POST'])
+# @login_required
+# def moment_unlike(id):
+#     moment = Moment.query.get_or_404(id)
+#     if current_user in moment.likes.all():
+#         moment.likes.remove(current_user)
+#         db.session.commit()
+#     return redirect(url_for('moment.moments'))
 
 @moment.route('/<int:id>/likes') #IMPORTANT: likes is different than like
 @login_required
