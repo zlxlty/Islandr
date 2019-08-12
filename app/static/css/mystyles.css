@@ -144,3 +144,7 @@ html,body{
 p.c {
   word-break: break-all;
 }
+
+.badge-danger{
+    background-color: #d5584a;
+}

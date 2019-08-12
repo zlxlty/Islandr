@@ -1,0 +1,6 @@
+
+{% if current_user.is_liking(one_moment) %}
+        <img src="{{url_for('static', filename='icon/like-red.png')}}" alt="Like icon" height="20px" width="20px">
+{% else %}
+        <img src="{{url_for('static', filename='icon/like-gray.png')}}" alt="Like icon" height="20px" width="20px">
+{% endif %}
