@@ -323,6 +323,10 @@ def test_bulletin():
     send_test_bulletin(current_app._get_current_object())
     return "bulletin sent"
 
+@main.route('/add_test_user', methods=['GET', 'POST'])
+def add_user():
+    test_user()
+    return "ok"
 
 def save_profile_pic(form_picture, user):
 

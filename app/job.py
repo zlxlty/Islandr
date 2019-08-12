@@ -30,13 +30,13 @@ def send_bulletin(app):
 def send_test_reminder(id, time, app):
     print(id, scheduler.get_job(str(id))) #for testing
     if scheduler.get_job(str(id)) == None:
-        scheduler.add_job(id=str(id), func=reminder_email, kwargs={'app':app, 'post_id':str(id)})
+        scheduler.add_job(id=str(id), func=reminder_email, kwargs={'app':app, 'post_id':str(id)}, trigger='cron', minute=time+1)
     else:
-        scheduler.modify_job(id=str(id), func=reminder_email, kwargs={'app':app, 'post_id':str(id)})
+        scheduler.modify_job(id=str(id), func=reminder_email, kwargs={'app':app, 'post_id':str(id)}, trigger='cron,', minute=time+1)
 
 def send_test_bulletin(app):
     if scheduler.get_job('test_send_bullentin') == None:
-        scheduler.add_job(id='test_send_bullentin', func=bulletin_email, args=[app])
+        scheduler.add_job(id='test_send_bullentin', func=bulletin_email, args=[app],)
     else:
         scheduler.modify_job(id='test_send_bullentin', func=bulletin_email, args=[app])
     
