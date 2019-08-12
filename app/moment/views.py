@@ -1,3 +1,10 @@
+'''
+@Description: Edit
+@Author: Tianyi Lu
+@Date: 2019-08-12 17:10:17
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-08-12 17:10:18
+'''
 from flask import render_template, abort, url_for, request, redirect, flash, current_app, jsonify
 from flask_login import login_required, current_user
 from . import moment
@@ -78,9 +85,6 @@ def like_or_unlike():
             moment.likes.append(current_user)
             group = Group.query.get_or_404(moment.group_id)
             post = Post.query.get_or_404(moment.event_id)
-            group.owner[0].add_msg({'role': 'notification',
-                                          'name': 'Likes',
-                                          'content': '\"%s\" liked your group\'s moment. Event - \"%s\"' % (current_user.username, post.title)})
         db.session.commit()
 
     return jsonify(icon_html=render_template('like_icon.html', one_moment=moment), text_html=render_template('like_text.html', one_moment=moment))
