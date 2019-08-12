@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-10 10:31:23
+@LastEditTime: 2019-08-11 21:47:22
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -17,10 +17,12 @@ from .forms import EditorForm, UpdateAccountForm
 from ..decorators import admin_required, owner_required
 from datetime import datetime
 from app import search
+from ..job import send_test_bulletin
 from ..search_index import update_index
-from ..job import add_job, sending_emails
 from ..image_saver import saver, deleter
 from flask_sqlalchemy import get_debug_queries
+
+from ..faker import test_user
 
 time_format = '%Y-%m-%d-%H:%M'
 
@@ -72,8 +74,6 @@ def message():
 
     # add different ctype with different msgs
     if ctype == 'my_group':
-        if not current_user.my_group:
-            abort(403)
         pending_joins_list = pending_joins.all()
         for join in pending_joins_list:
             applicant = User.query.get(join.user_id)
@@ -316,6 +316,13 @@ def after_request(response):
                 'Slow query: %s\nParameters: %s\nDuration: %fs\nContext: %s\n' %
                     (query.statement, query.parameters, query.duration, query.context))
     return response
+
+# test bulletin function
+@main.route('/send_test_bulletin', methods=['GET', 'POST'])
+def test_bulletin():
+    send_test_bulletin(current_app._get_current_object())
+    return "bulletin sent"
+
 
 def save_profile_pic(form_picture, user):
 

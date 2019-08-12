@@ -1,3 +1,10 @@
+'''
+@Description: Email Functions
+@Author: Tianyi Lu
+@Date: 2019-08-11 21:29:26
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-08-11 21:29:33
+'''
 from threading import Thread
 from flask import current_app, render_template
 from flask_mail import Message
@@ -34,14 +41,24 @@ def send_simple_email(app):
 #official email function for scheduler (modify needed)
 def bulletin_email(app,  **kwargs):
         next_week_posts = get_bulletin_post(app)
+
         with app.app_context():
                 all_emails = []
+                weekdays = []
+                switch_weekday = {1: 'Monday', 2: 'Tuesday', 3:'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday', 7: 'Sunday'}
+                
                 for i in range(len(User.query.all())):
                         email = User.query.all()[i].email
                         all_emails.append(email)
-        msg = Message(subject="Islander weekly Bulletin", sender=app.config['FLASKY_MAIL_SENDER'],recipients=all_emails)
-        msg.body = render_without_request('mail/bulletin.txt', posts = next_week_posts, length=range(len(next_week_posts)))
-        msg.html = render_without_request('mail/bulletin.html', posts = next_week_posts, length=range(len(next_week_posts)))
+                
+                for i in next_week_posts:
+                        weekday = i.datetime_from.isoweekday()
+                        if weekday not in weekdays:
+                                weekdays.append(weekday)
+                msg = Message(subject="Islander weekly Bulletin", sender=app.config['FLASKY_MAIL_SENDER'],recipients=all_emails)
+                msg.body = render_template('mail/test_bulletin.txt', posts = next_week_posts, length=range(len(next_week_posts)), weekdays=weekdays, switch_weekday=switch_weekday)
+                msg.html = render_template('mail/test_bulletin.html', posts = next_week_posts, length=range(len(next_week_posts)), weekdays=weekdays, switch_weekday=switch_weekday)
+        
         thr = Thread(target=send_async_email, args=[app, msg])
         thr.start()
         return thr
@@ -49,16 +66,20 @@ def bulletin_email(app,  **kwargs):
 
 def reminder_email(app, post_id, **kwargs):
         from .event.views import get_post
+        
         with app.app_context():
                 post = get_post(post_id)
                 users = post.followers.all()
                 follower_emails =[]
+
                 for i in range(len(users)):
                         email = users[i].email
                         follower_emails.append(email)
-        msg = Message(subject="Islander envent reminder", sender=app.config['FLASKY_MAIL_SENDER'],recipients=follower_emails)
-        msg.body = render_without_request('mail/reminder.txt', post=post)
-        msg.html = render_without_request('mail/reminder.html', post=post)
+                
+                msg = Message(subject="Islander event reminder", sender=app.config['FLASKY_MAIL_SENDER'],recipients=follower_emails)
+                msg.body = render_template('mail/reminder.txt', post=post)
+                msg.html = render_template('mail/reminder.html', post=post)
+
         thr = Thread(target=send_async_email, args=[app, msg])
         thr.start()
         print(post.title, type(post))#test
