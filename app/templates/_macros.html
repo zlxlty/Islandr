@@ -345,7 +345,7 @@
 
                                 <div class="modal-content">
                                     <div class="modal-body">
-                                        <img class="img-fluid mb-1" data-toggle="modal"
+                                        <img class="img-fluid mb-1 mx-auto d-block" data-toggle="modal"
                                             data-target="{{ ('#fullSizePicture_' + pictures['%s'% ((row * 4) - 4 + col)|string]) | remove_ext  }}"
                                             src="{{ url_for('static', filename='moments/%d/%s' % (one_moment.from_group.id, pictures['%s'% ((row * 4) - 4 + col)|string ] )  ) }}"
                                             alt="MOMENT_FULL_SIZE">
