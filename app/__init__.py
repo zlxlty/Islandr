@@ -15,6 +15,8 @@ from flask_avatars import Avatars
 from .flask_msearch import Search
 from config import config
 from flask_apscheduler import APScheduler
+from flask_jsglue import JSGlue
+
 
 
 bootstrap = Bootstrap()
@@ -26,6 +28,7 @@ avatars = Avatars()
 search = Search(db=db)
 login_manager.login_view = 'auth.login'
 scheduler =APScheduler()
+jsglue = JSGlue()
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -37,6 +40,7 @@ def create_app(config_name):
     moment.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
+    jsglue.init_app(app)
 
     if not config_name == 'testing':
         scheduler.init_app(app)
