@@ -427,7 +427,7 @@
             {% if current_user.is_liking(one_moment) %}
                     <img src="{{url_for('static', filename='icon/like-red.png')}}" alt="Like icon" height="20px" width="20px">
             {% else %}
-                    <img src="{{url_for('static', filename='icon/like-gray.png')}}" alt="Like icon" height="20px" width="20px">
+                    <img src="{{url_for('static', filename='icon/like-gray.png')}}" alt="Like icon" height="20px" width="30px">
             {% endif %}
             </div>
 
@@ -435,9 +435,9 @@
                 <a class="moment-count" moment_id="{{ one_moment.id }}" href="{{ url_for('moment.moment_likes', id=one_moment.id) }}">
                     {% if one_moment.likes.count() > 0 %}
                         {% if one_moment.likes.count() == 1 %}
-                            <span class="badge badge-pill badge-info">1 Like</span>
+                            <span class="badge badge-pill badge-danger">1 Like</span>
                         {% else %}
-                            <span class="badge badge-pill badge-info">{{ "%s Likes" % one_moment.likes.count() }}</span>
+                            <span class="badge badge-pill badge-danger">{{ "%s Likes" % one_moment.likes.count() }}</span>
                         {% endif %}
                     {% endif %}
                 </a>
