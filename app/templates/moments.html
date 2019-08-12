@@ -9,13 +9,19 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-10">
-            <h2>Moments</h2>
+        <div class="col-1">
+
+            </div>
+        <div class="col-1">
+            <img src="{{ url_for('static', filename='icon/moments-color.png') }}" height="65px" width="65px" />
+        </div>
+        <div class="col-8">
+            <h2 class="mt-3">Moments</h2>
         </div>
         <div class="col-2">
             {% if current_user.my_group %}
             <a href="{{ url_for('moment.create_moment') }}">
-                <button type="button" class="btn btn-info my-2"> + New Moment </button>
+                <button type="button" class="btn btn-info my-2 mt-3"> + New Moment </button>
             </a>
             {% endif %}
         </div>
@@ -27,7 +33,7 @@
     <div class="row">
         <div class="col-2"></div> <!--占位用-->
         <div class="col-8">
-            {% for one_moment in moments.all() %}
+            {% for one_moment in moments %}
 
                 {{ macros.moment_generator(one_moment, one_moment.pictures | str_to_dic) }}
                 <br />
@@ -36,6 +42,10 @@
         </div>
         <div class="col-2"></div> <!--占位用-->
     </div>
+</div>
+
+<div class="pagination justify-content-center">
+    {{ macros.pagination_widget(pagination, 'moment.moments') }}
 </div>
 
 {% endblock %}
