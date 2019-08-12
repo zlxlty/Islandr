@@ -1,3 +1,10 @@
+'''
+@Description: Email Functions
+@Author: Tianyi Lu
+@Date: 2019-08-11 21:29:26
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-08-11 21:29:33
+'''
 from threading import Thread
 from flask import current_app, render_template
 from flask_mail import Message
@@ -69,7 +76,7 @@ def reminder_email(app, post_id, **kwargs):
                         email = users[i].email
                         follower_emails.append(email)
                 
-                msg = Message(subject="Islander envent reminder", sender=app.config['FLASKY_MAIL_SENDER'],recipients=follower_emails)
+                msg = Message(subject="Islander event reminder", sender=app.config['FLASKY_MAIL_SENDER'],recipients=follower_emails)
                 msg.body = render_template('mail/reminder.txt', post=post)
                 msg.html = render_template('mail/reminder.html', post=post)
 

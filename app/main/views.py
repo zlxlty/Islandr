@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-10 10:31:23
+@LastEditTime: 2019-08-11 21:47:22
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
@@ -74,8 +74,6 @@ def message():
 
     # add different ctype with different msgs
     if ctype == 'my_group':
-        if not current_user.my_group:
-            abort(403)
         pending_joins_list = pending_joins.all()
         for join in pending_joins_list:
             applicant = User.query.get(join.user_id)

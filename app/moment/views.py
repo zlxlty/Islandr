@@ -1,3 +1,10 @@
+'''
+@Description: Moments View Functions
+@Author: Tianyi Lu
+@Date: 2019-08-12 11:50:49
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-08-12 11:51:03
+'''
 from flask import render_template, abort, url_for, request, redirect, flash, current_app
 from flask_login import login_required, current_user
 from . import moment
@@ -70,9 +77,6 @@ def moment_like(id):
     moment.likes.append(current_user)
     group = Group.query.get_or_404(moment.group_id)
     post = Post.query.get_or_404(moment.event_id)
-    group.owner[0].add_msg({'role': 'notification',
-                                  'name': 'Likes',
-                                  'content': '\"%s\" liked your group\'s moment. Event - \"%s\"' % (current_user.username, post.title)})
     db.session.commit()
     return redirect(url_for('moment.moments'))
 

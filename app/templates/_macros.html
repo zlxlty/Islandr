@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-07-14 18:03:15
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-08-07 15:20:25
+ * @LastEditTime: 2019-08-12 11:49:32
  -->
 
 
@@ -318,12 +318,12 @@
             {% else %}
             <h4 class="md-2">{{ one_moment.from_group.groupname }}&nbsp&nbsp|&nbsp&nbsp<a style="color: #0065A1;"
                     href="{{url_for('event.post', id=one_moment.event_id)}}">{{ one_moment.from_post.title }}</a></h4>
-            <h6 class="mt-0">{{ moment(one_moment.timestamp).fromNow() }}</h6>
+            <h6 class="mt-0" style="color: gray">{{ moment(one_moment.timestamp).fromNow() }}</h6>
             {% endif %}
             {% endif %}
 
             <div class="container mb-3">
-                <p class="c">{{one_moment.body}}</p>
+                <h6 class="c">{{one_moment.body}}</h6>
             </div>
             <div class="container">
                 {% for row in range(1, 2 + ((pictures|length)/4) | round(0, 'floor') | int) %}
@@ -426,11 +426,11 @@
             <div class="float-right">
             {% if current_user.is_liking(one_moment) %}
                 <a href="{{ url_for('moment.moment_unlike', id=one_moment.id) }}">
-                    <img src="{{url_for('static', filename='icon/like-red.png')}}" alt="Like icon" height="30px" width="30px">
+                    <img src="{{url_for('static', filename='icon/like-red.png')}}" alt="Like icon" height="20px" width="20px">
                 </a>
             {% else %}
                 <a href="{{ url_for('moment.moment_like', id=one_moment.id) }}">
-                    <img src="{{url_for('static', filename='icon/like-gray.png')}}" alt="Like icon" height="30px" width="30px">
+                    <img src="{{url_for('static', filename='icon/like-gray.png')}}" alt="Like icon" height="20px" width="20px">
                 </a>
             {% endif %}
             </div>
@@ -439,9 +439,9 @@
                 <a href="{{ url_for('moment.moment_likes', id=one_moment.id) }}">
                     {% if one_moment.likes.count() > 0 %}
                         {% if one_moment.likes.count() == 1 %}
-                            <span class="badge badge-pill badge-danger">1 Like</span>
+                            <span class="badge badge-pill badge-info">1 Like</span>
                         {% else %}
-                            <span class="badge badge-pill badge-danger">{{ "%s Likes" % one_moment.likes.count() }}</span>
+                            <span class="badge badge-pill badge-info">{{ "%s Likes" % one_moment.likes.count() }}</span>
                         {% endif %}
                     {% endif %}
                 </a>
