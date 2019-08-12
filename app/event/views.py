@@ -17,6 +17,8 @@ from ..image_saver import saver, deleter
 
 from ..job import add_reminder, send_test_reminder
 
+import datetime
+
 time_format = '%Y-%m-%d-%H:%M'
 
 @event.route('/all')
@@ -52,7 +54,7 @@ def post_approved(id):
     db.session.commit()
     post_datetime = post.datetime_from
     time = [post_datetime.year, post_datetime.month, post_datetime.day]
-    send_test_reminder(id, time, current_app._get_current_object())
+    add_reminder(id, time, current_app._get_current_object())
     return render_template('post_approved.html')
 
 @event.route('/<int:id>/rejected', methods=['GET', 'POST'])
@@ -165,7 +167,8 @@ def post_edit(id):
 def post_test_reminder(id):
     post = Post.query.get_or_404(id)
     post_datetime = post.datetime_from
-    time = [post_datetime.year, post_datetime.month, post_datetime.day]
+    # time = [post_datetime.year, post_datetime.month, post_datetime.day]
+    time = datetime.datetime.now().minute
     send_test_reminder(id, time, current_app._get_current_object())
     return "send_test_reminder"
 
