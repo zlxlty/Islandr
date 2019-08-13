@@ -82,8 +82,14 @@ def saver(type, form_picture, user=None):
 
             i = i.crop([left, top, right, bottom])
 
-        if width > 2000: # if the image has too many pixels
-            i.thumbnail([2000, 2000])
+        width, height = i.size
+        height = int(round((height/width)*1500))
+        width = 1500
+
+        print("size = ", height, width)
+
+        #if width > 2000: # if the image has too many pixels
+        i = i.resize((width, height))
 
         picture_path = os.path.join(current_app.root_path, root_path[type], picture_file_name)
         i.save(picture_path)
