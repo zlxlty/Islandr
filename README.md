@@ -1,3 +1,10 @@
+<!--
+ * @Description: README
+ * @Author: Tianyi Lu
+ * @Date: 2019-08-13 13:30:17
+ * @LastEditors: Tianyi Lu
+ * @LastEditTime: 2019-08-13 13:33:13
+ -->
 Islandr 
 =====
 ![Language](https://img.shields.io/badge/language-python-green.svg)  ![Version](https://img.shields.io/badge/version-0.1.0-yellow.svg)    ![Dependencies](https://img.shields.io/badge/dependencies-up_to_date-green.svg)
@@ -77,16 +84,15 @@ export FLASK_APP=flasky.py
 **TODO**  
 - [x] Show today on calender
 - [x] Show empty if their is no activity on that day
-- [ ] Account page redesign (sky 8.7)
-- [ ] Team profile page redesign (multy 8.7)
-- [ ] Transfer Team Ownership (sky 8.7)
-- [ ] Delete Events (sky 8.7)
-- [ ] Change Email Comma (sky 8.7)
-- [ ] Change Search Engine (sky 8.9)
+- [x] Account page redesign (sky 8.7)
+- [x] Team profile page redesign (multy 8.7)
+- [x] Transfer Team Ownership (sky 8.7)
+- [x] Delete Events (sky 8.7)
+- [x] Change Email Comma (sky 8.7)
+- [x] Change Search Engine (sky 8.9)
+- [x] Moment Pagination (Steven 8.9)
+- [x] Moments Like function (Steven 8.9)
 - [ ] Hover system (Jiang 8.7)
-- [ ] Moments Like function (Steven 8.9)
-- [ ] Change form default into placeholder (Steven 8.9)
-- [ ] Moment Pagination (Steven 8.9)
 - [ ] Email template (working)
 - [ ] About Us page
 - [ ] Tag system (working)
@@ -96,9 +102,9 @@ export FLASK_APP=flasky.py
 **ERROR**
 - [x] Email Authentication Error
 - [x] Nginx Large File Error
-- [ ] Search function can't find any result if there is a space in keyword
+- [x] Search function can't find any result if there is a space in keyword
 - [ ] Mobile Display Error
-- [ ] Server Datetime Error
+- [x] Server Datetime Error
 
 ***
 ## Unittesting
