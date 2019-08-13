@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <title>Islandr is a website for UWCCSCer to organize, publicize and find interesting activities <!-- omit in toc --></title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+    </head>
+    <body>
+        <h1 id="Islandr">Islandr</h1>
+<p><img src="https://img.shields.io/badge/language-python-green.svg" alt="Language">  <img src="https://img.shields.io/badge/version-0.1.0-yellow.svg" alt="Version">    <img src="https://img.shields.io/badge/dependencies-up_to_date-green.svg" alt="Dependencies"></p>
+<div align=center><img src="file:////home/skylu/Desktop/ALL/project/Islandr/app/static/pic/cover.png"/></div>
+<h3 id="Islandr-is-a-website-for-UWCCSCer-to-organize-publicize-and-find-interesting-activities----omit-in-toc">Islandr is a website for UWCCSCer to organize, publicize and find interesting activities <!-- omit in toc --></h3>
+<h2 id="Content">Content</h2>
+<ul>
+<li><a href="#Islandr">Islandr</a>
+<ul>
+<li><a href="#Content">Content</a></li>
+<li><a href="#GettingStarted">Getting_Started</a>
+<ul>
+<li><a href="#Prerequisites">Prerequisites</a></li>
+<li><a href="#Installing">Installing</a></li>
+</ul>
+</li>
+<li><a href="#Changlog">Changlog</a></li>
+<li><a href="#Unittesting">Unittesting</a></li>
+<li><a href="#Faking-Users-and-Posts">Faking Users and Posts</a></li>
+<li><a href="#Contributing">Contributing</a>
+<ul>
+<li><a href="#Pull-Request-Process">Pull Request Process</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="GettingStarted">Getting_Started</h2>
+<h3 id="Prerequisites">Prerequisites</h3>
+<ul>
+<li>Python 3.6.x (3.7.x is not supported)
+<ul>
+<li>If you haven't installed anaconda on your computer, here is the URL link to <a href="https://www.anaconda.com/download">Download Anaconda</a></li>
+</ul>
+</li>
+<li>Virtualenv</li>
+<li>Mac OS or Linux</li>
+</ul>
+<pre><code><div>$ sudo apt-get install python3-venv
+</div></code></pre>
+<h3 id="Installing">Installing</h3>
+<ol>
+<li>Click the top-right <code>Fork</code> button and fork my repo to your own repo</li>
+<li>Clone your repo to your local computer</li>
+</ol>
+<pre><code><div>$ git clone https://github.com/&lt;your_username&gt;/Islandr.git
+$ cd Islandr
+</div></code></pre>
+<ol start="3">
+<li>Create Virtualenv</li>
+</ol>
+<pre><code><div>$ python3 -m venv venv
+</div></code></pre>
+<ol start="4">
+<li>Add FLASK_APP to your activate shell file</li>
+</ol>
+<pre><code><div>$ vim venv/bin/activate
+</div></code></pre>
+<p style="text-indent:2em;">Add this line at the buttom of activate file</p>
+<pre><code class="language-shell"><div>export FLASK_APP=flasky.py
+</div></code></pre>
+<p style="text-indent:2em;">Save and exit the file by pressing `Contrl+C` and `:wq`</p>  
+<ol start="5">
+<li>Activate Virtualevn and install dependencies</li>
+</ol>
+<pre><code><div>(venv)$ source venv/bin/activate
+(venv)$ pip install -r requirements.txt
+</div></code></pre>
+<ol start="6">
+<li>Generate your database</li>
+</ol>
+<pre><code><div>(venv)$ flask db init
+(venv)$ flask db migrate -m &quot;first migration&quot;
+(venv)$ flask db upgrade
+</div></code></pre>
+<ol start="7">
+<li>Create index for search function</li>
+</ol>
+<pre><code><div>(venv)$ flask deploy
+</div></code></pre>
+<ol start="8">
+<li>Run your flask app</li>
+</ol>
+<pre><code><div>(venv)$ flask run
+</div></code></pre>
+<ol start="9">
+<li>Go to <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a> and see the app running</li>
+</ol>
+<hr>
+<h2 id="Changlog">Changlog</h2>
+<p>2019.07.08</p>
+<p><strong>TODO</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Show today on calender</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Show empty if their is no activity on that day</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Account page redesign (sky 8.7)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Team profile page redesign (multy 8.7)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Transfer Team Ownership (sky 8.7)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Delete Events (sky 8.7)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Change Email Comma (sky 8.7)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Change Search Engine (sky 8.9)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Hover system (Jiang 8.7)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Moments Like function (Steven 8.9)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Change form default into placeholder (Steven 8.9)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Moment Pagination (Steven 8.9)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Email template (working)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> About Us page</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Tag system (working)</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Team Organization</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Tingting Communication</li>
+</ul>
+<p><strong>ERROR</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Email Authentication Error</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Nginx Large File Error</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Search function can't find any result if there is a space in keyword</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Mobile Display Error</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Server Datetime Error</li>
+</ul>
+<hr>
+<h2 id="Unittesting">Unittesting</h2>
+<pre><code><div>(venv)$ flask test
+</div></code></pre>
+<p>Expecting Output</p>
+<pre><code><div>test_app_exists (test_basics.BasicsTestCase) ... ok
+test_app_is_testing (test_basics.BasicsTestCase) ... ok
+test_no_password_getter (test_user_model.UserModelTestCase) ... ok
+test_password_salts_are_random (test_user_model.UserModelTestCase) ... ok
+test_password_setter (test_user_model.UserModelTestCase) ... ok
+test_password_verification (test_user_model.UserModelTestCase) ... ok
+test_user_role (test_user_model.UserModelTestCase) ... ok
+
+-----------------------------------------------------------------
+Ran 7 tests in 0.244s
+
+OK
+</div></code></pre>
+<hr>
+<h2 id="Faking-Users-and-Posts">Faking Users and Posts</h2>
+<pre><code><div>(venv)$ flask shell
+</div></code></pre>
+<pre><code class="language-python"><div><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> app <span class="hljs-keyword">import</span> faker
+<span class="hljs-meta">&gt;&gt;&gt; </span>faker.test_user()
+<span class="hljs-meta">&gt;&gt;&gt; </span>faker.users()
+<span class="hljs-meta">&gt;&gt;&gt; </span>faker.groups()
+<span class="hljs-meta">&gt;&gt;&gt; </span>faker.posts()
+</div></code></pre>
+<p>An admin account with email <code>skylty01@gmail.com</code> and password <code>123</code> will be added into your database for testing</p>
+<p>100 users ,groups and posts will be added into your database</p>
+<hr>
+<h2 id="Contributing">Contributing</h2>
+<p>When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.</p>
+<h3 id="Pull-Request-Process">Pull Request Process</h3>
+<p>Starting from Step 4</p>
+<div align=center><img width="800px" src="file:////home/skylu/Desktop/ALL/project/Islandr/app/static/pic/contribute.jpg"/></div>
+<hr>
+<table>
+<thead>
+<tr>
+<th>Author</th>
+<th>zlxlty</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E-mail</td>
+<td><a href="mailto:skylty01@gmail.com">skylty01@gmail.com</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+
+    </body>
+    </html>

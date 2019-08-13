@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-08-09 15:41:15
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-10 10:20:02
+@LastEditTime: 2019-08-13 12:09:51
 '''
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
 from flask_login import login_required, current_user
@@ -16,8 +16,6 @@ from datetime import datetime
 from ..image_saver import saver, deleter
 
 from ..job import add_reminder, send_test_reminder
-
-import datetime
 
 time_format = '%Y-%m-%d-%H:%M'
 
@@ -153,6 +151,7 @@ def post_edit(id):
         old_post.title = request.form['title']
         old_post.post_html = request.form['content']
         old_post.tag = request.form['tag']
+        print()
         old_post.datetime_from = datetime.strptime(request.form['datetime_from'], time_format)
         old_post.datetime_to = datetime.strptime(request.form['datetime_to'], time_format)
         old_post.last_modified = datetime.utcnow()
@@ -168,7 +167,7 @@ def post_test_reminder(id):
     post = Post.query.get_or_404(id)
     post_datetime = post.datetime_from
     # time = [post_datetime.year, post_datetime.month, post_datetime.day]
-    time = datetime.datetime.now().minute
+    time = datetime.now().minute
     send_test_reminder(id, time, current_app._get_current_object())
     return "send_test_reminder"
 
