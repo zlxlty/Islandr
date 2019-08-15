@@ -1,3 +1,10 @@
+'''
+@Description: App Scheduler Utils
+@Author: Tianyi Lu
+@Date: 2019-08-15 19:51:25
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-08-15 19:52:11
+'''
 from flask import current_app, render_template
 from . import scheduler
 from .email import send_simple_email, reminder_email, bulletin_email
@@ -22,9 +29,9 @@ def add_reminder(id, time, app):
 
 def send_bulletin(app):
     if scheduler.get_job('send_bullentin') == None:
-        scheduler.add_job(id='send_bullentin', func=bulletin_email, args=[app], trigger='cron', day_of_week='sun', hour=8)
+        scheduler.add_job(id='send_bullentin', func=bulletin_email, args=[app], trigger='cron', day_of_week='fri', hour=0)
     else:
-        scheduler.modify_job(id='send_bullentin', func=bulletin_email, args=[app], trigger='cron', day_of_week='sun', hour=8)
+        scheduler.modify_job(id='send_bullentin', func=bulletin_email, args=[app], trigger='cron', day_of_week='fri', hour=0)
     
 # test function for appscheduler
 def send_test_reminder(id, time, app):
