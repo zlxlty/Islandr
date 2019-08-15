@@ -1,3 +1,10 @@
+'''
+@Description: Edit
+@Author: Tianyi Lu
+@Date: 2019-08-15 19:41:02
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-08-15 19:48:16
+'''
 import os
 from PIL import Image
 import secrets
@@ -47,7 +54,6 @@ def saver(type, form_picture, user=None):
         right = (width + new_size)/2
         bottom = (height + new_size)/2
         i = i.crop((left, top, right, bottom)) # crop to square
-        i.thumbnail([250, 250]) # resize, no return
         thumbnail_file_name = "thumbnail_" + picture_file_name
         thumbnail_path = os.path.join(current_app.root_path, moment_dir, thumbnail_file_name)
         i.save(thumbnail_path)
