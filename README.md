@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-08-13 13:30:17
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-08-13 13:33:13
+ * @LastEditTime: 2019-08-16 08:18:54
  -->
 Islandr 
 =====
@@ -82,17 +82,6 @@ export FLASK_APP=flasky.py
 2019.07.08
 
 **TODO**  
-- [x] Show today on calender
-- [x] Show empty if their is no activity on that day
-- [x] Account page redesign (sky 8.7)
-- [x] Team profile page redesign (multy 8.7)
-- [x] Transfer Team Ownership (sky 8.7)
-- [x] Delete Events (sky 8.7)
-- [x] Change Email Comma (sky 8.7)
-- [x] Change Search Engine (sky 8.9)
-- [x] Moment Pagination (Steven 8.9)
-- [x] Moments Like function (Steven 8.9)
-- [ ] Hover system (Jiang 8.7)
 - [ ] Email template (working)
 - [ ] About Us page
 - [ ] Tag system (working)
@@ -100,11 +89,8 @@ export FLASK_APP=flasky.py
 - [ ] Tingting Communication
 
 **ERROR**
-- [x] Email Authentication Error
-- [x] Nginx Large File Error
-- [x] Search function can't find any result if there is a space in keyword
 - [ ] Mobile Display Error
-- [x] Server Datetime Error
+- [ ] Unread Message Error
 
 ***
 ## Unittesting
