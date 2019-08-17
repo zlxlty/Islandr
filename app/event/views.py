@@ -52,7 +52,6 @@ def post_approved(id):
     db.session.commit()
     post_datetime = post.datetime_from
     time = [post_datetime.year, post_datetime.month, post_datetime.day]
-    add_reminder(id, time, current_app._get_current_object())
     return render_template('post_approved.html')
 
 @event.route('/<int:id>/rejected', methods=['GET', 'POST'])
@@ -168,7 +167,7 @@ def post_test_reminder(id):
     post_datetime = post.datetime_from
     # time = [post_datetime.year, post_datetime.month, post_datetime.day]
     time = datetime.now().minute
-    send_test_reminder(id, time, current_app._get_current_object())
+    send_test_reminder(current_app._get_current_object())
     return "send_test_reminder"
 
 

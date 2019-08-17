@@ -53,10 +53,11 @@ def create_app(config_name):
         from flask_sslify import SSLify
         sslify = SSLify(app)
 
-    from .job import send_bulletin
+    from .job import send_bulletin, add_reminder
     from flask import current_app
     with app.app_context():
         send_bulletin(current_app._get_current_object())
+        add_reminder(current_app._get_current_object())
 
 
     from .main import main as main_blueprint
