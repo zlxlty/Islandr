@@ -1,11 +1,4 @@
-UWC weekly Bulletin
-What's next?
-{% if posts == None %}
-    not event next week
-{% else %}
-    {% for i in length %}
-        Event: {{posts[i].title}}
-        location: {{posts[i].location}}
-        Time: from {{posts[i].datetime_from}} to {{posts[i].datetime_to}}
-    {% endfor %}
-{% endif %}
+UWCCSC –– Islandr weekly bulletin
+Monday
+Event Title
+Time:

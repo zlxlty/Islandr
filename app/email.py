@@ -15,6 +15,7 @@ from .models import User, Post
 
 import jinja2
 import datetime
+import time
 
 
 def send_async_email(app, msg):
@@ -56,35 +57,63 @@ def bulletin_email(app,  **kwargs):
                         if weekday not in weekdays:
                                 weekdays.append(weekday)
                 msg = Message(subject="Islander weekly Bulletin", sender=app.config['FLASKY_MAIL_SENDER'],recipients=all_emails)
-                msg.body = render_template('mail/test_bulletin.txt', posts = next_week_posts, length=range(len(next_week_posts)), weekdays=weekdays, switch_weekday=switch_weekday)
-                msg.html = render_template('mail/test_bulletin.html', posts = next_week_posts, length=range(len(next_week_posts)), weekdays=weekdays, switch_weekday=switch_weekday)
+                msg.body = render_template('mail/bulletin.txt', posts = next_week_posts, length=range(len(next_week_posts)), weekdays=weekdays, switch_weekday=switch_weekday)
+                msg.html = render_template('mail/bulletin.html', posts = next_week_posts, length=range(len(next_week_posts)), weekdays=weekdays, switch_weekday=switch_weekday)
         
         thr = Thread(target=send_async_email, args=[app, msg])
         thr.start()
         return thr
 
 
-def reminder_email(app, post_id, **kwargs):
+def reminder_email(app):
         from .event.views import get_post
         
+        tmr_posts = get_reminder_post(app)
+
         with app.app_context():
-                post = get_post(post_id)
-                users = post.followers.all()
-                follower_emails =[]
+                for i in tmr_posts:
+        
+                        post_id = i.id
+                        print(post_id)
+                        post = get_post(post_id)
+                        users = post.followers.all()
+                        follower_emails =[]
 
-                for i in range(len(users)):
-                        email = users[i].email
-                        follower_emails.append(email)
+                        for a in range(len(users)):
+                                email = users[a].email
+                                follower_emails.append(email)
                 
-                msg = Message(subject="Islander event reminder", sender=app.config['FLASKY_MAIL_SENDER'],recipients=follower_emails)
-                msg.body = render_template('mail/reminder.txt', post=post)
-                msg.html = render_template('mail/reminder.html', post=post)
+                        msg = Message(subject="Islander event reminder", sender=app.config['FLASKY_MAIL_SENDER'],recipients=follower_emails)
+                        msg.body = render_template('mail/reminder.txt', post=post)
+                        msg.html = render_template('mail/reminder.html', post=post)
 
-        thr = Thread(target=send_async_email, args=[app, msg])
-        thr.start()
-        print(post.title, type(post))#test
-        scheduler.remove_job(str(post_id))
-        return thr
+                        thr = Thread(target=send_async_email, args=[app, msg])
+                        thr.start()
+                        time.sleep(0.1)
+                
+                return thr
+
+
+def get_bulletin_post(app):
+        now = datetime.datetime.today()
+        delta_monday = datetime.timedelta(hours=16)
+        delta_sunday = datetime.timedelta(days=7, hours=16)
+        next_monday = now + delta_monday
+        next_sunday = now + delta_sunday
+        with app.app_context():
+                posts = Post.query.filter(next_monday < Post.datetime_from, Post.datetime_from < next_sunday, Post.is_approved == '1').all()
+        return posts
+
+
+def get_reminder_post(app):
+        now = datetime.datetime.today()
+        delta_now = datetime.timedelta(hours=17)
+        delta_tmr = datetime.timedelta(days=1, hours=17)
+        begin_tmr = now + delta_now
+        end_tmr = now + delta_tmr
+        with app.app_context():
+                posts = Post.query.filter(begin_tmr < Post.datetime_from, Post.datetime_from < end_tmr, Post.is_approved == '1').all()
+        return posts
 
 #using jinjia2 html without app context in flask
 def render_without_request(template_name, **context):
@@ -99,12 +128,4 @@ def render_without_request(template_name, **context):
     template = env.get_template(template_name)
     return template.render(**context)
 
-def get_bulletin_post(app):
-        now = datetime.datetime.today()
-        delta_monday = datetime.timedelta(hours=16)
-        delta_sunday = datetime.timedelta(days=7, hours=16)
-        next_monday = now + delta_monday
-        next_sunday = now + delta_sunday
-        with app.app_context():
-                posts = Post.query.filter(next_monday < Post.datetime_from, Post.datetime_from < next_sunday, Post.is_approved == '1').all()
-        return posts
+
