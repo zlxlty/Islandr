@@ -36,5 +36,5 @@ class UpdateAccountForm(FlaskForm):
     wechat_id = StringField("Wechat", validators=[Length(1, 64)])
     skills = StringField("Skills", validators=[DataRequired(), Length(1, 128)])
     about_me = TextAreaField("About Me", validators=[DataRequired()])
-    profile_pic = FileField("Update Profile Picture", validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
+    profile_pic = FileField("Profile Picture", validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
     submit = SubmitField('Update Account Info')
