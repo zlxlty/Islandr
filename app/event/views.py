@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-08-09 15:41:15
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-13 12:09:51
+@LastEditTime: 2019-08-17 17:15:40
 '''
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
 from flask_login import login_required, current_user
@@ -19,11 +19,22 @@ from ..job import add_reminder, send_test_reminder
 
 time_format = '%Y-%m-%d-%H:%M'
 
-@event.route('/all')
+@event.route('/all', methods=['GET', 'POST'])
 @login_required
 def all_post():
+    datetime_from = datetime_to = None
+    if request.method == 'POST':
+        try:
+            datetime_from = datetime.strptime(request.form['datetime_from'], '%Y-%m-%d')
+            datetime_to = datetime.strptime(request.form['datetime_to'], '%Y-%m-%d')
+        except ValueError:
+            pass
+    print(datetime_from)
     page = request.args.get('page', 1, type=int)
-    pagination = Post.query.filter_by(is_approved=1).order_by(Post.datetime_from.desc()).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
+    if not datetime_from:
+        pagination = Post.query.filter_by(is_approved=1).order_by(Post.datetime_from.desc()).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
+    else:
+        pagination = Post.query.filter_by(is_approved=1).filter(Post.datetime_from > datetime_from).filter(Post.datetime_from < datetime_to).order_by(Post.datetime_from).paginate(page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'], error_out=False)
     posts = pagination.items
     return render_template('all_post.html', posts=posts, pagination=pagination)
 
