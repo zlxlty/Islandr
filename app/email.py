@@ -22,6 +22,7 @@ def send_async_email(app, msg):
     with app.app_context():
         mail.send(msg)
 
+
 def send_email(to, subject, template, **kwargs):
     app = current_app._get_current_object()
     msg = Message(app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + ' ' + subject,
@@ -30,16 +31,19 @@ def send_email(to, subject, template, **kwargs):
     msg.html = render_template(template + '.html', **kwargs)
     thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()
+    thr.join()
     return thr
+
 
 def send_simple_email(app):
         message = Message(subject='hello flask-mail',sender=app.config['FLASKY_MAIL_SENDER'], recipients=['multyxu@gmail.com','islandr-csc@outlook.com'],body='flask-mail code forrewqrq trrrreqy')
         thr = Thread(target=send_async_email, args=[app, message])
         thr.start()
+        thr.join()
         return thr
 
 
-#official email function for scheduler (modify needed)
+#official email function for scheduler
 def bulletin_email(app,  **kwargs):
         next_week_posts = get_bulletin_post(app)
 
@@ -62,6 +66,8 @@ def bulletin_email(app,  **kwargs):
         
         thr = Thread(target=send_async_email, args=[app, msg])
         thr.start()
+        thr.join()
+        print("bulletin send")
         return thr
 
 
@@ -74,7 +80,6 @@ def reminder_email(app):
                 for i in tmr_posts:
         
                         post_id = i.id
-                        print(post_id)
                         post = get_post(post_id)
                         users = post.followers.all()
                         follower_emails =[]
@@ -89,7 +94,8 @@ def reminder_email(app):
 
                         thr = Thread(target=send_async_email, args=[app, msg])
                         thr.start()
-                        time.sleep(0.1)
+                        thr.join()
+                        print("post:"+str(post_id)+" send")
                 
                 return thr
 
@@ -114,6 +120,7 @@ def get_reminder_post(app):
         with app.app_context():
                 posts = Post.query.filter(begin_tmr < Post.datetime_from, Post.datetime_from < end_tmr, Post.is_approved == '1').all()
         return posts
+
 
 #using jinjia2 html without app context in flask
 def render_without_request(template_name, **context):
