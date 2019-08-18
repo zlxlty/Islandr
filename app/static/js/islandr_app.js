@@ -34,4 +34,22 @@ $(document).ready(function () {
 
     });
 
+    $("input.limited-file-size").bind('change', function(){
+
+        var i;
+        for (i = 0; i < this.files.length; i++) {
+            console.log(i);
+            console.log(this.files[i]);
+            var size = this.files[i].size/1024/1024;
+            console.log(size);
+            size = size.toFixed(2);
+
+            if (size > 10) {
+                alert('Maximum file size allowed is 10MB. You have uploaded a : ' + size + "MB file.");
+                $(this).val("");
+            }
+        }
+
+    });
+
 });
