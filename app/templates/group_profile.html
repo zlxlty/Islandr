@@ -44,9 +44,14 @@
                         <h6><b>Members:</b>  {{ macros.profile_pic_generator(users=users, amount=3) }}</h6>
                     </a>
                     <hr/>
+                    <a style="color:#0065A1;" href="{{ url_for('main.download_file', filename=group.proposal_file) }}">
+
+                        <h6><b style="color:black;">Proposal: </b><b>{{ group.proposal_file }} (Download)</b></h6>
+                    </a>
+                    <hr />
                     <h6><b>About Us:</b>  {{ group.about_us }}</h6>
                     <hr>
-                   
+
                     <!-- profile end -->
                     {% if not current_user.id == group.owner[0].id %}
                         {% if current_user.has_joined(group) %}

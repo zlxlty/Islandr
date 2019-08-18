@@ -35,6 +35,16 @@
     </div>
 
     <div class="form-group">
+        <label>Proposal (Types allowed: .pdf .doc .docx)</label>
+        <div class="custom-file">
+            <input type="file" class="file-input limited-file-size" name="proposal" accept=".pdf, .doc, .docx"/>
+        </div>
+    </div>
+
+    <a href="{{ url_for('main.download_file', filename='0_UWCCSC_TEAM_PROPOSAL.docx') }}"><b>Download: Team Proposal Template</b></a>
+    <br /><br />
+
+    <div class="form-group">
         <label for="aboutus">About Us</label>
         <textarea class="form-control" name="aboutus" id="aboutus" rows="3">{{ old_group.about_us|safe }}</textarea>
     </div>

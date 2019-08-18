@@ -201,6 +201,7 @@ class Group(db.Model):
     background = db.Column(db.String(64), default='default.jpg')
     is_approved = db.Column(db.Integer, default=0)
     reject_msg = db.Column(db.Text)
+    proposal_file = db.Column(db.String())
 
     @staticmethod
     def get_explore_groups():

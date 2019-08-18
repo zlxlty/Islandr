@@ -6,7 +6,7 @@
 @LastEditTime: 2019-08-11 21:47:22
 '''
 
-from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
+from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort, send_file
 from threading import Thread
 from flask_login import login_required, current_user
 from .. import db
@@ -21,6 +21,7 @@ from ..job import send_test_bulletin
 from ..search_index import update_index
 from ..image_saver import saver, deleter
 from flask_sqlalchemy import get_debug_queries
+import os
 
 from ..faker import test_user
 
@@ -170,6 +171,10 @@ def group_creater():
             flash('Please fill in the name!', 'danger')
             return redirect(url_for('.group_creater'))
 
+        if not request.files['proposal']:
+            flash('Please upload Team Proposal!', 'danger')
+            return redirect(url_for('.group_creater'))
+
         if request.files['logo']:
             logo = request.files['logo']
             logo_filename = saver('group_logo', logo)
@@ -192,10 +197,42 @@ def group_creater():
         db.session.add(group)
         db.session.add(join)
         db.session.commit()
+
+        # save proposal file
+        if request.files['proposal']:
+            proposal_file = request.files['proposal']
+            _, ext = os.path.splitext(proposal_file.filename)
+            proposal_filename = str(group.id) + '_UWCCSC_TEAM_PROPOSAL' + str(ext)
+            dir = os.path.join(current_app.root_path, 'static', 'files', str(group.id))
+            if not os.path.isdir(dir):
+                os.mkdir(dir)
+            proposal_dir = os.path.join(dir, proposal_filename)
+            proposal_file.save(proposal_dir)
+            group.proposal_file = proposal_filename
+            db.session.add(group)
+            db.session.commit()
+
         update_index(Group)
         return redirect(url_for('group.group_profile',id=group.id))
     _group = Group()
     return render_template('creater.html', old_group=_group)
+
+@main.route('/download_file/<filename>')
+@login_required
+def download_file(filename):
+    folder = filename.split('_')[0]
+    path = os.path.join(current_app.root_path, 'static', 'files', folder, str(filename))
+    if os.path.isfile(path):
+        return send_file(path, as_attachment=True)
+    else:
+        flash("File does not exist!", "warning")
+        return redirect(url_for('main.index'))
+
+# @main.route('/upload_file')
+# @login_required
+# def upload_file():
+#     pass
+
 
 @main.route('/approve', methods=['GET', 'POST'])
 @login_required
