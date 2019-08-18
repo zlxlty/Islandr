@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-08-18 19:22:34
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-08-18 19:57:32
+ * @LastEditTime: 2019-08-18 20:51:39
  -->
 # Getting Started <!-- omit in toc -->
 
@@ -17,6 +17,8 @@ Please read the following instructions to learn how to use Islandr platform.
 
 ## Content <!-- omit in toc -->
 - [Create Account](#Create-Account)
+  - [Registration](#Registration)
+  - [](#)
 - [For Everyone](#For-Everyone)
   - [Tag System](#Tag-System)
   - [Search System](#Search-System)
@@ -33,8 +35,21 @@ Please read the following instructions to learn how to use Islandr platform.
 - [About Us](#About-Us)
 
 ## Create Account
+### Registration
 To create your own account, click `log in` button on home page and then click `Click here to register`
+<div align=center>
+    <img src="pic/log_in.png" alt="log in" width="800px">
+    <br>
+    <img src="pic/register.png" alt="register" width="800px">
+</div>
 
+You can use any username you like, but please use your UWC email address to register.
+
+After registration, a confirmation email will be sent to you.
+
+Please click the confirmation links in that email and your account will be confirmed
+
+### 
 ## For Everyone
 
 ### Tag System
