@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-08-10 10:21:40
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-08-11 14:58:27
+ * @LastEditTime: 2019-08-18 08:29:52
  -->
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
@@ -34,29 +34,38 @@
                 <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
             </ol>
             <div class="carousel-inner">
-            <div class="carousel-item active">
-                <a href="{{ url_for('main.getting_started') }}">
-                    <img src="{{ url_for('static', filename='pic/04.jpg') }}" class="d-block w-100" alt="...">
-                </a>
-                <!-- # Introduction and tutorial for our platform -->
-                <div class="carousel-caption d-none d-md-block">
-                    <div class="py-4" style="background-color: rgba(0, 0, 0, 0.13)">
-                        <h3 style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">Getting Started</h3>
-                    </div>
-                    <!-- Evaluate all the activities happening last week -->
+                <div class="carousel-item active">
+                    <a href="{{ url_for('main.getting_started') }}">
+                        <img src="{{ url_for('static', filename='pic/04.jpg') }}" class="d-block w-100" alt="...">
+                    </a>
+                    <!-- # Introduction and tutorial for our platform -->
+                    <a href="{{ url_for('main.getting_started') }}">
+                        <div class="carousel-caption d-none d-md-block">
+                            <div class="py-4" style="background-color: rgba(0, 0, 0, 0.13)">
+                                <h3
+                                    style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
+                                    Getting Started</h3>
+                            </div>
+                            <!-- Evaluate all the activities happening last week -->
+                        </div>
+                    </a>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <a href="{{ url_for('main.introduction') }}">
-                    <img src="{{ url_for('static', filename='pic/03.jpg') }}" class="d-block w-100" alt="...">
-                </a>
-                <div class="carousel-caption d-none d-md-block">
-                    <div class="py-4" style="background-color: rgba(0, 0, 0, 0.13)">
-                        <h3 style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">Introducing Islandr</h3>
-                    </div>
-                    <!-- Evaluate all the activities happening last week -->
+                <div class="carousel-item">
+                    <a href="{{ url_for('main.introduction') }}">
+                        <img src="{{ url_for('static', filename='pic/03.jpg') }}" class="d-block w-100" alt="...">
+                    </a>
+                    <a href="{{ url_for('main.introduction') }}">
+
+                        <div class="carousel-caption d-none d-md-block">
+                            <div class="py-4" style="background-color: rgba(0, 0, 0, 0.13)">
+                                <h3
+                                    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
+                                    Introducing Islandr</h3>
+                            </div>
+                            <!-- Evaluate all the activities happening last week -->
+                        </div>
+                    </a>
                 </div>
-            </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -113,65 +122,91 @@
     <hr>
     <!-- Weekly Bulliton -->
     <ul class="nav nav-tabs nav-fill mt-5" id="myTab" role="tablist">
-        <img class="mx-2" src="{{url_for('static', filename='icon/calendar.png')}}" alt="calendar" width="30px" height="30px">
+        <img class="mx-2" src="{{url_for('static', filename='icon/calendar.png')}}" alt="calendar" width="30px"
+            height="30px">
         <h4 class="mr-5">Calendar</h4>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==0 %}active{% endif %}" id="monday-tab" data-toggle="tab" href="#monday" role="tab" aria-controls="monday" aria-selected="true">{% if date==0 %}Today{% else %}Mon{% endif %}</a>
+            <a style="color:gray;" class="nav-link {% if date==0 %}active{% endif %}" id="monday-tab" data-toggle="tab"
+                href="#monday" role="tab" aria-controls="monday"
+                aria-selected="true">{% if date==0 %}Today{% else %}Mon{% endif %}</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==1 %}active{% endif %}" id="tuesday-tab" data-toggle="tab" href="#tuesday" role="tab" aria-controls="tuesday" aria-selected="false">{% if date==1 %}Today{% else %}Tue{% endif %}</a>
+            <a style="color:gray;" class="nav-link {% if date==1 %}active{% endif %}" id="tuesday-tab" data-toggle="tab"
+                href="#tuesday" role="tab" aria-controls="tuesday"
+                aria-selected="false">{% if date==1 %}Today{% else %}Tue{% endif %}</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==2 %}active{% endif %}" id="wednesday-tab" data-toggle="tab" href="#wednesday" role="tab" aria-controls="wednesday" aria-selected="false">{% if date==2 %}Today{% else %}Wed{% endif %}</a>
+            <a style="color:gray;" class="nav-link {% if date==2 %}active{% endif %}" id="wednesday-tab"
+                data-toggle="tab" href="#wednesday" role="tab" aria-controls="wednesday"
+                aria-selected="false">{% if date==2 %}Today{% else %}Wed{% endif %}</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==3 %}active{% endif %}" id="thursday-tab" data-toggle="tab" href="#thursday" role="tab" aria-controls="thursday" aria-selected="false">{% if date==3 %}Today{% else %}Thr{% endif %}</a>
+            <a style="color:gray;" class="nav-link {% if date==3 %}active{% endif %}" id="thursday-tab"
+                data-toggle="tab" href="#thursday" role="tab" aria-controls="thursday"
+                aria-selected="false">{% if date==3 %}Today{% else %}Thr{% endif %}</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==4 %}active{% endif %}" id="friday-tab" data-toggle="tab" href="#friday" role="tab" aria-controls="friday" aria-selected="false">{% if date==4 %}Today{% else %}Fri{% endif %}</a>
+            <a style="color:gray;" class="nav-link {% if date==4 %}active{% endif %}" id="friday-tab" data-toggle="tab"
+                href="#friday" role="tab" aria-controls="friday"
+                aria-selected="false">{% if date==4 %}Today{% else %}Fri{% endif %}</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==5 %}active{% endif %}" id="saturday-tab" data-toggle="tab" href="#saturday" role="tab" aria-controls="saturday" aria-selected="false">{% if date==5 %}Today{% else %}Sat{% endif %}</a>
+            <a style="color:gray;" class="nav-link {% if date==5 %}active{% endif %}" id="saturday-tab"
+                data-toggle="tab" href="#saturday" role="tab" aria-controls="saturday"
+                aria-selected="false">{% if date==5 %}Today{% else %}Sat{% endif %}</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==6 %}active{% endif %}" id="sunday-tab" data-toggle="tab" href="#sunday" role="tab" aria-controls="sunday" aria-selected="false">{% if date==6 %}Today{% else %}Sun{% endif %}</a>
+            <a style="color:gray;" class="nav-link {% if date==6 %}active{% endif %}" id="sunday-tab" data-toggle="tab"
+                href="#sunday" role="tab" aria-controls="sunday"
+                aria-selected="false">{% if date==6 %}Today{% else %}Sun{% endif %}</a>
         </li>
         <a class="ml-5" href="{{url_for('event.all_post')}}"><button class="btn btn-light">View All >></button></a>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade {% if date==0 %}show active{% endif %}" id="monday" role="tabpanel" aria-labelledby="monday-tab">
+        <div class="tab-pane fade {% if date==0 %}show active{% endif %}" id="monday" role="tabpanel"
+            aria-labelledby="monday-tab">
             {{ macros.post_generator(posts['Mon']) }}
         </div>
-        <div class="tab-pane fade {% if date==1 %}show active{% endif %}" id="tuesday" role="tabpanel" aria-labelledby="tuesday-tab">
+        <div class="tab-pane fade {% if date==1 %}show active{% endif %}" id="tuesday" role="tabpanel"
+            aria-labelledby="tuesday-tab">
             {{ macros.post_generator(posts['Tue']) }}
         </div>
-        <div class="tab-pane fade {% if date==2 %}show active{% endif %}" id="wednesday" role="tabpanel" aria-labelledby="wednesday-tab">
+        <div class="tab-pane fade {% if date==2 %}show active{% endif %}" id="wednesday" role="tabpanel"
+            aria-labelledby="wednesday-tab">
             {{ macros.post_generator(posts['Wed']) }}
         </div>
-        <div class="tab-pane fade {% if date==3 %}show active{% endif %}" id="thursday" role="tabpanel" aria-labelledby="thursday-tab">
+        <div class="tab-pane fade {% if date==3 %}show active{% endif %}" id="thursday" role="tabpanel"
+            aria-labelledby="thursday-tab">
             {{ macros.post_generator(posts['Thr']) }}
         </div>
-        <div class="tab-pane fade {% if date==4 %}show active{% endif %}" id="friday" role="tabpanel" aria-labelledby="friday-tab">
+        <div class="tab-pane fade {% if date==4 %}show active{% endif %}" id="friday" role="tabpanel"
+            aria-labelledby="friday-tab">
             {{ macros.post_generator(posts['Fri']) }}
         </div>
-        <div class="tab-pane fade {% if date==5 %}show active{% endif %}" id="saturday" role="tabpanel" aria-labelledby="saturday-tab">
+        <div class="tab-pane fade {% if date==5 %}show active{% endif %}" id="saturday" role="tabpanel"
+            aria-labelledby="saturday-tab">
             {{ macros.post_generator(posts['Sat']) }}
         </div>
-        <div class="tab-pane fade {% if date==6 %}show active{% endif %}" id="sunday" role="tabpanel" aria-labelledby="sunday-tab">
+        <div class="tab-pane fade {% if date==6 %}show active{% endif %}" id="sunday" role="tabpanel"
+            aria-labelledby="sunday-tab">
             {{ macros.post_generator(posts['Sun']) }}
         </div>
     </div>
     <ul class="nav nav-tabs nav-fill mt-5" id="myTab" role="tablist">
-        <img class="mx-2" src="{{url_for('static', filename='icon/team.png')}}" alt="calendar" width="30px" height="30px">
+        <img class="mx-2" src="{{url_for('static', filename='icon/team.png')}}" alt="calendar" width="30px"
+            height="30px">
         <h4 class="mr-5">Teams</h4>
         <li class="nav-item">
-          <a style="color:gray;" class="nav-link active" id="latest-tab" data-toggle="tab" href="#latest" role="tab" aria-controls="latest" aria-selected="true">Latest</a>
+            <a style="color:gray;" class="nav-link active" id="latest-tab" data-toggle="tab" href="#latest" role="tab"
+                aria-controls="latest" aria-selected="true">Latest</a>
         </li>
         <li class="nav-item">
-          <a style="color:gray;" class="nav-link" id="popular-tab" data-toggle="tab" href="#popular" role="tab" aria-controls="popular" aria-selected="false">Popular</a>
+            <a style="color:gray;" class="nav-link" id="popular-tab" data-toggle="tab" href="#popular" role="tab"
+                aria-controls="popular" aria-selected="false">Popular</a>
         </li>
         <li class="nav-item">
-          <a style="color:gray;" class="nav-link" id="random-tab" data-toggle="tab" href="#random" role="tab" aria-controls="random" aria-selected="false">Random</a>
+            <a style="color:gray;" class="nav-link" id="random-tab" data-toggle="tab" href="#random" role="tab"
+                aria-controls="random" aria-selected="false">Random</a>
         </li>
         <a class="ml-5" href="{{url_for('group.all_group')}}"><button class="btn btn-light">View All >></button></a>
     </ul>
