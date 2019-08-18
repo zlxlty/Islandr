@@ -87,6 +87,14 @@ def group_profile_edit(id):
             new_background_filename = saver('group_background', background)
             old_group.background = new_background_filename
 
+        if request.files['proposal']:
+            proposal_file = request.files['proposal']
+            _, ext = os.path.splitext(proposal_file.filename)
+            proposal_filename = str(old_group.id) + '_UWCCSC_TEAM_PROPOSAL' + str(ext)
+            proposal_dir = os.path.join(current_app.root_path, 'static', 'files', str(old_group.id), proposal_filename)
+            proposal_file.save(proposal_dir)
+            old_group.proposal_file = proposal_filename
+
         old_group.groupname = request.form['groupname']
         old_group.about_us = request.form['aboutus']
 
@@ -213,6 +221,10 @@ def group_delete(id, user_hex):
     if os.path.isdir(moments_dir):
         shutil.rmtree(moments_dir)
 
+    files_dir = os.path.join(current_app.root_path, 'static', 'files', str(group.id))
+    if os.path.isdir(files_dir):
+        shutil.rmtree(files_dir)
+
     db.session.delete(old_group)
     db.session.commit()
 
@@ -262,6 +274,5 @@ def transfer_owner(group_id, user_id):
     db.session.commit()
 
     flash('Your have transferred your ownership of %s to %s' % (group.groupname, new_owner.username), 'success')
-    
+
     return redirect(url_for('group.group_members', id=group_id))
-    
