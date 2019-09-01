@@ -44,8 +44,8 @@ $(document).ready(function () {
             console.log(size);
             size = size.toFixed(2);
 
-            if (size > 10) {
-                alert('Maximum file size allowed is 10MB. You have uploaded a : ' + size + "MB file.");
+            if (size > 5) {
+                alert('Maximum size allowed for EACH file is 5MB. You have uploaded a : ' + size + "MB file.");
                 $(this).val("");
             }
         }

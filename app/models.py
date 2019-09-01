@@ -61,7 +61,7 @@ class User(UserMixin, db.Model):
     profile_pic = db.Column(db.String(64), nullable=False, default='default.jpg')
     name = db.Column(db.String(128), default=' / ')
     location = db.Column(db.String(128), default=' / ')
-    user_hex = db.Column(db.String(16), default=secrets.token_hex(8))
+    user_hex = db.Column(db.String(16))
     about_me = db.Column(db.Text(), default='Nothing here yet...')
 
     #Join
@@ -204,6 +204,7 @@ class Group(db.Model):
     background = db.Column(db.String(64), default='default.jpg')
     is_approved = db.Column(db.Integer, default=0)
     reject_msg = db.Column(db.Text)
+    hello = db.Column(db.Text)
     proposal_file = db.Column(db.String())
 
     @staticmethod
