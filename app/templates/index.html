@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-08-10 10:21:40
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-08-18 08:30:29
+ * @LastEditTime: 2019-09-01 08:23:31
  -->
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
@@ -81,41 +81,35 @@
 <div class="container mt-5">
     <hr>
     <div class="row">
-        <div class="col-sm-2 text-center">
-            <a href="{{ url_for('main.tag_events', tag='arts') }}">
-                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/arts.png') }}" alt="art">
+        <div class="col-sm text-center">
+            <a href="{{ url_for('main.tag_events', tag='creativity') }}">
+                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/creativity.png') }}" alt="creativity">
             </a>
-            <h6 class="catagory-title">Arts</h6>
+            <h6 class="catagory-title">Creativity</h6>
         </div>
-        <div class="col-sm-2 text-center">
-            <a href="{{ url_for('main.tag_events', tag='culture') }}">
-                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/culture.png') }}" alt="art">
+        <div class="col-sm text-center">
+            <a href="{{ url_for('main.tag_events', tag='activity') }}">
+                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/activity.png') }}" alt="activity">
             </a>
-            <h6 class="catagory-title">Culture</h6>
+            <h6 class="catagory-title">Activity</h6>
         </div>
-        <div class="col-sm-2 text-center">
-            <a href="{{ url_for('main.tag_events', tag='environment') }}">
-                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/environment.png') }}" alt="art">
+        <div class="col-sm text-center">
+            <a href="{{ url_for('main.tag_events', tag='service') }}">
+                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/service.png') }}" alt="service">
             </a>
-            <h6 class="catagory-title">Environment</h6>
+            <h6 class="catagory-title">Service</h6>
         </div>
-        <div class="col-sm-2 text-center">
-            <a href="{{ url_for('main.tag_events', tag='music') }}">
-                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/music.png') }}" alt="art">
+        <div class="col-sm text-center">
+            <a href="{{ url_for('main.tag_events', tag='social') }}">
+                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/social.png') }}" alt="social">
             </a>
-            <h6 class="catagory-title">Music</h6>
+            <h6 class="catagory-title">Social</h6>
         </div>
-        <div class="col-sm-2 text-center">
-            <a href="{{ url_for('main.tag_events', tag='academic') }}">
-                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/academic.png') }}" alt="art">
+        <div class="col-sm text-center">
+            <a href="{{ url_for('main.tag_events', tag='others') }}">
+                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/others.png') }}" alt="others">
             </a>
-            <h6 class="catagory-title">Academic</h6>
-        </div>
-        <div class="col-sm-2 text-center">
-            <a href="{{ url_for('main.tag_events', tag='sports') }}">
-                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/sports.png') }}" alt="art">
-            </a>
-            <h6 class="catagory-title">Sports</h6>
+            <h6 class="catagory-title">Others</h6>
         </div>
     </div>
     <hr>

@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-11 21:47:22
+@LastEditTime: 2019-09-01 08:18:32
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort, send_file
@@ -260,17 +260,6 @@ def tag_events(tag):
     posts = pagination.items
     tag = tag.lower()
     return render_template('tag.html', posts=posts, pagination=pagination, title=tag)
-
-# @main.route('/my_post/<int:id>')
-# @login_required
-# def my_post(id):
-#     page = request.args.get('page', 1, type=int)
-#     user = User.query.get_or_404(id)
-#     pagination = user.posts.order_by(Post.last_modified.desc()).paginate(
-#         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
-#         error_out = False)
-#     posts = pagination.items
-#     return render_template('approve.html', posts=posts, pagination=pagination, title='My Events')
 
 
 @main.route('/account/<int:user_id>', methods=['GET', 'POST'])
