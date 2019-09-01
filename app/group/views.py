@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 14:59:30
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-09-01 11:35:11
+@LastEditTime: 2019-09-01 14:24:06
 '''
 
 from flask import render_template, abort, url_for, request, redirect, flash, current_app, Markup
@@ -228,7 +228,7 @@ def group_delete(id, user_hex):
     if os.path.isdir(moments_dir):
         shutil.rmtree(moments_dir)
 
-    files_dir = os.path.join(current_app.root_path, 'static', 'files', str(group.id))
+    files_dir = os.path.join(current_app.root_path, 'static', 'files', str(old_group.id))
     if os.path.isdir(files_dir):
         shutil.rmtree(files_dir)
 
