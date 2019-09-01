@@ -47,4 +47,10 @@ moments
 #env
 .env
 
+files
+group_background_pic
+group_logo
+post_cover_pic
+profile_pic
+
 Islandr.ini

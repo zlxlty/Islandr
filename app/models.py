@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-08-09 15:32:20
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-10 10:43:26
+@LastEditTime: 2019-09-01 11:37:06
 '''
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -197,6 +197,9 @@ class Group(db.Model):
     create_date = db.Column(db.DateTime(), default=datetime.now)
     groupname = db.Column(db.String(64), index=True)
     about_us = db.Column(db.Text, default='Nothing here yet...')
+    vision_goal = db.Column(db.Text, default='N/A')
+    routine_events = db.Column(db.Text, default='N/A')
+    look_for = db.Column(db.Text, default='N/A')
     logo = db.Column(db.String(64), default='default.jpg')
     background = db.Column(db.String(64), default='default.jpg')
     is_approved = db.Column(db.Integer, default=0)

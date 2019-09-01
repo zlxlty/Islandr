@@ -1,3 +1,10 @@
+'''
+@Description: Edit
+@Author: Tianyi Lu
+@Date: 2019-09-01 08:17:23
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-09-01 08:17:23
+'''
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -25,12 +32,11 @@ class Config:
     # auto create or update index
     MSEARCH_ENABLE = True
 
-    TAGS = {'Arts': 0,
-            'Culture': 1,
-            'Environment': 2,
-            'Music': 3,
-            'Academic': 4,
-            'Sports': 5}
+    TAGS = {'Creativity': 0,
+            'Activity': 1,
+            'Service': 2,
+            'Social': 3,
+            'Others': 4}
 
     #message
     MSG_TYPE = ('notification', 'announcement')
