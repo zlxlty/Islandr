@@ -1,3 +1,10 @@
+'''
+@Description: Edit
+@Author: Tianyi Lu
+@Date: 2019-09-01 18:58:33
+@LastEditors: Tianyi Lu
+@LastEditTime: 2019-09-01 18:59:23
+'''
 from flask import render_template, redirect, request, url_for, flash, current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
@@ -7,6 +14,7 @@ from ..search_index import update_index
 from ..email import send_email
 from .forms import LoginForm, RegistrationForm, ChangePasswordForm, PasswordResetRequestForm, PasswordResetForm
 import re
+import secrets
 
 @auth.before_app_request
 def before_request():
@@ -24,6 +32,7 @@ def register():
             flash('Please use UWCCSC Email to register!', 'warning')
             return redirect(url_for('auth.register'))
         user = User(email=form.email.data,
+                    user_hex=secrets.token_hex(8),
                     username=form.username.data,
                     password=form.password.data)
         db.session.add(user)
