@@ -12,93 +12,166 @@
 {% block title %}About us{% endblock %}
 
 {% block page_header %}
-<div class="jumbotron">
+
+<!-- <div class="jumbotron">
 	<div class="container">
 		<h1 class="display-4">About us</h1>
+		<img src="{{ url_for('static', filename='about_us/top.jpg') }}" class="img-fluid">
 		<p class="lead">This is a simple 3 people team, a team willing to serve for UWC community in order to improve
 			people's life on campus.</p>
 		<hr class="my-4">
 	</div>
-</div>
+</div> -->
 
 {% endblock %}
 
 {% block page_content %}
+<br /><br />
+
 <div class="text-center mb-4">
 	<h2>Tech Team</h2>
 	<hr>
 </div>
 <div class="row text-center">
+
 	<div class="col-lg-4">
-		<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-			preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
-			<title>Placeholder</title>
-			<rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777"
-				dy=".3em">140x140</text>
-		</svg>
-		<h3>Tianyi Lu</h3>
-		<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
-			vehicula ut
-			id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-		<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+		<img class="rounded-circle" src="{{ url_for('static', filename='about_us/Sky.jpeg') }}" height="140px" width="140px" />
+		<h3>Sky Lu</h3>
+		<b>Founder, Web-Developer</b><br />
+		<span class="badge badge-info mt-2">DP2</span>
+		<span class="badge badge-warning">Bari</span>
+		<span class="badge badge-dark">@Shanghai, China</span>
+		<p class="text-center mt-2">What is the most remarkable feature of UWC? My answer is all the brilliant ideas and events proposed by students and teachers from various culture and backgrounds. Islandr platform is aiming for spreading those ideas and events, and I sincerely hope that our platform can improve our community.</p>
 	</div>
+
 	<div class="col-lg-4">
-		<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-			preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
-			<title>Placeholder</title>
-			<rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777"
-				dy=".3em">140x140</text>
-		</svg>
-		<h3>Yufeng Wu</h3>
-		<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
-			vehicula ut
-			id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-		<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+		<img class="rounded-circle" src="{{ url_for('static', filename='about_us/Steven.png') }}" height="140px" width="140px" />
+		<h3>Steven Wu</h3>
+		<b>Founder, Web-Developer</b><br />
+		<span class="badge badge-info mt-2">DP2</span>
+		<span class="badge badge-warning">Efie</span>
+		<span class="badge badge-dark">@Beijing, China</span>
+		<p class="text-center mt-2"><b>“</b>I was deeply inspired by the power of synergy through developing this website, and I wish Islandr can help our community in very practical ways in the long run.<b>”</b></p>
 	</div>
+
 	<div class="col-lg-4">
-		<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-			preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
-			<title>Placeholder</title>
-			<rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777"
-				dy=".3em">140x140</text>
-		</svg>
-		<h3>Ruihan Xu</h3>
-		<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
-			vehicula ut
-			id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. E.</p>
-		<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+		<img class="rounded-circle" src="{{ url_for('static', filename='about_us/Multy.jpeg') }}" height="140px" width="140px" />
+		<h3>Multy Xu</h3>
+		<b>Founder, Web-Developer</b><br />
+		<span class="badge badge-info mt-2">DP2</span>
+		<span class="badge badge-warning">Bandele</span>
+		<span class="badge badge-dark">@Suzhou, China</span>
+		<p class="text-center mt-2">I leaned the power of technology through developing Islandr, firming my idea that “technology is the core which leads to breakthrough”. And I wish this small project will inspire more people to contribute to our community.</p>
 	</div>
 </div>
+
 <div class="text-center mb-4 mt-6">
 		<h2>Media Team</h2>
 		<hr>
 	</div>
 	<div class="row text-center">
+		<div class="col-lg-3"></div>
 		<div class="col-lg-6">
-			<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-				preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
-				<title>Placeholder</title>
-				<rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777"
-					dy=".3em">140x140</text>
-			</svg>
-			<h3>Tianyi Lu</h3>
-			<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
-				vehicula ut
-				id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-			<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+			<img class="rounded-circle" src="{{ url_for('static', filename='about_us/Kacey.jpeg') }}" height="140px" width="140px" />
+			<h3>Kacey Gu</h3>
+			<b>Founder, Marketing Lead</b><br />
+			<span class="badge badge-info mt-2">DP2</span>
+			<span class="badge badge-warning">Bayt</span>
+			<span class="badge badge-dark">@Suzhou, China</span>
+			<p class="text-center mt-2">Nothing can be accomplished without cooperation amoung people from different fields. Islandr proves that and provides a chance for more astonishing cooperations amoung our student body. I am looking forward to see what we can achieve.</p>
 		</div>
-		<div class="col-lg-6">
-			<svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-				preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140">
-				<title>Placeholder</title>
-				<rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#777"
-					dy=".3em">140x140</text>
-			</svg>
-			<h3>Title</h3>
-			<p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
-				vehicula ut
-				id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-			<p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
-		</div>
+		<div class="col-lg-3"></div>
 	</div>
+
+	<div class="text-center mb-4 mt-6">
+			<h2>Acknowledgements</h2>
+		</div>
+
+<div class="row">
+	<div class="col-12">
+
+		<table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Name</th>
+		      <th scope="col">Contribution</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+			  <tr>
+  				<td>Tingting Feng
+    			  <span class="badge badge-info mt-2">Student Life</span>
+    			  <span class="badge badge-dark">@Suzhou, China</span>
+    			</td>
+    			<td>Contributed in giving suggestions, calling for meetings, applying for budget.</td>
+  		    </tr>
+  			<tr>
+  				<td>Mr.Liang
+    			  <span class="badge badge-info mt-2">IT Office</span>
+    			</td>
+    			<td>Helped initiating website and give effective suggestions.</td>
+  		    </tr>
+			<tr>
+				<td>Zackery Yao
+					<span class="badge badge-info mt-2">DP2</span>
+  			  <span class="badge badge-warning">Ruka</span>
+  			  <span class="badge badge-dark">@Ningbo, China</span>
+  			</td>
+  			<td>Provided homepage pictures and valuable feedbacks. 1st official Islandr user.</td>
+		    </tr>
+			<tr>
+				<td>Salma & Orientation Committee
+  			  <span class="badge badge-warning">Baile</span>
+  			  <span class="badge badge-dark">@Morocco</span>
+  			</td>
+  			<td>Helped in website testing.</td>
+		    </tr>
+
+		    <tr>
+		      <td>Steve Wang
+				<span class="badge badge-info mt-2">Alumnus</span>
+	  			<span class="badge badge-warning">Efie</span>
+	  			<span class="badge badge-dark">@Hangzhou, China</span>
+			  </td>
+		      <td>Contributed in ideation, product function design, and estimated long-term development.</td>
+		    </tr>
+			<tr>
+				<td>Joyce Wang
+  				<span class="badge badge-info mt-2">Alumna</span>
+  	  			<span class="badge badge-warning">Heimat</span>
+  	  			<span class="badge badge-dark">@Hebei, China</span>
+  			  </td>
+  		      <td>Contributed in ideation, product function design, and estimated long-term development.</td>
+		    </tr>
+			<tr>
+				<td>Sequin Wu
+  			  <span class="badge badge-info mt-2">Alumna</span>
+  			  <span class="badge badge-warning">Baile</span>
+  			  <span class="badge badge-dark">@Ningbo, China</span>
+  			</td>
+  			<td>Contributed in ideation, product function design, and estimated long-term development.</td>
+		    </tr>
+			<tr>
+				<td>Jullian Karel Androkae
+  			  <span class="badge badge-info mt-2">Alumnus</span>
+  			  <span class="badge badge-warning">Efie</span>
+  			  <span class="badge badge-dark">@Toliara, Madagascar</span>
+  			</td>
+  			<td>Logo design, product function design.</td>
+		    </tr>
+			<tr>
+				<td>Mark Yuan
+  			  <span class="badge badge-warning">Bayt</span>
+  			  <span class="badge badge-dark">@Suzhou, China</span>
+  			</td>
+  			<td>Contributed in website initial design and conceptual ideas</td>
+		    </tr>
+
+
+		  </tbody>
+		</table>
+	</div>
+</div>
+
+
 {% endblock %}
