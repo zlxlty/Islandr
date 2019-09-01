@@ -8,8 +8,6 @@
 {% extends "base.html" %}
 {% block title %}Islandr - Getting Started{% endblock%}
 
-<<<<<<< HEAD
-
 
 {% block page_content %}
 
@@ -552,100 +550,4 @@
         </div>
     </div>
 </div>
-=======
-{% block title %}Islandr - Getting Started{% endblock %}
-{% block page_content %}
-
-<div class="container-fluid">
-    <div class="row flex-xl-nowrap">
-        <main class="col-12 py-md-3 pl-md-5 bd-content" role="main">
-            <h1 class="bd-title" id="content">Reboot</h1>
-            <p class="bd-lead">Reboot, a collection of element-specific CSS changes in a single file, kickstart
-                Bootstrap to provide an elegant, consistent, and simple baseline to build upon.</p>
-
-            <h2 id="approach"><span class="bd-content-title">Approach<a class="anchorjs-link " href="#approach"
-                        aria-label="Anchor" data-anchorjs-icon="#" style="padding-left: 0.375em;"></a></span></h2>
-
-            <p>Reboot builds upon Normalize, providing many HTML elements with somewhat opinionated styles using only
-                element selectors. Additional styling is done only with classes. For example, we reboot some <code
-                    class="highlighter-rouge">&lt;table&gt;</code> styles for a simpler baseline and later provide <code
-                    class="highlighter-rouge">.table</code>, <code class="highlighter-rouge">.table-bordered</code>, and
-                more.</p>
-
-            <p>Here are our guidelines and reasons for choosing what to override in Reboot:</p>
-
-            <ul>
-                <li>Update some browser default values to use <code class="highlighter-rouge">rem</code>s instead of
-                    <code class="highlighter-rouge">em</code>s for scalable component spacing.</li>
-                <li>Avoid <code class="highlighter-rouge">margin-top</code>. Vertical margins can collapse, yielding
-                    unexpected results. More importantly though, a single direction of <code
-                        class="highlighter-rouge">margin</code> is a simpler mental model.</li>
-                <li>For easier scaling across device sizes, block elements should use <code
-                        class="highlighter-rouge">rem</code>s for <code class="highlighter-rouge">margin</code>s.</li>
-                <li>Keep declarations of <code class="highlighter-rouge">font</code>-related properties to a minimum,
-                    using <code class="highlighter-rouge">inherit</code> whenever possible.</li>
-            </ul>
-
-
-            <h2 id="lists"><span class="bd-content-title">Lists<a class="anchorjs-link " href="#lists"
-                        aria-label="Anchor" data-anchorjs-icon="#" style="padding-left: 0.375em;"></a></span></h2>
-
-            <p>All lists—<code class="highlighter-rouge">&lt;ul&gt;</code>, <code
-                    class="highlighter-rouge">&lt;ol&gt;</code>, and <code
-                    class="highlighter-rouge">&lt;dl&gt;</code>—have their <code
-                    class="highlighter-rouge">margin-top</code> removed and a <code
-                    class="highlighter-rouge">margin-bottom: 1rem</code>. Nested lists have no <code
-                    class="highlighter-rouge">margin-bottom</code>.</p>
-
-            <div class="bd-example">
-
-
-                <ul>
-                    <li>Lorem ipsum dolor sit amet</li>
-                    <li>Consectetur adipiscing elit</li>
-                    <li>Integer molestie lorem at massa</li>
-                    <li>Facilisis in pretium nisl aliquet</li>
-                    <li>Nulla volutpat aliquam velit
-                        <ul>
-                            <li>Phasellus iaculis neque</li>
-                            <li>Purus sodales ultricies</li>
-                            <li>Vestibulum laoreet porttitor sem</li>
-                            <li>Ac tristique libero volutpat at</li>
-                        </ul>
-                    </li>
-                    <li>Faucibus porta lacus fringilla vel</li>
-                    <li>Aenean sit amet erat nunc</li>
-                    <li>Eget porttitor lorem</li>
-                </ul>
-
-                <ol>
-                    <li>Lorem ipsum dolor sit amet</li>
-                    <li>Consectetur adipiscing elit</li>
-                    <li>Integer molestie lorem at massa</li>
-                    <li>Facilisis in pretium nisl aliquet</li>
-                    <li>Nulla volutpat aliquam velit</li>
-                    <li>Faucibus porta lacus fringilla vel</li>
-                    <li>Aenean sit amet erat nunc</li>
-                    <li>Eget porttitor lorem</li>
-                </ol>
-
-            </div>
-        </main>
-    </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-</script>
-<script>
-    window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')
-</script>
-<script src="/docs/4.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous">
-</script>
-<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script src="/docs/4.3/assets/js/docs.min.js"></script>
-
-
->>>>>>> upstream/master
 {% endblock %}
