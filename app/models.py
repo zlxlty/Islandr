@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-08-09 15:32:20
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-09-01 11:37:06
+@LastEditTime: 2019-09-01 19:56:34
 '''
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -204,7 +204,6 @@ class Group(db.Model):
     background = db.Column(db.String(64), default='default.jpg')
     is_approved = db.Column(db.Integer, default=0)
     reject_msg = db.Column(db.Text)
-    hello = db.Column(db.Text)
     proposal_file = db.Column(db.String())
 
     @staticmethod
