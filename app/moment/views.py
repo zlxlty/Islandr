@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-08-12 17:10:17
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-12 17:10:18
+@LastEditTime: 2019-08-29 15:52:09
 '''
 from flask import render_template, abort, url_for, request, redirect, flash, current_app, jsonify
 from flask_login import login_required, current_user
@@ -37,8 +37,8 @@ def create_moment():
         if str(moment_pictures[0]) == "<FileStorage: '' ('application/octet-stream')>":
             flash("At least ONE picture is required for a Moment.", 'danger')
             return redirect(url_for('.create_moment'))
-        if len(moment_pictures) > 9:
-            flash("Maximum 9 pictures are allowed for a Moment.", 'danger')
+        if len(moment_pictures) > 8:
+            flash("Maximum 8 pictures are allowed for a Moment.", 'danger')
             return redirect(url_for('.create_moment'))
 
         # save pictures to local

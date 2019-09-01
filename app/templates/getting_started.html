@@ -1,3 +1,553 @@
+<!--
+ * @Description: Edit
+ * @Author: Tianyi Lu
+ * @Date: 2019-08-18 20:19:04
+ * @LastEditors: Tianyi Lu
+ * @LastEditTime: 2019-08-30 08:04:41
+ -->
 {% extends "base.html" %}
+{% block title %}Islandr - Getting Started{% endblock%}
 
-{% block title %}Islandr - Getting Started{% endblock %}
+
+{% block page_content %}
+
+<style>
+        img 
+        {
+            max-width: 600px;
+            border-left: 1000px;
+        }
+
+        p
+        {
+            font-style: normal;
+            font-size: 20px;
+        }
+
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+
+        <div class="col" style="position:fixed">
+            <a href="#Create Account"><br>Create Account<br></a>
+            <a href="#Registration">|    Registration<br></a>
+            <a href="#Complete Profile">|    Complete Profile<br></a>
+
+            <a href="#For Everyone"><br>For Everyone<br></a>
+            <a href="#Tag System">|    Tag System<br></a>
+            <a href="#Search System">|    Search System<br></a>
+            <a href="#Calendar System">|    Calendar System<br></a>
+            <a href="#Weekly Bulletin">|    Weekly Bulletin<br></a>
+            <a href="#Attend Events">|    Attend Events<br></a>
+            <a href="#Message">|    Message<br></a>
+            <a href="#Moment">|    Moment<br></a>
+
+            <a href="#For Team Leader"><br>For Team Leader<br></a>
+            <a href="#Create A Team">|    Create A Team<br></a>
+            <a href="#Post An Event">|    Post An Event<br></a>
+            <a href="#Post A Moment">|    Post A Moment<br></a>
+        </div>
+
+        <div class="col-10">
+            <h1>Getting Started</h1>
+            <div>
+                <p>Islandr platform has three main functions:</p>
+                <div>
+                    <p>
+                        1. For students to explore and find activities they like
+                        conveniently.
+                        <br />
+                        2. For organizers to create and publicize their
+                        activities.
+                        <br />
+                        3. For The Event Committee to manage and supervise all
+                        activities.
+                    </p>
+                </div>
+                <p>
+                    Please read the following instructions to learn how to use
+                    Islandr
+                    platform.
+                </p>
+            </div>
+
+            <div>
+                <div id="Create Account">
+                    <h3>Create Account</h3>
+
+                    <div id="Registration">
+                        <h4>Registration</h4>
+                        <p>
+                            To create your own account, click <strong>`log in`</strong>
+                            button
+                            on home page and then click <strong>`Click Here`</strong>
+                            to
+                            register
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/log_in.png') }}"  
+                            title="Log in" />
+                        <hr style="max-width: 800px" align="left" />
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/registrate.png') }}" 
+                            title="registrate" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            You can use any username you like, but please use
+                            your UWC email
+                            address to register.
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/username_and_email.png') }}" 
+                            title="username and email" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            After registration, a confirmation email will be
+                            sent to you. Due to
+                            some unknown problems, the email will likely be in
+                            your
+                            <strong>trash can</strong>. Please click the
+                            confirmation links in
+                            that email and your account will be confirmed.
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/confirm_email.png') }}" 
+                            title="username and email" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>After confirmation, you are ready to use Islandr
+                            platform</p>
+                        <hr />
+                    </div>
+
+                    <div id="Complete Profile">
+                        <h4>Complete Profile</h4>
+                        <p>
+                            Many information about your account is not
+                            completed when you just
+                            register. In order for other user to know you
+                            better and contact you
+                            more conveniently, you can edit your account in
+                            <strong>My Account</strong> page.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/my_account.png') }}" 
+                            title="my_account" />
+                        <hr style="max-width: 800px" align="left" />
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/edit_account_info.png') }}" 
+                            title="edit account info" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>Here is an example of how to fill in the form.</p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/edit_page.png') }}" 
+                            title="edit page" />
+                        <hr />
+                    </div>
+                </div>
+
+                <div id="For Everyone">
+                    <h3>For Everyone</h3>
+                    <P>This section is for all the users to familarize the
+                        main functions
+                        of Islandr</P>
+
+                    <div id="Tag System">
+                        <h4>Tag System</h4>
+                        <p>
+                            In order for you to find the event that you are
+                            interested in, we
+                            categorized all the events into six tags ---
+                            Arts, Culture,
+                            Environment, Music, Academic and Sports.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/tag_system.png') }}" 
+                            title="tag system" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            When `click an icon`, you will go to the page
+                            where the events
+                            filtered by the tag you choose. For example, if
+                            you click
+                            <storng>`Arts`</storng>, you will go to the page
+                            below:
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/art_tag_system.png') }}" 
+                            title="art tag" />
+                        <hr />
+                    </div>
+
+                    <div id="Search System">
+                        <h4>Search System</h4>
+                        <p>
+                            On the top right corner, a search bar is
+                            designed to search for any
+                            event, user or teams.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/search_bar.png') }}" 
+                            title="search bar" />
+                        <hr />
+                    </div>
+
+                    <div id="Calendar System">
+                        <h4>Calendar System</h4>
+                        <p>
+                            In the home page below the ‘tag system’, there
+                            is a Calendar for the
+                            current week. You can click the weekdays on the
+                            bar to check the
+                            events at that day.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/calendar.png') }}" 
+                            title="calendar" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            Also, if you click the View All button on the
+                            top right corner, you
+                            will see all the events on the website.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/calendar_view_all.png') }}" 
+                            title="calendar view all" />
+                        <hr style="max-width: 800px" align="left" />
+                    </div>
+                    <div id="Weekly Bulletin">
+                        <h4>Weekly Bulletin</h4>
+                        <p>
+                            All registrated users will receive a weekly
+                            bulletin email in the
+                            morning on Sunday. This email will inform you
+                            about all the events
+                            that will happen next week from Monday to
+                            Sunday. You can click the
+                            ‘learn more’ button to visit Islandr for
+                            details.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/weekly_bulletin.png') }}" 
+                            title="weekly bulletin" />
+                        <hr />
+                    </div>
+
+                    <div id="Attend Events">
+                        <h4>Attend Events</h4>
+                        <p>
+                            After you find the event you like, you can click
+                            the ‘attend’ button
+                            at the bottom-right corner on the event page to
+                            become one of the
+                            attendants
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/attend_event.png') }}" 
+                            title="attend event" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            You can also view all the attendants for this
+                            event by clicking the
+                            profile picture next to the ‘Attend’ button.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/attendants_page.png') }}" 
+                            title="attendants page" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            You can see all the events you have attended in
+                            ‘my account’ page
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/my_attend.png') }}" 
+                            title="my attend" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <h6>Email Reminder</h6>
+                        <p>
+                            After attending one event on Islandr, we will
+                            send you a reminder
+                            email a day before that event happens so that
+                            you won’t forget to go
+                            to the event.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/reminder.png') }}" 
+                            title="email reminder" />
+                        <hr />
+                    </div>
+
+                    <div id="Explore Team">
+                        <h4>Explore Team</h4>
+                        <p>
+                            Except from showing events, demonstrating teams
+                            is another main
+                            function of Islandr platform. Teams with
+                            different scales can
+                            present their ideas, organize their own events
+                            and recruit student
+                            that they need. As a normal student, you can
+                            also search for teams
+                            that you are interested in. On the home page,
+                            different teams will
+                            be pushed to you in three distinct ways ---
+                            latest, popular and
+                            random.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/teams.png') }}" 
+                            title="teams" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            If you can’t find any interesting teams, you can
+                            also click ‘View
+                            All’ to see all the teams.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/all_teams.png') }}" 
+                            title="all teams" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <h6>Join Teams</h6>
+                        <p>
+                            After you find a team that fits you, you can hit
+                            the ‘join’ button
+                            to apply to the team.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/join_teams.png') }}" 
+                            title="join teams" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            The team leader will decide whether to accept
+                            you or not. If
+                            accepted, you will become one of the official
+                            members in that team.
+                        </p>
+                        <hr />
+                    </div>
+
+                    <div id="Message">
+                        <h4>Message</h4>
+                        <p>
+                            You can see all of your messages by clicking the
+                            ‘Message’ button.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/message.png') }}" 
+                            title="message" />
+                        <hr style="max-width: 800px" align="left" />
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/message_page.png') }}" 
+                            title="message page" />
+                        <hr />
+                    </div>
+
+                    <div id="Moment">
+                        <h4>Moment</h4>
+                        <p>
+                            To visit the moment page, you can click
+                            ‘Moments’ on the navigate
+                            bar.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/moment.png') }}" 
+                            title="moment" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            In the moment page, you will see the moments
+                            posted by the Teams.
+                            Click the profile photo to visit the Team
+                            profile.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/moment_team.png') }}" 
+                            title="moment team" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>Also, you can visit the event by click the name
+                            of the envent.</p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/moment_event.png') }}" 
+                            title="moment event" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            Moreover, if you think an event is good, you can
+                            click the like
+                            button at the down right corner of a moment to
+                            like an event.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/moment_like.png') }}" 
+                            title="like the moment" />
+                        <hr />
+                    </div>
+                </div>
+
+                <div id="For Team Leader">
+                    <h3>For Team Leader</h3>
+                    <div id="Create A Team">
+                        <h4>Create A Team</h4>
+                        <p>
+                            To create a team, click the Team button on the
+                            navigate bar and
+                            click Create Team.
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/create_team.png') }}" 
+                            title="create team" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            And you will see the Create Team page. Click
+                            ‘Download: Team
+                            Proposal Template’ to download the template,
+                            complete it and click
+                            ‘select file’ button to upload the proposal.
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/team_upload_form.png') }}" 
+                            title="fill in the forms" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            Remember to fill in all the blank. After you
+                            finished, click
+                            ‘submit’ to create a team
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/submit_team.png') }}" 
+                            title="submit team" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            The below picture is an example Team profile. Also,
+                            you can click
+                            ‘Edit Profit’ to change any information.
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/example_team.png') }}" 
+                            title="example team" />
+                        <hr />
+                    </div>
+                    <div id="Post An Event">
+                        <h4>Post An Event</h4>
+                        <p>
+                            Note that only team leader can post the event. To
+                            create an event,
+                            first go to the Team profile page, then click New
+                            Event on the down
+                            right corner of the profile part.
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/new_event.png') }}" 
+                            title="create new event" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            Here, you need to fill out all the information to
+                            create an event.
+                            In the post, to up load the picture, you should
+                            click ‘Upload Local
+                            Image’ at the bottom. When you click the bottom, you
+                            will go to a
+                            website.
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/event_form.png') }}" 
+                            title="event form" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>Then, choose the image you want to upload</p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/choose_image.png') }}" 
+                            title="choose image" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            After you up load an image, you need to click the
+                            link to go to your
+                            picture.
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/picture_link.png') }}" 
+                            title="go picture link" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>Then, right click the image and click ‘copy image
+                            link’.</p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/copy_image_link.png') }}" 
+                            title="copy_image_link" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            Then, go back to Islandr.xyz, Click ‘insert’ and
+                            then click ‘image’.
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/insert_image.png') }}" 
+                            title="insert image" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            Finally, paste the link of the picture in Source,
+                            fill the blank and
+                            click ‘Save’. (you can leave width and height blank)
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/paste_image_link.png') }}" 
+                            title="paste image link" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <P>The final presentation:</P>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/example_event.png') }}" 
+                            title="example event" />
+                        <hr />
+                    </div>
+                    <div id="Post A Moment">
+                        <h4>Post A Moment</h4>
+                        <p>
+                            Only a leader of a group can post moments and each
+                            moment has to
+                            related to an event that this group organized.
+                        </p>
+
+                        <p>Go to your team and click New Moment to post a
+                            moment.</p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/new_moment.png') }}" 
+                            title="new moment" />
+                        <hr style="max-width: 800px" align="left" />
+
+                        <p>
+                            Group leaders can upload up to eight pictures to
+                            record the best
+                            moment in their events and attract other students.
+                        </p>
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/moment_form.png') }}" 
+                            title="moment form" />
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
