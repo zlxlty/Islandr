@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-09-01 08:18:32
+@LastEditTime: 2019-09-01 11:35:28
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort, send_file
@@ -188,7 +188,9 @@ def group_creater():
             background_filename = "default.jpg"
 
         group = Group(groupname=request.form['groupname'],
-                      about_us=request.form['aboutus'],
+                      vision_goal=request.form['vision'],
+                      routine_events=request.form['routine'],
+                      look_for=request.form['join'],
                       logo=logo_filename,
                       background=background_filename)
 

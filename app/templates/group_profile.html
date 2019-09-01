@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-08-09 16:01:32
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-08-09 16:14:40
+ * @LastEditTime: 2019-09-01 11:44:11
  -->
 {% extends "base.html" %}
 {% import "_macros.html" as macros with context %}
@@ -49,8 +49,21 @@
                         <h6><b style="color:black;">Proposal: </b><b>{{ group.proposal_file }} (Download)</b></h6>
                     </a>
                     <hr />
-                    <h6><b>About Us:</b>  {{ group.about_us }}</h6>
-                    <hr>
+                    <h6><b>Vision & Goal:</b><br/><br/>{{ vision_html }}</h6>
+                    <div class="collapse" id="collapseExample">
+                        <hr />
+                        <h6><b>What do we do:</b><br/><br/>{{ routine_html }}</h6>
+                        <hr />
+                        <h6><b>Who do we want:</b><br/><br/>{{ join_html }}</h6>
+                        <hr>
+                    </div>
+                    <div class="text-center">
+                        <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                            aria-controls="collapseExample">
+                            <img src="{{ url_for('static', filename='icon/drop.png') }}" alt="drop down" height="17px">
+                        </a>
+                    </div>
+                    
 
                     <!-- profile end -->
                     {% if not current_user.id == group.owner[0].id %}

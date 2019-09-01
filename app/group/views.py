@@ -3,10 +3,10 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 14:59:30
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-09 15:40:38
+@LastEditTime: 2019-09-01 11:35:11
 '''
 
-from flask import render_template, abort, url_for, request, redirect, flash, current_app
+from flask import render_template, abort, url_for, request, redirect, flash, current_app, Markup
 from flask_login import login_required, current_user
 from . import group
 from .. import db
@@ -46,10 +46,15 @@ def group_profile(id):
         user = User.query.get_or_404(join.user_id)
         users.append(user)
 
+    vision_html = Markup(group.vision_goal.replace('\r\n', '<br/>'))
+    routine_html = Markup(group.routine_events.replace('\r\n', '<br/>'))
+    join_html = Markup(group.look_for.replace('\r\n', '<br/>'))
+
     posts = pagination.items
     logo = url_for('static', filename="group_logo/"+group.logo)
     background = url_for('static', filename="group_background_pic/"+group.background)
-    return render_template('group_profile.html', users=users, group=group, posts=posts,logo=logo, background=background, pagination=pagination)
+    return render_template('group_profile.html', users=users, group=group, posts=posts,logo=logo, background=background,
+                           pagination=pagination, vision_html=vision_html, routine_html=routine_html, join_html=join_html)
 
 @group.route('/approve')
 @login_required
@@ -96,7 +101,9 @@ def group_profile_edit(id):
             old_group.proposal_file = proposal_filename
 
         old_group.groupname = request.form['groupname']
-        old_group.about_us = request.form['aboutus']
+        old_group.vision_goal = request.form['vision']
+        old_group.routine_events = request.form['routine']
+        old_group.look_for = request.form['join']
 
         db.session.add(old_group)
         db.session.commit()
