@@ -3,7 +3,7 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors: Tianyi Lu
-@LastEditTime: 2019-09-01 14:22:53
+@LastEditTime: 2019-09-03 17:03:40
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort, send_file
@@ -40,19 +40,12 @@ def index():
     return render_template('index.html', date=date, groups=groups, posts=posts)
 
 @main.route('/about_us')
-@login_required
 def about_us():
     return render_template('about_us.html')
 
 @main.route('/getting_started')
-@login_required
 def getting_started():
     return render_template('getting_started.html')
-
-@main.route('/introduction')
-@login_required
-def introduction():
-    return render_template('intro.html')
 
 @main.route('/message')
 @login_required

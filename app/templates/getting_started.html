@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-08-18 20:19:04
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-08-30 08:04:41
+ * @LastEditTime: 2019-09-03 17:03:41
  -->
 {% extends "base.html" %}
 {% block title %}Islandr - Getting Started{% endblock%}
@@ -153,7 +153,7 @@
 
                 <div id="For Everyone">
                     <h3>For Everyone</h3>
-                    <P>This section is for all the users to familarize the
+                    <P>This section is for all the users to be familiarized with the
                         main functions
                         of Islandr</P>
 
@@ -162,25 +162,25 @@
                         <p>
                             In order for you to find the event that you are
                             interested in, we
-                            categorized all the events into six tags ---
-                            Arts, Culture,
-                            Environment, Music, Academic and Sports.
+                            categorized all the events into five tags ---
+                            Creativity, Activity,
+                            Service, Social and Others.
                         </p>
                         <img src="{{ url_for('static',
-                                filename='docs/pic/tag_system.png') }}" 
+                                filename='docs/pic/tag.jpg') }}" 
                             title="tag system" />
                         <hr style="max-width: 800px" align="left" />
 
                         <p>
-                            When `click an icon`, you will go to the page
+                            When you click on an icon, you will go to the page
                             where the events
                             filtered by the tag you choose. For example, if
                             you click
-                            <storng>`Arts`</storng>, you will go to the page
+                            <storng>`Creativity`</storng>, you will go to the page
                             below:
                         </p>
                         <img src="{{ url_for('static',
-                                filename='docs/pic/art_tag_system.png') }}" 
+                                filename='docs/pic/creativity.jpg') }}" 
                             title="art tag" />
                         <hr />
                     </div>
@@ -196,6 +196,23 @@
                                 filename='docs/pic/search_bar.png') }}" 
                             title="search bar" />
                         <hr />
+                        <p>
+                            If you enter a keyword and press <strong>'enter'</strong>, you will be directed to
+                            a search page.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/search_page.jpg') }}" 
+                            title="search page" />
+                        <p>
+                            By choosing different options, you can search for different things.
+                        </p>
+                        <img src="{{ url_for('static',
+                                filename='docs/pic/search_user.jpg') }}" 
+                            title="search page" />
+                        <img src="{{ url_for('static',
+                            filename='docs/pic/search_zx.jpg') }}" 
+                            title="search page" />
+                        <hr/>
                     </div>
 
                     <div id="Calendar System">
@@ -225,7 +242,7 @@
                     <div id="Weekly Bulletin">
                         <h4>Weekly Bulletin</h4>
                         <p>
-                            All registrated users will receive a weekly
+                            All registered users will receive a weekly
                             bulletin email in the
                             morning on Sunday. This email will inform you
                             about all the events
