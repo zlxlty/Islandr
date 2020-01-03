@@ -2,10 +2,10 @@
 @Description: Blueprint for event
 @Author: Tianyi Lu
 @Date: 2019-08-09 15:41:15
-@LastEditors: Tianyi Lu
-@LastEditTime: 2019-08-17 17:15:40
+@LastEditors  : Tianyi Lu
+@LastEditTime : 2020-01-03 15:56:15
 '''
-from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort
+from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort, jsonify
 from flask_login import login_required, current_user
 from .. import db
 from ..models import User, Post
@@ -16,6 +16,8 @@ from datetime import datetime
 from ..image_saver import saver, deleter
 
 from ..job import add_reminder, send_test_reminder
+
+import os
 
 time_format = '%Y-%m-%d-%H:%M'
 
@@ -39,7 +41,6 @@ def all_post():
     return render_template('all_post.html', posts=posts, pagination=pagination)
 
 @event.route('/<int:id>')
-@login_required
 def post(id):
     post = Post.query.get_or_404(id)
     body_html = Markup(post.post_html)
@@ -181,6 +182,37 @@ def post_test_reminder(id):
     send_test_reminder(current_app._get_current_object())
     return "send_test_reminder"
 
+@event.route('/QR_Code', methods=['GET', 'POST'])
+def qr_code():
+    try:
+        id = int(request.form['id'])
+    except:
+        id = 0
+    print(id)
+    if id != 0:
+        print('Hello')
+        print(current_app.root_path)
+        qr_dir = os.path.join(current_app.root_path, 'static/QR_Code')
+        print(qr_dir)
+        qr_file = os.path.join(qr_dir, '%d.png' % id)
+        print(qr_file)
+        if not os.path.exists(qr_dir):
+            os.mkdir(qr_dir)
+        if not os.path.exists(qr_file):
+            import qrcode
+
+            qr = qrcode.QRCode(
+                version=2,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=1
+            )#设置二维码的大小
+            qr.add_data(url_for("event.post", id=id, _external=True))
+            qr.make(fit=True)
+            img = qr.make_image()
+            img.save(qr_file)
+
+    return jsonify(QR_html=render_template('QR_Code.html', event_id=id))
 
 # get current post attributes, used in email.py
 def get_post(id):

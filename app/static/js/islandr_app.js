@@ -1,3 +1,11 @@
+/*
+ * @Author: Tianyi Lu
+ * @Description: Islandr JS
+ * @Date: 2020-01-03 15:05:40
+ * @LastEditors  : Tianyi Lu
+ * @LastEditTime : 2020-01-03 15:49:08
+ */
+
 $(document).ready(function () {
 
     $('#form-with-disable').submit(function() {
@@ -32,6 +40,24 @@ $(document).ready(function () {
             $('div[moment_id=' + moment_id + '][name="moment-text"]').html(data['text_html']);
         });
 
+    });
+
+    $("button.QR-Code").on('click', function(){
+
+        var event_id = parseInt($(this).attr("event_id"), 10);
+
+        $.ajax({
+            data : {
+                id : event_id
+            },
+            type : "POST",
+            url : Flask.url_for('event.qr_code')
+        })
+        .done(function(data){
+            $('div[name="QR-Display"]').html(data['QR_html'])
+        });
+
+        
     });
 
     $("input.limited-file-size").bind('change', function(){
