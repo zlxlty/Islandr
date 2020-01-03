@@ -47,3 +47,4 @@ Werkzeug==0.15.3
 Whoosh==2.7.4
 wtf-tinymce==0.1.3
 WTForms==2.1
+qrcode==1.10.0
