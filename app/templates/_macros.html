@@ -308,8 +308,8 @@
     <div class="media my-2">
         <a href="{{ url_for('group.group_profile', id=one_moment.from_group.id) }}">
             <img class="rounded-circle account-img mr-3"
-                src="{{ url_for('static', filename='group_logo/%s' % one_moment.from_group.logo) }}" height="80px"
-                width="80px" alt="TEAM_LOGO">
+                src="{{ url_for('static', filename='group_logo/%s' % one_moment.from_group.logo) }}" height="80vw"
+                width="80vw" alt="TEAM_LOGO">
         </a>
         <div class="media-body">
 
@@ -455,7 +455,7 @@
                     {% endif %}
                 </a>
             </div>
-            
+
             <hr class="mt-5">
         </div>
     </div>
