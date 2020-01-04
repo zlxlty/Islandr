@@ -2,8 +2,8 @@
  * @Description: Moments Function
  * @Author: Tianyi Lu
  * @Date: 2019-08-12 11:31:34
- * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-08-12 11:40:18
+ * @LastEditors  : Tianyi Lu
+ * @LastEditTime : 2020-01-04 22:29:37
  -->
 {% extends "base.html" %}
 {% import "_macros.html" as macros with context %}
@@ -43,35 +43,24 @@
                 </a>
                 {% endif %}
             </div>
-        </div
+        </div>
     </div>
 </div>
 
 <hr>
 
-<div class="container d-none d-sm-block">
-        <div class="row">
-            <div class="col-2"></div> <!--占位用-->
-            <div class="col-8">
-                {% for one_moment in moments %}
+<div class="container">
+    <div class="row">
+        <div>
+            {% for one_moment in moments %}
 
-                    {{ macros.moment_generator(one_moment, one_moment.pictures | str_to_dic) }}
-                    <br />
+                {{ macros.moment_generator(one_moment, one_moment.pictures | str_to_dic) }}
+                <br />
 
-                {% endfor %}
-            </div>
-            <div class="col-2"></div> <!--占位用-->
+            {% endfor %}
         </div>
+    </div>
 </div>
-
-<div class="d-block d-sm-none">
-    {% for one_moment in moments %}
-
-        {{ macros.moment_generator(one_moment, one_moment.pictures | str_to_dic) }}
-
-    {% endfor %}
-</div>
-
 
 <div class="pagination justify-content-center">
     {{ macros.pagination_widget(pagination, 'moment.moments') }}
