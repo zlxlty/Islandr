@@ -21,7 +21,12 @@
     {% endif %}
 {% endif %}
 <div class="mt-4"></div>
-<h1 class="col-sm-7">{{ post.title }}</h1>
+<div class="d-none d-sm-block">
+    <h1>{{ post.title }}</h1>
+</div>
+<div class="d-block d-sm-none">
+    <h1 style="font-size:5vw" >{{ post.title }}</h1>
+</div>
 <hr/>
 <div class="px-3 py-3" style="background-color:rgba(245, 245, 245, 0.637);">
     <a style="color: black;" href="{{url_for('group.group_profile', id=post.author.id)}}">
@@ -61,7 +66,7 @@
     {% if current_user.group_id == post.author.id %}
         <a href="{{ url_for('event.post_edit', id=id) }}"><button type="button" class="btn btn-outline-secondary float-left mr-2">Edit</button></a>
     {% else %}
-        <button type="button" class="btn btn-outline-light"></button>
+        <button type="button" class="btn btn-outline-light float-left"></button>
     {% endif %}
 </div>
 
