@@ -22,7 +22,19 @@
     width: 60px;
 }
 
+.sm-catagory-pic{
+  height: 35px;
+  width: 35px;
+}
+
+.sm-catagory-title{
+  margin-bottom: 0px;
+  font-size: 11px;
+  color: #848484;
+}
+
 .catagory-title{
+    margin-bottom: 0px;
     color: #848484;
 }
 

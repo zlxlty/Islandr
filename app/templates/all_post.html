@@ -2,8 +2,8 @@
  * @Description: Editor
  * @Author: Tianyi Lu
  * @Date: 2019-08-17 16:42:28
- * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-08-17 16:52:47
+ * @LastEditors  : Tianyi Lu
+ * @LastEditTime : 2020-01-04 18:56:27
  -->
 {% extends "base.html" %}
 {% import "_macros.html" as macros %}
@@ -34,7 +34,10 @@
                 <input class="form-control" name="datetime_to" type="text" id="datetime_to" placeholder="To">
                 <span class="add-on"><i class="icon-th"></i></span>
             </div>
-            <button class="btn btn-outline-dark col-md-1" type="submit">Filter</button>
+            <button class="btn btn-outline-dark col-md-1 d-none d-sm-block" type="submit">Filter</button>
+            <div class="container d-block d-sm-none">
+                <button class="btn btn-outline-dark col-md-1" type="submit">Filter</button>
+            </div>
         </div>
     </form>
 

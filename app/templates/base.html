@@ -95,27 +95,28 @@
 
 {% block content %}
 <div class="page">
-    {% block page_header %}{% endblock %}
-    <div class="container mt-6 mb-3">
+    <div class="container">
         {% for message in get_flashed_messages(category_filter=['danger']) %}
-        <div class="alert alert-danger">
+        <div class="mt-6 mb-3 alert alert-danger">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message }}
         </div>
         {% endfor %}
         {% for message in get_flashed_messages(category_filter=['success']) %}
-        <div class="alert alert-success">
+        <div class="mt-6 mb-3 alert alert-success">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message }}
         </div>
         {% endfor %}
         {% for message in get_flashed_messages(category_filter=['warning']) %}
-        <div class="alert alert-warning">
+        <div class="mt-6 mb-3 alert alert-warning">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message }}
         </div>
         {% endfor %}
-
+    </div>
+    {% block page_header %}{% endblock %}
+    <div class="container mt-6 mb-3">    
         {% block page_content %}{% endblock %}
     </div>
 </div>

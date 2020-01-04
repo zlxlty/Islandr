@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-08-09 16:10:38
  * @LastEditors  : Tianyi Lu
- * @LastEditTime : 2020-01-04 11:09:06
+ * @LastEditTime : 2020-01-04 15:08:50
  -->
 {% extends "base.html" %}
 {% import "_macros.html" as macros %}
@@ -18,7 +18,14 @@
         <img class="d-none d-sm-block rounded-circle account-img ml-4 mr-5" src="{{ profile_pic }}" height="100px" width="100px" />
 
         <div class="media-body">
-            <h1 class="account-heading">{{ user.username }}</h1>
+            <div class="d-block d-sm-none">
+                <div class="row">
+                    <img class="rounded-circle account-img ml-3 mr-3" src="{{ profile_pic }}" height="60px" width="60px" />
+                    <h3 class="account-heading mt-2">{{ user.username }}</h3>
+                </div>
+            </div>
+
+            <h1 class="d-none d-sm-block account-heading">{{ user.username }}</h1>
             <br />
             <h6><b>Email address:</b> {{ user.email }}</h6>
             <hr />
@@ -49,7 +56,13 @@
             </div>
 
             {% if current_user.id == user.id %}
-            <div class="content-section mt-3">
+            <div class="d-none d-sm-block content-section mt-3">
+                <a href="{{ url_for('main.account_edit', user_id=user.id) }}">
+                    <button class="btn btn-outline-secondary">Edit Account Info</button>
+                </a>
+            </div>
+
+            <div class="d-block d-sm-none content-section mt-3 text-center">
                 <a href="{{ url_for('main.account_edit', user_id=user.id) }}">
                     <button class="btn btn-outline-secondary">Edit Account Info</button>
                 </a>

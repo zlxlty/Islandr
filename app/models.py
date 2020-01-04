@@ -2,8 +2,8 @@
 @Description: Database Models for Islandr Platform
 @Author: Tianyi Lu
 @Date: 2019-08-09 15:32:20
-@LastEditors: Tianyi Lu
-@LastEditTime: 2019-09-01 19:56:34
+@LastEditors  : Tianyi Lu
+@LastEditTime : 2020-01-04 18:19:14
 '''
 from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -259,26 +259,27 @@ class Post(db.Model):
     @staticmethod
     def get_week_posts():
         week_posts = {
-            'Mon':[],
-            'Tue':[],
-            'Wed':[],
-            'Thr':[],
-            'Fri':[],
-            'Sat':[],
-            'Sun':[],
+            'last':[],
+            'current':[],
+            'next':[],
         }
 
         today_begin = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
-        today_end = today_begin.replace(hour=23, minute=59, second=59)
         current_weekday = today_begin.isoweekday()
 
-        for i, key in enumerate(week_posts.keys(), start=1):
-            delta = timedelta(days=i-current_weekday)
-            that_day_begin = today_begin + delta
-            that_day_end = today_end + delta
-            week_posts[key] = Post.query.filter_by(is_approved=1).filter(Post.datetime_from >= that_day_begin, Post.datetime_from <= that_day_end).all()
+        start_delta = timedelta(days=current_weekday-1)
+        end_delta = timedelta(days=7-current_weekday)
+        a_week = timedelta(days=7)
+        a_day = timedelta(hours=24)
+        this_week_start = today_begin - start_delta
+        this_week_end = today_begin + end_delta + a_day
+        last_week_start = this_week_start - a_week
+        next_week_end = this_week_end + a_week
+        week_posts['last'] = Post.query.filter_by(is_approved=1).filter(Post.datetime_from >= last_week_start, Post.datetime_from < this_week_start).all()
+        week_posts['current'] = Post.query.filter_by(is_approved=1).filter(Post.datetime_from >= this_week_start, Post.datetime_from < this_week_end).all()
+        week_posts['next'] = Post.query.filter_by(is_approved=1).filter(Post.datetime_from >= this_week_end, Post.datetime_from <= next_week_end).all()
 
-        return today_begin.weekday(), week_posts
+        return week_posts
 
     def has_passed(self):
         return self.datetime_from < datetime.now()

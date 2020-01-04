@@ -106,11 +106,11 @@
 
 <!-- Moments related to this event -->
 
-{% if post.moments.all() %}
+{% if post.moments.all() and current_user.is_authenticated %}
 <br />
 <h3>Moments</h3>
 <hr>
-{% endif %}
+
 
 <div class="container">
     <div class="row">
@@ -126,5 +126,7 @@
         <div class="col-2"></div> <!--占位用-->
     </div>
 </div>
+
+{% endif %}
 
 {% endblock %}

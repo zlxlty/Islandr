@@ -2,8 +2,8 @@
 @Description: View file for main blueprint
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
-@LastEditors: Tianyi Lu
-@LastEditTime: 2019-09-03 17:03:40
+@LastEditors  : Tianyi Lu
+@LastEditTime : 2020-01-04 17:56:01
 '''
 
 from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort, send_file
@@ -33,11 +33,11 @@ def index():
         keyword = str(request.form['search'])
         return redirect(url_for('main.m_search', keyword=keyword))
 
-    date, posts = Post.get_week_posts()
+    posts = Post.get_week_posts()
 
     groups = Group.get_explore_groups()
 
-    return render_template('index.html', date=date, groups=groups, posts=posts)
+    return render_template('index.html', groups=groups, posts=posts)
 
 @main.route('/about_us')
 def about_us():

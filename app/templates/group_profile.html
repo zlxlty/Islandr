@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-08-09 16:01:32
  * @LastEditors  : Tianyi Lu
- * @LastEditTime : 2020-01-04 12:38:13
+ * @LastEditTime : 2020-01-04 15:11:43
  -->
 {% extends "base.html" %}
 {% import "_macros.html" as macros with context %}
@@ -28,11 +28,17 @@
 <div class="content-section mb-4" style="background-color:rgba(226, 226, 226, 0.315);">
     <div style="position:relative;">
         <img class="img-fluid mb-3" src="{{ background }}">
-        <div class="media px-4 py-4 ">
+        <div class="media px-4 py-3 ">
                 <img class="d-none d-sm-block rounded-circle account-img ml-4 mr-5" src="{{ logo }}" height="100px" width="100px"/>
                 <div class="media-body">
+                    <div class="d-block d-sm-none">
+                        <div class="row">
+                            <img class="rounded-circle account-img ml-3 mr-3" src="{{ logo }}" height="60px" width="60px"/>
+                            <h3 class="account-heading">{{ group.groupname }}</h3>
+                        </div>
+                    </div>
                     <!-- profile start -->
-                    <h1 class="account-heading">{{ group.groupname }}</h1>
+                    <h1 class="d-none d-sm-block account-heading">{{ group.groupname }}</h1>
                     <br />
                     <a style="color:black;" href="{{ url_for('main.account', user_id=group.owner[0].id) }}">
                         <h6><b>Leader:</b>  {{ group.owner[0].username }}</h6>
