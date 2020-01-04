@@ -1,3 +1,8 @@
+.team_logo {
+    max-width: 80px;
+    max-height: 80px;
+}
+
 .carousel-caption {
     top: 50%;
     transform: translateY(-50%);
