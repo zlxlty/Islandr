@@ -2,8 +2,8 @@
  * @Description: Edit
  * @Author: Tianyi Lu
  * @Date: 2019-08-09 16:10:38
- * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-09-01 11:30:32
+ * @LastEditors  : Tianyi Lu
+ * @LastEditTime : 2020-01-04 11:09:06
  -->
 {% extends "base.html" %}
 {% import "_macros.html" as macros %}
@@ -15,7 +15,7 @@
 
 <div class="content-section px-3 py-3" style="background-color:rgba(226, 226, 226, 0.315);">
     <div class="media">
-        <img class="rounded-circle account-img ml-4 mr-5" src="{{ profile_pic }}" height="100px" width="100px" />
+        <img class="d-none d-sm-block rounded-circle account-img ml-4 mr-5" src="{{ profile_pic }}" height="100px" width="100px" />
 
         <div class="media-body">
             <h1 class="account-heading">{{ user.username }}</h1>
