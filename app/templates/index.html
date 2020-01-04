@@ -2,8 +2,8 @@
  * @Description: Home Page for Islandr
  * @Author: Tianyi Lu
  * @Date: 2019-08-10 10:21:40
- * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-09-01 08:23:31
+ * @LastEditors  : Tianyi Lu
+ * @LastEditTime : 2020-01-04 18:50:12
  -->
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
@@ -18,6 +18,183 @@
 </form>
 {% endblock %}
 
+{% block page_header %}
+<div class="d-block d-sm-none">
+    <div style="padding-top: 32px;">
+        <div class="bd-example shadow">
+            <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <a href="{{ url_for('main.getting_started') }}">
+                            <img src="{{ url_for('static', filename='pic/04.jpg') }}" class="d-block w-100" alt="...">
+                        </a>
+                        <!-- # Introduction and tutorial for our platform -->
+                        <a href="{{ url_for('main.getting_started') }}">
+                            <div class="carousel-caption">
+                                <div class="py-4" style="background-color: rgba(0, 0, 0, 0.13)">
+                                    <h5
+                                        style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
+                                        Getting Started</h5>
+                                </div>
+                                <!-- Evaluate all the activities happening last week -->
+                            </div>
+                        </a>
+                    </div>
+                    <div class="carousel-item">
+                        <a href="{{ url_for('main.about_us') }}">
+                            <img src="{{ url_for('static', filename='pic/03.jpg') }}" class="d-block w-100" alt="...">
+                        </a>
+                        <a href="{{ url_for('main.about_us') }}">
+                            <div class="carousel-caption">
+                                <div class="py-4" style="background-color: rgba(0, 0, 0, 0.13)">
+                                    <h5
+                                        style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
+                                        Who Are We?</h5>
+                                </div>
+                                <!-- Evaluate all the activities happening last week -->
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <hr>
+        <div class="d-block d-sm-none">
+            <div class="row">
+                <div class="col text-center">
+                    <a href="{{ url_for('main.tag_events', tag='creativity') }}">
+                        <img class="sm-catagory-pic mb-2" src="{{ url_for('static', filename='icon/creativity.png') }}"
+                            alt="creativity">
+                    </a>
+                    <p class="sm-catagory-title">Creativity</p>
+                </div>
+                <div class="col text-center">
+                    <a href="{{ url_for('main.tag_events', tag='activity') }}">
+                        <img class="sm-catagory-pic mb-2" src="{{ url_for('static', filename='icon/activity.png') }}"
+                            alt="activity">
+                    </a>
+                    <p class="sm-catagory-title">Activity</p>
+                </div>
+                <div class="col text-center">
+                    <a href="{{ url_for('main.tag_events', tag='service') }}">
+                        <img class="sm-catagory-pic mb-2" src="{{ url_for('static', filename='icon/service.png') }}"
+                            alt="service">
+                    </a>
+                    <p class="sm-catagory-title">Service</p>
+                </div>
+                <div class="col text-center">
+                    <a href="{{ url_for('main.tag_events', tag='social') }}">
+                        <img class="sm-catagory-pic mb-2" src="{{ url_for('static', filename='icon/social.png') }}"
+                            alt="social">
+                    </a>
+                    <p class="sm-catagory-title">Social</p>
+                </div>
+                <div class="col text-center">
+                    <a href="{{ url_for('main.tag_events', tag='others') }}">
+                        <img class="sm-catagory-pic mb-2" src="{{ url_for('static', filename='icon/others.png') }}"
+                            alt="others">
+                    </a>
+                    <p class="sm-catagory-title">Others</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!-- Weekly Bulliton -->
+        <div class="row justify-content-center mt-4">
+            <a href="{{url_for('event.all_post')}}">
+                <img src="{{url_for('static', filename='icon/calendar.png')}}" alt="calendar" width="23px"
+                height="23px">
+            </a>
+            <a href="{{url_for('event.all_post')}}">
+                <h5 style="color: black;">Weekly Calendar</h5>
+            </a>
+        </div>
+        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+
+            <li class="nav-item">
+                <a style="color:gray;" class="nav-link" id="monday-tab"
+                    data-toggle="tab" href="#sm-monday" role="tab" aria-controls="monday"
+                    aria-selected="true">Last</a>
+            </li>
+            <li class="nav-item">
+                <a style="color:gray;" class="nav-link active" id="tuesday-tab"
+                    data-toggle="tab" href="#sm-tuesday" role="tab" aria-controls="tuesday"
+                    aria-selected="false">Current</a>
+            </li>
+            <li class="nav-item">
+                <a style="color:gray;" class="nav-link" id="wednesday-tab"
+                    data-toggle="tab" href="#sm-wednesday" role="tab" aria-controls="wednesday"
+                    aria-selected="false">Next</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade" id="sm-monday" role="tabpanel"
+                aria-labelledby="monday-tab">
+                {{ macros.post_generator(posts['last']) }}
+            </div>
+            <div class="tab-pane fade show active" id="sm-tuesday" role="tabpanel"
+                aria-labelledby="tuesday-tab">
+                {{ macros.post_generator(posts['current']) }}
+            </div>
+            <div class="tab-pane fade" id="sm-wednesday" role="tabpanel"
+                aria-labelledby="wednesday-tab">
+                {{ macros.post_generator(posts['next']) }}
+            </div>
+        </div>
+        <hr class="mt-4">
+        <div class="row justify-content-center mt-4">
+            <a href="{{url_for('group.all_group')}}">
+            <img src="{{url_for('static', filename='icon/team.png')}}" alt="calendar" width="23px"
+            height="23px">
+            </a>
+            <a href="{{url_for('group.all_group')}}">
+            <h5 class="mt-1" style="color: black;">Teams</h5>                
+            </a>
+        </div>
+        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+            
+            <li class="nav-item">
+                <a style="color:gray;" class="nav-link active" id="latest-tab" data-toggle="tab" href="#latest"
+                    role="tab" aria-controls="latest" aria-selected="true">Latest</a>
+            </li>
+            <li class="nav-item">
+                <a style="color:gray;" class="nav-link" id="popular-tab" data-toggle="tab" href="#popular" role="tab"
+                    aria-controls="popular" aria-selected="false">Popular</a>
+            </li>
+            <li class="nav-item">
+                <a style="color:gray;" class="nav-link" id="random-tab" data-toggle="tab" href="#random" role="tab"
+                    aria-controls="random" aria-selected="false">Random</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="latest" role="tabpanel" aria-labelledby="latest-tab">
+                {{ macros.group_generator(groups['latest']) }}
+            </div>
+            <div class="tab-pane fade" id="popular" role="tabpanel" aria-labelledby="popular-tab">
+                {{ macros.group_generator(groups['popular']) }}
+            </div>
+            <div class="tab-pane fade" id="random" role="tabpanel" aria-labelledby="random-tab">
+                {{ macros.group_generator(groups['random']) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
 {% block page_content %}
 <!-- HERE!!! -->
 <!-- KEY TWO -->
@@ -25,166 +202,142 @@
 <!-- "md2 and browse: 56372458" -->
 <!-- HERE!!! -->
 
-
-<div class="container">
-    <div class="bd-example shadow">
-        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-            </ol>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <a href="{{ url_for('main.getting_started') }}">
-                        <img src="{{ url_for('static', filename='pic/04.jpg') }}" class="d-block w-100" alt="...">
-                    </a>
-                    <!-- # Introduction and tutorial for our platform -->
-                    <a href="{{ url_for('main.getting_started') }}">
-                        <div class="carousel-caption d-none d-md-block">
-                            <div class="py-4" style="background-color: rgba(0, 0, 0, 0.13)">
-                                <h3
-                                    style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
-                                    Getting Started</h3>
+<div class="d-none d-sm-block">
+    <div class="container">
+        <div class="bd-example shadow">
+            <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <a href="{{ url_for('main.getting_started') }}">
+                            <img src="{{ url_for('static', filename='pic/04.jpg') }}" class="d-block w-100" alt="...">
+                        </a>
+                        <!-- # Introduction and tutorial for our platform -->
+                        <a href="{{ url_for('main.getting_started') }}">
+                            <div class="carousel-caption">
+                                <div class="py-4" style="background-color: rgba(0, 0, 0, 0.13)">
+                                    <h3
+                                        style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
+                                        Getting Started</h3>
+                                </div>
+                                <!-- Evaluate all the activities happening last week -->
                             </div>
-                            <!-- Evaluate all the activities happening last week -->
-                        </div>
-                    </a>
-                </div>
-                <div class="carousel-item">
-                    <a href="{{ url_for('main.about_us') }}">
-                        <img src="{{ url_for('static', filename='pic/03.jpg') }}" class="d-block w-100" alt="...">
-                    </a>
-                    <a href="{{ url_for('main.about_us') }}">
-                        <div class="carousel-caption d-none d-md-block">
-                            <div class="py-4" style="background-color: rgba(0, 0, 0, 0.13)">
-                                <h3
-                                    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
-                                    Who Are We?</h3>
+                        </a>
+                    </div>
+                    <div class="carousel-item">
+                        <a href="{{ url_for('main.about_us') }}">
+                            <img src="{{ url_for('static', filename='pic/03.jpg') }}" class="d-block w-100" alt="...">
+                        </a>
+                        <a href="{{ url_for('main.about_us') }}">
+                            <div class="carousel-caption">
+                                <div class="py-4" style="background-color: rgba(0, 0, 0, 0.13)">
+                                    <h3
+                                        style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
+                                        Who Are We?</h3>
+                                </div>
+                                <!-- Evaluate all the activities happening last week -->
                             </div>
-                            <!-- Evaluate all the activities happening last week -->
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </div>
+                <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
         </div>
     </div>
 </div>
 
-<div class="container mt-5">
+
+<div class="d-none d-sm-block container mt-5">
     <hr>
-    <div class="row">
-        <div class="col-sm text-center">
-            <a href="{{ url_for('main.tag_events', tag='creativity') }}">
-                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/creativity.png') }}" alt="creativity">
-            </a>
-            <h6 class="catagory-title">Creativity</h6>
+        <div class="row">
+            <div class="col text-center">
+                <a href="{{ url_for('main.tag_events', tag='creativity') }}">
+                    <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/creativity.png') }}"
+                        alt="creativity">
+                </a>
+                <h6 class="catagory-title">Creativity</h6>
+            </div>
+            <div class="col text-center">
+                <a href="{{ url_for('main.tag_events', tag='activity') }}">
+                    <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/activity.png') }}"
+                        alt="activity">
+                </a>
+                <h6 class="catagory-title">Activity</h6>
+            </div>
+            <div class="col text-center">
+                <a href="{{ url_for('main.tag_events', tag='service') }}">
+                    <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/service.png') }}"
+                        alt="service">
+                </a>
+                <h6 class="catagory-title">Service</h6>
+            </div>
+            <div class="col text-center">
+                <a href="{{ url_for('main.tag_events', tag='social') }}">
+                    <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/social.png') }}"
+                        alt="social">
+                </a>
+                <h6 class="catagory-title">Social</h6>
+            </div>
+            <div class="col text-center">
+                <a href="{{ url_for('main.tag_events', tag='others') }}">
+                    <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/others.png') }}"
+                        alt="others">
+                </a>
+                <h6 class="catagory-title">Others</h6>
+            </div>
+
         </div>
-        <div class="col-sm text-center">
-            <a href="{{ url_for('main.tag_events', tag='activity') }}">
-                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/activity.png') }}" alt="activity">
-            </a>
-            <h6 class="catagory-title">Activity</h6>
-        </div>
-        <div class="col-sm text-center">
-            <a href="{{ url_for('main.tag_events', tag='service') }}">
-                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/service.png') }}" alt="service">
-            </a>
-            <h6 class="catagory-title">Service</h6>
-        </div>
-        <div class="col-sm text-center">
-            <a href="{{ url_for('main.tag_events', tag='social') }}">
-                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/social.png') }}" alt="social">
-            </a>
-            <h6 class="catagory-title">Social</h6>
-        </div>
-        <div class="col-sm text-center">
-            <a href="{{ url_for('main.tag_events', tag='others') }}">
-                <img class="catagory-pic mb-2" src="{{ url_for('static', filename='icon/others.png') }}" alt="others">
-            </a>
-            <h6 class="catagory-title">Others</h6>
-        </div>
-    </div>
     <hr>
-    <!-- Weekly Bulliton -->
-    <ul class="nav nav-tabs nav-fill mt-5" id="myTab" role="tablist">
-        <img class="mx-2" src="{{url_for('static', filename='icon/calendar.png')}}" alt="calendar" width="30px"
-            height="30px">
-        <h4 class="mr-5">Calendar</h4>
-        <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==0 %}active{% endif %}" id="monday-tab" data-toggle="tab"
-                href="#monday" role="tab" aria-controls="monday"
-                aria-selected="true">{% if date==0 %}Today{% else %}Mon{% endif %}</a>
-        </li>
-        <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==1 %}active{% endif %}" id="tuesday-tab" data-toggle="tab"
-                href="#tuesday" role="tab" aria-controls="tuesday"
-                aria-selected="false">{% if date==1 %}Today{% else %}Tue{% endif %}</a>
-        </li>
-        <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==2 %}active{% endif %}" id="wednesday-tab"
-                data-toggle="tab" href="#wednesday" role="tab" aria-controls="wednesday"
-                aria-selected="false">{% if date==2 %}Today{% else %}Wed{% endif %}</a>
-        </li>
-        <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==3 %}active{% endif %}" id="thursday-tab"
-                data-toggle="tab" href="#thursday" role="tab" aria-controls="thursday"
-                aria-selected="false">{% if date==3 %}Today{% else %}Thr{% endif %}</a>
-        </li>
-        <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==4 %}active{% endif %}" id="friday-tab" data-toggle="tab"
-                href="#friday" role="tab" aria-controls="friday"
-                aria-selected="false">{% if date==4 %}Today{% else %}Fri{% endif %}</a>
-        </li>
-        <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==5 %}active{% endif %}" id="saturday-tab"
-                data-toggle="tab" href="#saturday" role="tab" aria-controls="saturday"
-                aria-selected="false">{% if date==5 %}Today{% else %}Sat{% endif %}</a>
-        </li>
-        <li class="nav-item">
-            <a style="color:gray;" class="nav-link {% if date==6 %}active{% endif %}" id="sunday-tab" data-toggle="tab"
-                href="#sunday" role="tab" aria-controls="sunday"
-                aria-selected="false">{% if date==6 %}Today{% else %}Sun{% endif %}</a>
-        </li>
-        <a class="ml-5" href="{{url_for('event.all_post')}}"><button class="btn btn-light">View All >></button></a>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade {% if date==0 %}show active{% endif %}" id="monday" role="tabpanel"
-            aria-labelledby="monday-tab">
-            {{ macros.post_generator(posts['Mon']) }}
-        </div>
-        <div class="tab-pane fade {% if date==1 %}show active{% endif %}" id="tuesday" role="tabpanel"
-            aria-labelledby="tuesday-tab">
-            {{ macros.post_generator(posts['Tue']) }}
-        </div>
-        <div class="tab-pane fade {% if date==2 %}show active{% endif %}" id="wednesday" role="tabpanel"
-            aria-labelledby="wednesday-tab">
-            {{ macros.post_generator(posts['Wed']) }}
-        </div>
-        <div class="tab-pane fade {% if date==3 %}show active{% endif %}" id="thursday" role="tabpanel"
-            aria-labelledby="thursday-tab">
-            {{ macros.post_generator(posts['Thr']) }}
-        </div>
-        <div class="tab-pane fade {% if date==4 %}show active{% endif %}" id="friday" role="tabpanel"
-            aria-labelledby="friday-tab">
-            {{ macros.post_generator(posts['Fri']) }}
-        </div>
-        <div class="tab-pane fade {% if date==5 %}show active{% endif %}" id="saturday" role="tabpanel"
-            aria-labelledby="saturday-tab">
-            {{ macros.post_generator(posts['Sat']) }}
-        </div>
-        <div class="tab-pane fade {% if date==6 %}show active{% endif %}" id="sunday" role="tabpanel"
-            aria-labelledby="sunday-tab">
-            {{ macros.post_generator(posts['Sun']) }}
-        </div>
-    </div>
+    
+            <!-- Weekly Bulliton -->
+                <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+                    <img class="mx-2" src="{{url_for('static', filename='icon/calendar.png')}}" alt="calendar" width="30px"
+                        height="30px">
+                    <h4 class="mr-5">Weekly Calendar</h4>
+        
+                    <li class="nav-item">
+                        <a style="color:gray;" class="nav-link" id="monday-tab"
+                            data-toggle="tab" href="#monday" role="tab" aria-controls="monday"
+                            aria-selected="true">Last</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color:gray;" class="nav-link active" id="tuesday-tab"
+                            data-toggle="tab" href="#tuesday" role="tab" aria-controls="tuesday"
+                            aria-selected="false">Current</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color:gray;" class="nav-link" id="wednesday-tab"
+                            data-toggle="tab" href="#wednesday" role="tab" aria-controls="wednesday"
+                            aria-selected="false">Next</a>
+                    </li>
+                    <a class="ml-5" href="{{url_for('event.all_post')}}"><button class="btn btn-light">View All >></button></a>
+
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade" id="monday" role="tabpanel"
+                        aria-labelledby="monday-tab">
+                        {{ macros.post_generator(posts['last']) }}
+                    </div>
+                    <div class="tab-pane fade show active" id="tuesday" role="tabpanel"
+                        aria-labelledby="tuesday-tab">
+                        {{ macros.post_generator(posts['current']) }}
+                    </div>
+                    <div class="tab-pane fade" id="wednesday" role="tabpanel"
+                        aria-labelledby="wednesday-tab">
+                        {{ macros.post_generator(posts['next']) }}
+                    </div>
+
+                </div>
     <ul class="nav nav-tabs nav-fill mt-5" id="myTab" role="tablist">
         <img class="mx-2" src="{{url_for('static', filename='icon/team.png')}}" alt="calendar" width="30px"
             height="30px">

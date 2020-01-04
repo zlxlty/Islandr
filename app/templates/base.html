@@ -10,7 +10,7 @@
 
 {% block navbar %}
 <nav class="shadow-sm navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #0065A1;">
-    <img class="hiddon-sm-down logo-pic" src="{{ url_for('static', filename='pic/logo.png') }}" alt="logo">
+    <img class="logo-pic" src="{{ url_for('static', filename='pic/logo.png') }}" alt="logo">
     <!-- <a class="navbar-brand" href="{{url_for('main.index')}}">Islandr</a> -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -59,7 +59,7 @@
         <ul class="navbar-nav justify-content-end">
             {% if current_user.is_authenticated %}
             {% block searchbar %}{% endblock %}
-            <li class="nav-item">
+            <li class="d-none d-sm-block nav-item">
                 <a class="align-middle" href="{{ url_for('main.account', user_id=current_user.id) }}">
                     <img class="rounded-circle mt-1" src="{{ url_for('static', filename='profile_pic/%s' % current_user.profile_pic) }}" height=30 width=30/>
                 </a>
@@ -74,7 +74,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ current_user.username}} {% if msg_count != 0 %} <span class="ml-1 badge badge-pill badge-danger">{{ msg_count }}</span> {% endif %}
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ url_for('main.account', user_id=current_user.id) }}">My Account</a>
                     <a class="dropdown-item" href="{{ url_for('main.message') }}">Message {% if msg_count != 0 %} <span class="ml-1 badge badge-pill badge-danger">{{ msg_count }}</span> {% endif %}</a>
                     <div class="dropdown-divider"></div>
@@ -95,27 +95,28 @@
 
 {% block content %}
 <div class="page">
-    {% block page_header %}{% endblock %}
-    <div class="container mt-6 mb-3">
+    <div class="container">
         {% for message in get_flashed_messages(category_filter=['danger']) %}
-        <div class="alert alert-danger">
+        <div class="mt-6 mb-3 alert alert-danger">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message }}
         </div>
         {% endfor %}
         {% for message in get_flashed_messages(category_filter=['success']) %}
-        <div class="alert alert-success">
+        <div class="mt-6 mb-3 alert alert-success">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message }}
         </div>
         {% endfor %}
         {% for message in get_flashed_messages(category_filter=['warning']) %}
-        <div class="alert alert-warning">
+        <div class="mt-6 mb-3 alert alert-warning">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message }}
         </div>
         {% endfor %}
-
+    </div>
+    {% block page_header %}{% endblock %}
+    <div class="container mt-6 mb-3">    
         {% block page_content %}{% endblock %}
     </div>
 </div>
