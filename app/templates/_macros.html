@@ -96,7 +96,7 @@
 </div>
 <div class="d-block d-sm-none">
         {% if not full_width %}<div class="row mt-3">{% endif %}
-        
+
             {% for post in posts %}
             <div class="{% if not full_width %}col-sm-4{% endif %}">
                 <div class="card my-3 box-shadow">
@@ -130,13 +130,13 @@
                                         src="{{ url_for('static', filename='group_logo/%s' % post.author.logo) }}" height=50
                                         width=50 />
                                 </a>
-                            
+
                                 <p class="mb-1 ml-6">Organizer: {{ post.author.groupname }}<br>Date: {{ post.datetime_from.strftime("%Y-%m-%d") }}</p>
-                            
+
                         </div>
                     </div>
                 </div>
-        
+
             </div>
             {% endfor %}
             {% if not full_width %}</div>{% endif %}
@@ -193,13 +193,13 @@
 </div>
 <div class="d-block d-sm-none">
         <div class="row mt-4">
-    
+
             {% for group in groups %}
             <div class="col-sm-6">
                 <div class="card mb-4 box-shadow">
                     <div class="card-body">
                             <div class="row">
-                                
+
                                 <a href="{{ url_for('group.group_profile', id=group.id) }}">
                                     <img class="rounded-circle ml-2"
                                         src="{{ url_for('static', filename='group_logo/%s' % group.logo) }}" height=50
@@ -221,7 +221,7 @@
 
                     </div>
                 </div>
-    
+
             </div>
             {% endfor %}
         </div>
@@ -390,36 +390,73 @@
 
 
 {% macro moment_generator(one_moment, pictures, without_name=False, without_event=False) %}
-<div class="container-fluid">
+<div class="container-fluid pl-0 pr-0">
 
     <div class="media my-2">
         <a href="{{ url_for('group.group_profile', id=one_moment.from_group.id) }}">
-            <img class="rounded-circle account-img mr-3"
+
+            <img class="rounded-circle account-img mr-1 d-block d-sm-none"
+                src="{{ url_for('static', filename='group_logo/%s' % one_moment.from_group.logo) }}" height="45px"
+                width="45px" alt="TEAM_LOGO" />
+
+            <img class="rounded-circle account-img mr-3 d-none d-sm-block"
                 src="{{ url_for('static', filename='group_logo/%s' % one_moment.from_group.logo) }}" height="80px"
-                width="80px" alt="TEAM_LOGO">
+                width="80px" alt="TEAM_LOGO" />
+
         </a>
+
         <div class="media-body">
 
             <!-- Title section -->
             {% if without_name and without_event %}
-            <h4 class="md-2">{{ moment(one_moment.timestamp).fromNow() }}</h4>
+
+            <div class="d-none d-sm-block">
+                <h4 class="md-2">{{ moment(one_moment.timestamp).fromNow() }}</h4>
+            </div>
+            <div class="d-block d-sm-none">
+                <h5 class="md-1">{{ moment(one_moment.timestamp).fromNow() }}</h5>
+            </div>
             <!-- "moment()" here is flask-moment function -->
             {% else %}
-            {% if without_name %}
-            <a style="color: #0065A1;" href="{{url_for('event.post', id=one_moment.event_id)}}">
-                <h4>{{ one_moment.from_post.title }}</h4>
-            </a>
-            <h6 class="mt-0" style="color: gray">{{ moment(one_moment.timestamp).fromNow() }}</h6>
-            {% else %}
-            <h4 class="md-2">{{ one_moment.from_group.groupname }}&nbsp&nbsp|&nbsp&nbsp<a style="color: #0065A1;"
-                    href="{{url_for('event.post', id=one_moment.event_id)}}">{{ one_moment.from_post.title }}</a></h4>
-            <h6 class="mt-0" style="color: gray">{{ moment(one_moment.timestamp).fromNow() }}</h6>
-            {% endif %}
+
+                {% if without_name %}
+                <a style="color: #0065A1;" href="{{url_for('event.post', id=one_moment.event_id)}}">
+                    <div class="d-none d-sm-block">
+                        <h4>{{ one_moment.from_post.title }}</h4>
+                    </div>
+                    <div class="d-block d-sm-none">
+                        <h5>{{ one_moment.from_post.title }}</h5>
+                    </div>
+                </a>
+
+                <div class="d-none d-sm-block">
+                    <h6 class="mt-0" style="color: gray">{{ moment(one_moment.timestamp).fromNow() }}</h6>
+                </div>
+                <div class="d-block d-sm-none">
+                    <p class="mt-0" style="color: gray">{{ moment(one_moment.timestamp).fromNow() }}</p>
+                </div>
+                <!-- <div class="d-block d-sm-none">
+
+                </div> -->
+
+                {% else %}
+                    <div class="d-none d-sm-block">
+                        <h4 class="md-2">{{ one_moment.from_group.groupname }}&nbsp&nbsp|&nbsp&nbsp<a style="color: #0065A1;"
+                                href="{{url_for('event.post', id=one_moment.event_id)}}">{{ one_moment.from_post.title }}</a></h4>
+                        <h6 class="mt-0" style="color: gray">{{ moment(one_moment.timestamp).fromNow() }}</h6>
+                    </div>
+                    <div class="d-block d-sm-none">
+                        <h6 class="md-2">{{ one_moment.from_group.groupname }}&nbsp&nbsp|&nbsp&nbsp<a style="color: #0065A1;"
+                                href="{{url_for('event.post', id=one_moment.event_id)}}">{{ one_moment.from_post.title }}</a></h6>
+                        <p class="mt-0" style="color: gray">{{ moment(one_moment.timestamp).fromNow() }}</p>
+                    </div>
+                {% endif %}
             {% endif %}
 
-            <div class="container mb-3">
-                <h6 class="c">{{one_moment.body}}</h6>
+            <div class="container mb-3 pl-0 pr-0">
+                <p class="c">{{one_moment.body}}</p>
             </div>
+
             <div class="container">
                 {% for row in range(1, 2 + ((pictures|length)/4) | round(0, 'floor') | int) %}
                 <div class="row md-1 mt-1">
@@ -542,7 +579,7 @@
                     {% endif %}
                 </a>
             </div>
-            
+
             <hr class="mt-5">
         </div>
     </div>
