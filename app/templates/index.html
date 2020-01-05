@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-08-10 10:21:40
  * @LastEditors  : Tianyi Lu
- * @LastEditTime : 2020-01-05 11:39:38
+ * @LastEditTime : 2020-01-05 11:42:13
  -->
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
@@ -116,11 +116,11 @@
         <!-- Weekly Bulliton -->
         <div class="row justify-content-center mt-4">
             <a href="{{url_for('event.all_post')}}">
-                <img src="{{url_for('static', filename='icon/calendar.png')}}" alt="calendar" width="23px"
-                height="23px">
+                <img class="mb-2 mr-1" src="{{url_for('static', filename='icon/calendar.png')}}" alt="calendar" width="18px"
+                height="18px">
             </a>
             <a href="{{url_for('event.all_post')}}">
-                <h5 style="color: black;">Weekly Calendar</h5>
+                <h5 style="color: black; font-size:13px;"><b>Weekly Calendar</b></h5>
             </a>
         </div>
         <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
@@ -158,11 +158,11 @@
         <hr class="mt-4">
         <div class="row justify-content-center mt-4">
             <a href="{{url_for('group.all_group')}}">
-            <img src="{{url_for('static', filename='icon/team.png')}}" alt="calendar" width="23px"
-            height="23px">
+            <img class="mb-1 mr-1" src="{{url_for('static', filename='icon/team.png')}}" alt="calendar" width="20px"
+            height="20px">
             </a>
             <a href="{{url_for('group.all_group')}}">
-            <h5 class="mt-1" style="color: black;">Teams</h5>                
+            <h5 class="mt-1" style="color: black; font-size: 13px"><b>Teams</b></h5>                
             </a>
         </div>
         <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
