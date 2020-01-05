@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-07-14 18:03:15
  * @LastEditors  : Tianyi Lu
- * @LastEditTime : 2020-01-05 11:47:32
+ * @LastEditTime : 2020-01-05 11:56:03
  -->
 
 
@@ -118,20 +118,21 @@
                         </div>
                     </a>
                     <div class="card-body">
-                        <div class="row ml-1">
-                            <h4>{{ post.title }}
-                            <img src="{{ url_for('static', filename='icon/%s.png' % post.tag.lower()) }}" alt="tag"
-                                height="25px" width="25px">
-                            </h4>
-                        </div>
                         <div class="row no-gutters">
                                 <a href="{{ url_for('group.group_profile', id=post.author.id) }}">
-                                    <img class="rounded-circle mr-5"
-                                        src="{{ url_for('static', filename='group_logo/%s' % post.author.logo) }}" height=50
-                                        width=50 />
+                                    <img class="rounded-circle mr-3"
+                                        src="{{ url_for('static', filename='group_logo/%s' % post.author.logo) }}" height=55
+                                        width=55 />
                                 </a>
+                                <div>
 
-                                <p class="mb-1 ml-6">Organizer: {{ post.author.groupname }}<br>Date: {{ post.datetime_from.strftime("%Y-%m-%d") }}</p>
+                                    <h5 style="font-size:18px;">{{ post.title }}
+                                    <img class="mb-1" src="{{ url_for('static', filename='icon/%s.png' % post.tag.lower()) }}" alt="tag"
+                                        height="20px" width="20px">
+                                    </h5>
+    
+                                    <p class="mb-1" style="font-size:11px;">Organizer: {{ post.author.groupname }}<br>Date: {{ post.datetime_from.strftime("%Y-%m-%d") }}</p>
+                                </div>
 
                         </div>
                     </div>
