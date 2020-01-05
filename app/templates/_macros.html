@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-07-14 18:03:15
  * @LastEditors  : Tianyi Lu
- * @LastEditTime : 2020-01-05 11:56:03
+ * @LastEditTime : 2020-01-05 11:59:09
  -->
 
 
@@ -209,17 +209,12 @@
 
                                 <a style="text-decoration: None; color: black;"
                                     href="{{ url_for('group.group_profile', id=group.id) }}">
-                                    <h5 class="mt-2 ml-2">{{ group.groupname }}</h5>
+                                    <h6 class="mt-1 ml-2">{{ group.groupname }}</h6>
+                                    <p class="ml-2" style="margin-bottom: 0px; font-size: 12px;">Members: {{ group.members.filter_by(is_approved=1).count() }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            Events: {{ group.posts.filter_by(is_approved=1).count() }}</p>
                                 </a>
 
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-sm">
-                                    <p style="margin-bottom: 0px;">Members: {{ group.members.filter_by(is_approved=1).count() }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        Events: {{ group.posts.filter_by(is_approved=1).count() }}</p>
-                                </div>
-                            </div>
-
                     </div>
                 </div>
 
