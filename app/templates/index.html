@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-08-10 10:21:40
  * @LastEditors  : Tianyi Lu
- * @LastEditTime : 2020-01-04 22:33:52
+ * @LastEditTime : 2020-01-05 11:39:38
  -->
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
@@ -36,9 +36,9 @@
                         <a href="{{ url_for('main.getting_started') }}">
                             <div class="carousel-caption">
                                 <div class="py-4" style="background-color: rgba(0, 0, 0, 0.13)">
-                                    <h5
+                                    <h6
                                         style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
-                                        Getting Started</h5>
+                                        Getting Started</h6>
                                 </div>
                                 <!-- Evaluate all the activities happening last week -->
                             </div>
@@ -51,9 +51,9 @@
                         <a href="{{ url_for('main.about_us') }}">
                             <div class="carousel-caption">
                                 <div class="py-4" style="background-color: rgba(0, 0, 0, 0.13)">
-                                    <h5
+                                    <h6
                                         style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
-                                        Who Are We?</h5>
+                                        Who Are We?</h6>
                                 </div>
                                 <!-- Evaluate all the activities happening last week -->
                             </div>
@@ -343,27 +343,27 @@
             height="30px">
         <h4 class="mr-5">Teams</h4>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link active" id="latest-tab" data-toggle="tab" href="#latest" role="tab"
+            <a style="color:gray;" class="nav-link active" id="sm-latest-tab" data-toggle="tab" href="#sm-latest" role="tab"
                 aria-controls="latest" aria-selected="true">Latest</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link" id="popular-tab" data-toggle="tab" href="#popular" role="tab"
+            <a style="color:gray;" class="nav-link" id="sm-popular-tab" data-toggle="tab" href="#sm-popular" role="tab"
                 aria-controls="popular" aria-selected="false">Popular</a>
         </li>
         <li class="nav-item">
-            <a style="color:gray;" class="nav-link" id="random-tab" data-toggle="tab" href="#random" role="tab"
+            <a style="color:gray;" class="nav-link" id="sm-random-tab" data-toggle="tab" href="#sm-random" role="tab"
                 aria-controls="random" aria-selected="false">Random</a>
         </li>
         <a class="ml-5" href="{{url_for('group.all_group')}}"><button class="btn btn-light">View All >></button></a>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="latest" role="tabpanel" aria-labelledby="latest-tab">
+        <div class="tab-pane fade show active" id="sm-latest" role="tabpanel" aria-labelledby="latest-tab">
             {{ macros.group_generator(groups['latest']) }}
         </div>
-        <div class="tab-pane fade" id="popular" role="tabpanel" aria-labelledby="popular-tab">
+        <div class="tab-pane fade" id="sm-popular" role="tabpanel" aria-labelledby="popular-tab">
             {{ macros.group_generator(groups['popular']) }}
         </div>
-        <div class="tab-pane fade" id="random" role="tabpanel" aria-labelledby="random-tab">
+        <div class="tab-pane fade" id="sm-random" role="tabpanel" aria-labelledby="random-tab">
             {{ macros.group_generator(groups['random']) }}
         </div>
     </div>
