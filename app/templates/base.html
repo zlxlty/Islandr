@@ -44,6 +44,9 @@
                     {% endif %}
                 </div>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link active" href="mailto:islandr-service@outlook.com">Feedback <span><img style="margin-bottom: 2px; margin-left: 1px;" src="{{url_for('static', filename='icon/envelope.png')}}" alt="explore icon" height="19px" width="19px"></span></a>
+            </li>
             {% if current_user.is_admin %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -124,7 +127,7 @@
     <div class="container">
         <div class="text-center">
             <p class="m-0 text-white">United World College Changshu China | Islandr Team 2019</p>
-            <p class="m-0 text-white"><a style="color:white; text-decoration: underline" href="{{url_for('main.about_us')}}">About Us</a> · <a style="color:white; text-decoration: underline;" href="#">Join Us</a> · <a style="color: white; text-decoration: underline;" href="mailto:islandr-csc@outlook.com">Contact</a> · <a style="color: white; text-decoration: underline;" href="https://github.com/zlxlty/Islandr" target="_blank">Github</a> · <a style="color: white; text-decoration: underline;" href="https://github.com/zlxlty/Islandr/blob/master/LICENSE" target="_blank">MIT License</a></p>
+            <p class="m-0 text-white"><a style="color:white; text-decoration: underline" href="{{url_for('main.about_us')}}">About Us</a> · <a style="color:white; text-decoration: underline;" href="#">Join Us</a> · <a style="color: white; text-decoration: underline;" href="mailto:islandr-service@outlook.com">Contact</a> · <a style="color: white; text-decoration: underline;" href="https://github.com/zlxlty/Islandr" target="_blank">Github</a> · <a style="color: white; text-decoration: underline;" href="https://github.com/zlxlty/Islandr/blob/master/LICENSE" target="_blank">MIT License</a></p>
         </div>
     </div>
     <!-- /.container -->
