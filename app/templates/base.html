@@ -10,7 +10,7 @@
 
 {% block navbar %}
 <nav class="shadow-sm navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #0065A1;">
-    <img class="logo-pic" src="{{ url_for('static', filename='pic/logo.png') }}" alt="logo">
+    <a href="{{url_for('main.index')}}"><img class="logo-pic" src="{{ url_for('static', filename='pic/logo.png') }}" alt="logo"></a>
     <!-- <a class="navbar-brand" href="{{url_for('main.index')}}">Islandr</a> -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
