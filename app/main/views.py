@@ -3,10 +3,10 @@
 @Author: Tianyi Lu
 @Date: 2019-07-05 17:27:28
 @LastEditors  : Tianyi Lu
-@LastEditTime : 2020-01-04 17:56:01
+@LastEditTime : 2020-01-08 11:21:55
 '''
 
-from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort, send_file
+from flask import render_template, session, redirect, url_for, current_app, flash, request, Markup, abort, send_file, make_response, jsonify
 from threading import Thread
 from flask_login import login_required, current_user
 from .. import db
@@ -77,6 +77,24 @@ def message():
     else:
         abort(404)
     return render_template('message.html', ctype=ctype, msgs=msgs, msg_model=msg_model, applicants=applicants, joins=pending_joins)
+
+@main.route('/imageuploader', methods=['GET', 'POST'])
+@login_required
+def imageuploader():
+    file = request.files.get('file')
+    if file:
+        filename = file.filename.lower()
+        fn, ext = filename.split('.')
+        filename = fn + '.' + ext
+        if ext in ['jpg', 'gif', 'png', 'jpeg']:
+            img_fullpath = os.path.join(current_app.config['UPLOADED_PATH'], filename)
+            file.save(img_fullpath)
+            return jsonify({'location' : filename})
+
+    # fail, image did not upload
+    output = make_response(404)
+    output.headers['Error'] = 'Image failed to upload'
+    return output
 
 @main.route('/search', methods=['GET', 'POST'])
 @login_required

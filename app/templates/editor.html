@@ -2,8 +2,8 @@
  * @Description: Edit
  * @Author: Tianyi Lu
  * @Date: 2019-09-01 08:24:47
- * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-09-01 08:24:47
+ * @LastEditors  : Tianyi Lu
+ * @LastEditTime : 2020-01-08 11:26:46
  -->
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
@@ -78,9 +78,9 @@ function insert_contents(inst){
     <!-- rich text editor -->
     <input class="editor" name="content" id="content">
 
-    <div class="mt-3">
+    <!-- <div class="mt-3">
         <a href="https://screenshot.net/free-image-uploader.html" target="_blank">Upload Local Image</a>
-    </div>
+    </div> -->
 
     {% if not old_post.title=='' %}
     <button type="button" class="btn btn-danger mt-3 float-right" data-toggle="modal" data-target="#deleteModal">

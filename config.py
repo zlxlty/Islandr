@@ -2,8 +2,8 @@
 @Description: Edit
 @Author: Tianyi Lu
 @Date: 2019-09-01 08:17:23
-@LastEditors: Tianyi Lu
-@LastEditTime: 2019-09-01 08:17:23
+@LastEditors  : Tianyi Lu
+@LastEditTime : 2020-01-08 11:21:23
 '''
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -31,6 +31,8 @@ class Config:
     MSEARCH_PRIMARY_KEY = 'id'
     # auto create or update index
     MSEARCH_ENABLE = True
+
+    UPLOADED_PATH = os.path.join(basedir, 'app/static/uploads')
 
     TAGS = {'Creativity': 0,
             'Activity': 1,
