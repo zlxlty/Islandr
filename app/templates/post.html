@@ -35,9 +35,9 @@
     <hr>
     <h6><img class="mr-2" src="{{ url_for('static', filename='icon/location.png') }}" alt="" height="18px" width="18px"><b>Location:</b> {{ post.location }}</h6>
     <hr>
-    <h6><img class="mr-2" src="{{ url_for('static', filename='icon/time.png') }}" alt="" height="18px" width="18px"><b>From:</b> {{ moment(post.datetime_from).format('MMMM Do YYYY') }}</h6>
+    <h6><img class="mr-2" src="{{ url_for('static', filename='icon/time.png') }}" alt="" height="18px" width="18px"><b>From:</b> {{ post.datetime_from }}</h6>
     <hr>
-    <h6><img class="mr-2" src="{{ url_for('static', filename='icon/time.png') }}" alt="" height="18px" width="18px"><b>To:</b> {{ moment(post.datetime_to).format('MMMM Do YYYY') }}</h6>
+    <h6><img class="mr-2" src="{{ url_for('static', filename='icon/time.png') }}" alt="" height="18px" width="18px"><b>To:</b> {{ post.datetime_to }}</h6>
     <hr>
     <h6><img class="mr-2" src="{{ url_for('static', filename='icon/target.png') }}" alt="" height="18px" width="18px"><b>Tag:</b> {{ post.tag }}</h6>
 
