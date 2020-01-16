@@ -3,7 +3,7 @@
  * @Description: 
  * @Date: 2020-01-08 10:47:02
  * @LastEditors  : Tianyi Lu
- * @LastEditTime : 2020-01-08 11:04:38
+ * @LastEditTime : 2020-01-16 14:04:45
  */
 tinymce.init({ 
     //选择class为content的标签作为编辑器 
@@ -28,10 +28,10 @@ tinymce.init({
      print preview media fullpage |\
      forecolor backcolor emoticons |\
      codesample fontsizeselect fullscreen', 
-    images_upload_url: "http://127.0.0.1:5000/imageuploader",
+    images_upload_url: "https://www.islandr.xyz/imageuploader",
     automatic_uploads: true,
     images_reuse_filename: false,
-    images_upload_base_path: '/static/uploads',
+    images_upload_base_path: '../../static/uploads',
      //字体大小 
     fontsize_formats: '10pt 12pt 14pt 18pt 24pt 36pt', 
      //按tab不换行 
