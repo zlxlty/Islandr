@@ -3,7 +3,7 @@
  * @Author: Tianyi Lu
  * @Date: 2019-08-13 13:30:17
  * @LastEditors: Tianyi Lu
- * @LastEditTime: 2019-08-17 16:15:56
+ * @LastEditTime: 2020-05-10 15:01:59
  -->
 Islandr 
 =====
@@ -13,16 +13,16 @@ Islandr
 ### Islandr is a website for UWCCSCer to organize, publicize and find interesting activities <!-- omit in toc -->
 
 ## Content
-- [Islandr](#Islandr)
-  - [Content](#Content)
-  - [Getting_Started](#GettingStarted)
-    - [Prerequisites](#Prerequisites)
-    - [Installing](#Installing)
-  - [Changlog](#Changlog)
-  - [Unittesting](#Unittesting)
-  - [Faking Users and Posts](#Faking-Users-and-Posts)
-  - [Contributing](#Contributing)
-    - [Pull Request Process](#Pull-Request-Process)
+- [Islandr](#islandr)
+  - [Content](#content)
+  - [Getting_Started](#gettingstarted)
+    - [Prerequisites](#prerequisites)
+    - [Installing](#installing)
+  - [Changlog](#changlog)
+  - [Unittesting](#unittesting)
+  - [Faking Users and Posts](#faking-users-and-posts)
+  - [Contributing](#contributing)
+    - [Pull Request Process](#pull-request-process)
 
 ***
 ## Getting_Started
@@ -138,9 +138,9 @@ Starting from Step 4
 
 ****
 
-|Author|zlxlty|
-|---|---|
-|E-mail|skylty01@gmail.com|
-
+Contributors:
+Tianyi Lu zlxlty01@outlook.com
+Yufeng Wu yfwu02@gmail.com
+Ruihan Xu rhxu17@uwcchina.org
 
 ****
