@@ -27,7 +27,7 @@ Flask-WTF==0.14.2
 gunicorn==19.7.1
 html5lib==0.999999999
 itsdangerous==0.24
-Jinja2==2.10.1
+Jinja2==2.11.3
 Mako==1.0.7
 Markdown==2.6.8
 MarkupSafe==1.0
