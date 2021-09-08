@@ -31,7 +31,7 @@ Jinja2==2.10.1
 Mako==1.0.7
 Markdown==2.6.8
 MarkupSafe==1.0
-Pillow==6.0.0
+Pillow==8.3.2
 psycopg2==2.7.3
 python-dateutil==2.6.1
 python-dotenv==0.6.5
