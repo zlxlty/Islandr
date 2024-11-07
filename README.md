@@ -11,7 +11,14 @@ Islandr
 <div align=center><img src="app/static/pic/cover.png"/></div>
 
 ### Islandr is a website for UWCCSCer to organize, publicize and find interesting activities <!-- omit in toc -->
+****
 
+Equal Contributors:
+Ruihan Xu rhxu17@uwcchina.org
+Tianyi Lu zlxlty01@outlook.com
+Yufeng Wu yfwu02@gmail.com
+
+****
 ## Content
 - [Islandr](#islandr)
   - [Content](#content)
@@ -135,12 +142,3 @@ When contributing to this repository, please first discuss the change you wish t
 ### Pull Request Process
 Starting from Step 4
 <div align=center><img width="800px" src="app/static/pic/contribute.jpg"/></div>
-
-****
-
-Contributors:
-Tianyi Lu zlxlty01@outlook.com
-Yufeng Wu yfwu02@gmail.com
-Ruihan Xu rhxu17@uwcchina.org
-
-****
