@@ -15,7 +15,7 @@ Islandr
 
 Equal Contributors:
 Ruihan Xu rhxu17@uwcchina.org
-Tianyi Lu zlxlty01@outlook.com
+Tianyi Lu skylty01@gmail.com
 Yufeng Wu yfwu02@gmail.com
 
 ****
